@@ -1,39 +1,38 @@
-
 process.env.NODE_ENV = process.env.NODE_ENV;
 
 // Include Modules
-let exp = require('express');
-let config = require('./configs/configs');
-let express = require('./configs/express');
-let mongoose = require('./configs/mongoose');
-let path = require('path');
-var https = require('https')
-var fs = require('fs')
+let exp = require("express");
+let config = require("./configs/configs");
+let express = require("./configs/express");
+let mongoose = require("./configs/mongoose");
+let path = require("path");
+var https = require("https");
+var fs = require("fs");
 
 global.appRoot = path.resolve(__dirname);
-global.__base = __dirname + '/';
+global.__base = __dirname + "/";
 if (global.permission) {
-
 } else {
-    global.permission = [];
+  global.permission = [];
 }
 
 db = mongoose();
 app = express();
 
-
 /* Old path for serving public folder */
-app.use('/', exp.static(__dirname + '/'));
+app.use("/", exp.static(__dirname + "/"));
 
 var server = http.createServer(app);
 
 var options = {
-    cors: {
-        origin: "http://localhost:4200",
-        methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true
-    }
-}
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
+};
 
-server.listen(config.serverPort, () => console.log(`API running on localhost:${config.serverPort}`));
+server.listen(config.serverPort, () =>
+  console.log(`API running on localhost:${config.serverPort}`)
+);
