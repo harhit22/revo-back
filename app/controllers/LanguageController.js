@@ -1,4 +1,4 @@
-const Controller = require("../controllers");
+const Controller = require("../controllers/Controller");
 const Globals = require("../../configs/globals");
 const Language = require("../models/LanguageSchema").Language;
 const Model = require("../models/model");

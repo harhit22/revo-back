@@ -1,4 +1,4 @@
-const Controller = require("../controllers");
+const Controller = require("../controllers/Controller");
 const Globals = require("../../configs/globals");
 const Subject = require("../models/PaperSubjectSchema").Subject;
 const Model = require("../models/model");
@@ -95,7 +95,17 @@ class PaperSubjectController extends Controller {
           is_delete: true,
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "update subject api",
+        function_name: "UpdateSub()",
+        error_title: " error.name",
+        descriprion: " error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
   }
 }
 

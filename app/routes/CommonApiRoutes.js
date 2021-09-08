@@ -2,6 +2,10 @@ const CityController = require("../controllers/CityConroller");
 const ExamCategoryController = require("../controllers/ExamCategoryController");
 const StateController = require("../controllers/StateController");
 const ExamController = require("../controllers/ExamController");
+const LanguageController = require("../controllers/LanguageController");
+const PaperControlller = require("../controllers/PaperController");
+// const PaperSubjectController = require("../controllers/PaperSubjectController");
+// const QuestionController = require("../controllers/QuestionController");
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/Globals");
@@ -72,6 +76,40 @@ module.exports = (app, express) => {
   router.post("/update_exam", (req, res) => {
     const examObj = new ExamController().boot(req, res);
     return examObj.UpdateExam();
+  });
+
+  // language routes
+
+  router.post("/add_lang", (req, res) => {
+    const langObj = new LanguageController().boot(req, res);
+    return langObj.AddLang();
+  });
+
+  router.post("/get_lang", (req, res) => {
+    const langObj = new LanguageController().boot(req, res);
+    return langObj.GetLang();
+  });
+
+  router.post("/update_lang", (req, res) => {
+    const langObj = new LanguageController().boot(req, res);
+    return langObj.UpdateLang();
+  });
+
+  // paper routes
+
+  router.post("/add_paper", (req, res) => {
+    const paperObj = new PaperControlller().boot(req, res);
+    return paperObj.AddPaper();
+  });
+
+  router.post("/get_paper", (req, res) => {
+    const paperObj = new PaperControlller().boot(req, res);
+    return paperObj.GetPaper();
+  });
+
+  router.post("/update_paper", (req, res) => {
+    const paperObj = new PaperControlller().boot(req, res);
+    return paperObj.UpdatePaper();
   });
 
   app.use(config.baseApiUrl, router);
