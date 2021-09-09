@@ -40,7 +40,7 @@ class PaperSubjectController extends Controller {
       if (!this.req.body.paper_id) {
         let getSub = await Subject.find({ is_delete: false });
         if (getSub != null) {
-          this.req.send({
+          this.res.send({
             status: 1,
             message: "return all paper subjects",
             data: getSub,
@@ -53,7 +53,7 @@ class PaperSubjectController extends Controller {
           is_delete: false,
         });
         if (getSubject != null) {
-          this.req.send({
+          this.res.send({
             status: 1,
             message: "return subject paper by paper ID",
             data: getSubject,
@@ -109,4 +109,4 @@ class PaperSubjectController extends Controller {
   }
 }
 
-module.export = PaperSubjectController;
+module.exports = PaperSubjectController;

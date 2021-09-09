@@ -59,6 +59,7 @@ class QuestionController extends Controller {
           this.res.send({
             status: 1,
             message: "questions returned by subject",
+            data: bySub,
           });
         }
       } else if (this.req.body.difficulty) {
@@ -84,7 +85,11 @@ class QuestionController extends Controller {
       } else {
         let getAll = await Question.find({});
         if (getAll != null) {
-          this.res.send({ status: 1, message: "all questions returned" });
+          this.res.send({
+            status: 1,
+            message: "all questions returned",
+            data: getAll,
+          });
         }
       }
     } catch (error) {

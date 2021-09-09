@@ -4,8 +4,9 @@ const StateController = require("../controllers/StateController");
 const ExamController = require("../controllers/ExamController");
 const LanguageController = require("../controllers/LanguageController");
 const PaperControlller = require("../controllers/PaperController");
-// const PaperSubjectController = require("../controllers/PaperSubjectController");
-// const QuestionController = require("../controllers/QuestionController");
+const PaperSubjectController = require("../controllers/PaperSubjectController");
+const QuestionController = require("../controllers/QuestionController");
+const ResultController = require("../controllers/ResultController");
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/Globals");
@@ -110,6 +111,57 @@ module.exports = (app, express) => {
   router.post("/update_paper", (req, res) => {
     const paperObj = new PaperControlller().boot(req, res);
     return paperObj.UpdatePaper();
+  });
+
+  // paper subject routes
+
+  router.post("/add_subject", (req, res) => {
+    const subjectObj = new PaperSubjectController().boot(req, res);
+    return subjectObj.AddSub();
+  });
+
+  router.post("/get_subject", (req, res) => {
+    const subjectObj = new PaperSubjectController().boot(req, res);
+    return subjectObj.GetSub();
+  });
+
+  router.post("/update_subject", (req, res) => {
+    const subjectObj = new PaperSubjectController().boot(req, res);
+    return subjectObj.UpdateSub();
+  });
+
+  // question paper routes
+
+  router.post("/add_question", (req, res) => {
+    const questionObj = new QuestionController().boot(req, res);
+    return questionObj.AddQuestion();
+  });
+
+  router.post("/get_question", (req, res) => {
+    const questionObj = new QuestionController().boot(req, res);
+    return questionObj.GetQuestion();
+  });
+
+  router.post("/update_question", (req, res) => {
+    const questionObj = new QuestionController().boot(req, res);
+    return questionObj.UpdateQuestion();
+  });
+
+  // results routes
+
+  router.post("/add_result", (req, res) => {
+    const resultObj = new ResultController().boot(req, res);
+    return resultObj.AddResult();
+  });
+
+  router.post("/get_result", (req, res) => {
+    const resultObj = new ResultController().boot(req, res);
+    return resultObj.GetResult();
+  });
+
+  router.post("/update_result", (req, res) => {
+    const resultObj = new ResultController().boot(req, res);
+    return resultObj.UpdateResult();
   });
 
   app.use(config.baseApiUrl, router);
