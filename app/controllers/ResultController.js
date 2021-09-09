@@ -46,6 +46,7 @@ class ResultController extends Controller {
             message: "get result by paperid",
             data: getResult,
           });
+          //sss
         }
       } else if (this.req.body.user_id) {
         let userID = ObjectID(this.req.body.user_id);
