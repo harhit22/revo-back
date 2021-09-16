@@ -9,7 +9,7 @@ const QuestionController = require("../controllers/QuestionController");
 const ResultController = require("../controllers/ResultController");
 module.exports = (app, express) => {
   const router = express.Router();
-  const Globals = require("../../configs/Globals");
+  const Globals = require("../../configs/globals");
 
   //   states routes
 
