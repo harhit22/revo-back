@@ -1,6 +1,6 @@
 module.exports = (app, express) => {
   const router = express.Router();
-  const Globals = require("../../configs/Globals");
+  const Globals = require("../../configs/globals");
   const UserController = require("../controllers/UserController");
   // const SupportController = require('../controllers/SupportController');
   // const WalletController = require('../controllers/WalletController');
