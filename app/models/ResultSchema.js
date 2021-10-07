@@ -11,6 +11,7 @@ const result_schema = new schema(
     bookmark: { type: Number, default: "" },
     not_visited: { type: Number, default: "" },
     total_marks: { type: Number, default: "" },
+    percentiles: { type: Number, default: "" },
     correct_answer: { type: Number, default: "" },
     incorrect_answer: { type: Number, default: "" },
     delet_status: { type: Boolean, default: false },

@@ -3,7 +3,7 @@ const Result = require("../models/ResultSchema").Result;
 const Globals = require("../../configs/globals");
 const ObjectID = require("mongodb").ObjectID;
 const Controller = require("../controllers/Controller");
-
+const percentile = require("percentile");
 class ResultController extends Controller {
   constructor() {
     super();
@@ -12,6 +12,12 @@ class ResultController extends Controller {
   async AddResult() {
     try {
       let addResult = this.req.body;
+      let NewArr = [];
+      let per_arr = await Result.find({}, { total_marks: 1, _id: 0 });
+      per_arr.forEach((element) => NewArr.push(element.total_marks));
+      let perctile = percentile(addResult.total_marks, NewArr);
+      addResult.percentiles = perctile;
+
       let storeResult = await new Model(Result).store(addResult);
       if (storeResult != null) {
         this.res.send({ status: 1, message: "result added successfully" });
