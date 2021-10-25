@@ -69,7 +69,7 @@ class AdminController extends Controller {
           this.res.send({
             status: 1,
             message: "admin logged in successfully",
-            data: admin,
+            data: admin[0],
           });
         } else {
           this.res.send({ status: 0, message: "incorrect password" });
@@ -112,7 +112,7 @@ function validateAdminInfo(data) {
   } else if (data.email == null) {
     validation.message = "email is null";
   } else if (data.password == null) {
-    validation.message = "password no. is null";
+    validation.message = "password  is null";
   } else {
     validation.is_valid = true;
     validation.message = "valid";
