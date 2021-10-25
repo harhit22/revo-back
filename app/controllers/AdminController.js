@@ -1,4 +1,4 @@
-const Controller = require("../controllers");
+const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
 const Admin = require("../models/AdminSchema").Admin;
 const Model = require("../models/model");
@@ -98,8 +98,8 @@ function validateAdminInfo(data) {
     validation.message = "lname is null";
   } else if (data.email == null) {
     validation.message = "email is null";
-  } else if (data.mobile == null) {
-    validation.message = "mobile no. is null";
+  } else if (data.password == null) {
+    validation.message = "password no. is null";
   } else {
     validation.is_valid = true;
     validation.message = "valid";

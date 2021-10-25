@@ -24,6 +24,7 @@ module.exports = function () {
   require("../app/routes/CommonApiRoutes")(app, express);
   require("../app/routes/UserRoutes")(app, express);
   require("../app/routes/EcommerceApiRoutes")(app, express);
+  require("../app/routes/AdminRoutes")(app, express);
 
   return app;
 };
