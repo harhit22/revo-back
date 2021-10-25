@@ -2,6 +2,8 @@ const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
 const Admin = require("../models/AdminSchema").Admin;
 const Model = require("../models/model");
+const bcrypt = require("bcrypt");
+
 class AdminController extends Controller {
   constructor() {
     super();
@@ -10,6 +12,8 @@ class AdminController extends Controller {
   async RegisterAdmin() {
     try {
       let adminData = this.req.body;
+      adminData["password"] = await hashPassword(adminData.password);
+
       let admininfovalidation = validateAdminInfo(adminData);
       if (admininfovalidation.is_valid) {
         let alreadyAdmin = await Admin.find({ email: adminData.email });
@@ -57,10 +61,19 @@ class AdminController extends Controller {
   async LoginAdmin() {
     try {
       let email = this.req.body.email;
+      let password = this.req.body.password;
 
       let admin = await Admin.find({ email: email });
       if (admin != null && admin.length == 1) {
-        this.res.send({ status: 1, message: "admin logged in successfully" });
+        if (await bcrypt.compare(password, admin[0].password)) {
+          this.res.send({
+            status: 1,
+            message: "admin logged in successfully",
+            data: admin,
+          });
+        } else {
+          this.res.send({ status: 0, message: "incorrect password" });
+        }
       } else {
         this.res.send({
           status: 0,
@@ -106,4 +119,11 @@ function validateAdminInfo(data) {
   }
   return validation;
 }
+
+async function hashPassword(password) {
+  let salt = await bcrypt.genSalt(10);
+  let hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+}
+
 module.exports = AdminController;
