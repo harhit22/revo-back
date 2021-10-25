@@ -91,7 +91,81 @@ class AdminController extends Controller {
       let dataErrorObj = {
         is_from: "API Error",
         api_name: "Admin Route Api",
-        finction_name: "LoginAdmin",
+        function_name: "LoginAdmin",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async ChangePasswordAdmin() {
+    try {
+      let newPassword = this.req.body.newpassword;
+      let admin_id = this.req.body.admin_id;
+
+      let hashedPassword = await hashPassword(newPassword);
+
+      let passwordChangedAdmin = await Admin.findByIdAndUpdate(admin_id, {
+        password: hashedPassword,
+      });
+
+      if (passwordChangedAdmin != null) {
+        this.res.send({ status: 1, message: "password changed!!" });
+      } else {
+        this.res.send({
+          status: 0,
+          message:
+            "Some error occoured on server. Please try again after some time",
+        });
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message:
+          "Some error occoured on server. Please try again after some time",
+      });
+
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "Admin routes Api",
+        function_name: "changePasswordAdmin()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async UpdateProfileAdmin() {
+    try {
+      let newData = this.req.body;
+      let admin_id = this.req.body.admin_id;
+
+      let updateAdmin = await Admin.findByIdAndUpdate(admin_id, newData);
+
+      if (updateAdmin != null) {
+        this.res.send({ status: 1, message: "profile updated!!" });
+      } else {
+        this.res.send({
+          status: 0,
+          message:
+            "Some error occoured on server. Please try again after some time",
+        });
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message:
+          "Some error occoured on server. Please try again after some time",
+      });
+
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "Admin routes Api",
+        function_name: "UpdateProfileAdmin()",
         error_title: error.name,
         description: error.message,
       };
@@ -99,6 +173,7 @@ class AdminController extends Controller {
     }
   }
 }
+
 function validateAdminInfo(data) {
   let validation = {
     is_valid: false,
