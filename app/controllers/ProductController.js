@@ -60,7 +60,10 @@ class ProductController extends Controller {
   async GetProduct() {
     try {
       if (this.req.body.product_id) {
-        let single_product = await Product.find({ _id: product_id });
+        let single_product = await Product.find({
+          _id: product_id,
+          app_id: this.req.body.app_id,
+        });
         if (single_product != null) {
           this.res.send({
             status: 1,
@@ -69,7 +72,10 @@ class ProductController extends Controller {
           });
         }
       } else if (this.req.body.subcat_id) {
-        let prod_subcat = await Product.find({ subcategory_id: subcat_id });
+        let prod_subcat = await Product.find({
+          subcategory_id: subcat_id,
+          app_id: this.req.body.app_id,
+        });
         if (prod_subcat != null) {
           this.res.send({
             status: 1,
@@ -78,7 +84,10 @@ class ProductController extends Controller {
           });
         }
       } else if (this.req.body.publishr_id) {
-        let prod_publisher = await Product.find({ publisher_id: publishr_id });
+        let prod_publisher = await Product.find({
+          publisher_id: publishr_id,
+          app_id: this.req.body.app_id,
+        });
         if (prod_publisher != null) {
           this.res.send({
             status: 1,
@@ -87,7 +96,7 @@ class ProductController extends Controller {
           });
         }
       } else {
-        let all_product = await Product.find({});
+        let all_product = await Product.find({ app_id: this.req.body.app_id });
         if (all_product != null) {
           this.res.send({
             status: 1,

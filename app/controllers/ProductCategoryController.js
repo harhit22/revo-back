@@ -42,14 +42,20 @@ class ProductCategoryController extends Controller {
   async GetCat() {
     try {
       if (!this.req.body.cat_id) {
-        let getCat = await ProductCategory.find({ is_delete: false });
+        let getCat = await ProductCategory.find({
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         this.res.send({
           status: 1,
           message: "all categories returned",
           data: getCat,
         });
       } else {
-        let getCatg = await ProductCategory.find({ _id: this.req.body.cat_id });
+        let getCatg = await ProductCategory.find({
+          _id: this.req.body.cat_id,
+          app_id: this.req.body.app_id,
+        });
         this.res.send({
           status: 1,
           message: "single category returned",

@@ -38,7 +38,10 @@ class PaperSubjectController extends Controller {
   async GetSub() {
     try {
       if (!this.req.body.paper_id) {
-        let getSub = await Subject.find({ is_delete: false });
+        let getSub = await Subject.find({
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         if (getSub != null) {
           this.res.send({
             status: 1,
@@ -51,6 +54,7 @@ class PaperSubjectController extends Controller {
         let getSubject = await Subject.find({
           paper_id: ObjectID(paperID),
           is_delete: false,
+          app_id: this.req.body.app_id,
         });
         if (getSubject != null) {
           this.res.send({

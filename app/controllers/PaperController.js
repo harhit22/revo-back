@@ -43,6 +43,7 @@ class PaperControlller extends Controller {
           exam_id: ObjectID(examID),
           delete_status: false,
           is_free: false,
+          app_id: this.req.body.app_id,
         });
         if (GetPaper != null) {
           this.res.send({
@@ -56,6 +57,7 @@ class PaperControlller extends Controller {
         let freePaper = await Paper.find({
           is_free: true,
           delete_status: false,
+          app_id: this.req.body.app_id,
         });
         if (freePaper != null) {
           this.res.send({
@@ -66,7 +68,10 @@ class PaperControlller extends Controller {
         }
         console.log(freePaper);
       } else {
-        let gPaper = await Paper.find({ delete_status: false });
+        let gPaper = await Paper.find({
+          delete_status: false,
+          app_id: this.req.body.app_id,
+        });
         if (gPaper != null) {
           this.res.send({
             status: 1,

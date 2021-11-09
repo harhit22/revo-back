@@ -21,6 +21,8 @@ module.exports = function () {
 
   app.use(bodyParser.json({ limit: "500mb", extended: true }));
 
+  app.use(cors());
+
   require("../app/routes/CommonApiRoutes")(app, express);
   require("../app/routes/UserRoutes")(app, express);
   require("../app/routes/EcommerceApiRoutes")(app, express);
