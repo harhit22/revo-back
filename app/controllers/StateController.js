@@ -39,7 +39,10 @@ class StateController extends Controller {
   async GetState() {
     try {
       if (!this.req.state_id) {
-        let states = await State.find({ delete_status: false });
+        let states = await State.find({
+          delete_status: false,
+          app_id: this.req.body.app_id,
+        });
         if (states != null) {
           this.res.send({
             status: 1,
@@ -51,6 +54,7 @@ class StateController extends Controller {
         let stat = await State.find({
           _id: this.req.body.state_id,
           delete_status: false,
+          app_id: this.req.body.app_id,
         });
         if (stat != null) {
           this.res.send({

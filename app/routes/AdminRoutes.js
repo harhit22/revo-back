@@ -46,5 +46,10 @@ module.exports = (app, express) => {
     return subAdminObj.UpdateProfileSubAdmin();
   });
 
+  router.post("/getSubAdmin", (req, res) => {
+    const subAdminObj = new SubAdminController().boot(req, res);
+    return subAdminObj.GetSubAdmin();
+  });
+
   app.use(config.baseApiUrl, router);
 };

@@ -36,7 +36,10 @@ class PublisherController extends Controller {
   async GetPublisher() {
     try {
       if (!this.req.body.publisher_id) {
-        let getPublisher = await Publisher.find({ status: true });
+        let getPublisher = await Publisher.find({
+          status: true,
+          app_id: this.req.body.app_id,
+        });
         if (getPublisher != null) {
           this.res.send({
             status: 1,
@@ -48,6 +51,7 @@ class PublisherController extends Controller {
         let getSinglePublisher = await Publisher.find({
           _id: publisher_id,
           status: true,
+          app_id: this.req.body.app_id,
         });
         if (getSinglePublisher != null) {
           this.res.send({

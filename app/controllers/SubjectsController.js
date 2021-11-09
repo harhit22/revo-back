@@ -38,7 +38,10 @@ class SubjectController extends Controller {
   async GetSubject() {
     try {
       if (!this.req.subject_id) {
-        let sub = await Subject.find({ delete_status: false });
+        let sub = await Subject.find({
+          delete_status: false,
+          app_id: this.req.body.app_id,
+        });
         if (sub != null) {
           this.res.send({
             status: 1,
@@ -50,6 +53,7 @@ class SubjectController extends Controller {
         let allSub = await Subject.find({
           _id: this.req.body.subject_id,
           delete_status: false,
+          app_id: this.req.body.app_id,
         });
         if (allSub != null) {
           this.res.send({

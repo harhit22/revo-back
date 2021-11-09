@@ -37,7 +37,10 @@ class SubCatController extends Controller {
   async GetSubCat() {
     try {
       if (!this.req.body.cat_id) {
-        let gsub = await productSubcategory.find({ is_delete: false });
+        let gsub = await productSubcategory.find({
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         if (gsub != null) {
           this.res.send({
             status: 1,
@@ -50,6 +53,7 @@ class SubCatController extends Controller {
         let getsub = await productSubcategory.find({
           cat_id: ObjectID(catID),
           is_delete: false,
+          app_id: this.req.body.app_id,
         });
         if (getsub != null) {
           this.res.send({

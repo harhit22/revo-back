@@ -45,7 +45,10 @@ class ResultController extends Controller {
     try {
       if (this.req.body.paper_id) {
         let paperID = ObjectID(this.req.body.paper_id);
-        let getResult = await Result.find({ paper_id: ObjectID(paperID) });
+        let getResult = await Result.find({
+          paper_id: ObjectID(paperID),
+          app_id: this.req.body.app_id,
+        });
         if (getResult != null) {
           this.res.send({
             status: 1,
@@ -56,7 +59,10 @@ class ResultController extends Controller {
         }
       } else if (this.req.body.user_id) {
         let userID = ObjectID(this.req.body.user_id);
-        let getResults = await Result.find({ user_id: ObjectID(userID) });
+        let getResults = await Result.find({
+          user_id: ObjectID(userID),
+          app_id: this.req.body.app_id,
+        });
         if (getResults != null) {
           this.res.send({
             status: 1,
@@ -65,7 +71,7 @@ class ResultController extends Controller {
           });
         }
       } else {
-        let allResults = await Result.find({});
+        let allResults = await Result.find({ app_id: this.req.body.app_id });
         if (allResults != null) {
           this.res.send({
             status: 1,

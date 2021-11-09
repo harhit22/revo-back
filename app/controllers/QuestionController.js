@@ -41,6 +41,7 @@ class QuestionController extends Controller {
         let byLang = await Question.find({
           lang_id: ObjectID(langID),
           is_delete: false,
+          app_id: this.req.body.app_id,
         });
         if (byLang != null) {
           this.res.send({
@@ -54,6 +55,7 @@ class QuestionController extends Controller {
         let bySub = await Question.find({
           subject_id: ObjectID(subID),
           is_delete: false,
+          app_id: this.req.body.app_id,
         });
         if (bySub != null) {
           this.res.send({
@@ -64,7 +66,11 @@ class QuestionController extends Controller {
         }
       } else if (this.req.body.difficulty) {
         let diff = this.req.body.difficulty;
-        let byDif = await Question.find({ difficulty: diff, is_delete: false });
+        let byDif = await Question.find({
+          difficulty: diff,
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         if (byDif != null) {
           this.res.send({
             status: 1,
@@ -74,7 +80,11 @@ class QuestionController extends Controller {
         }
       } else if (this.req.body.question_id) {
         let Q = ObjectID(this.req.body.question_id);
-        let byQID = await Question.find({ _id: ObjectID(Q), is_delete: false });
+        let byQID = await Question.find({
+          _id: ObjectID(Q),
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         if (byQID != null) {
           this.res.send({
             status: 1,
@@ -83,7 +93,7 @@ class QuestionController extends Controller {
           });
         }
       } else {
-        let getAll = await Question.find({});
+        let getAll = await Question.find({ app_id: this.req.body.app_id });
         if (getAll != null) {
           this.res.send({
             status: 1,

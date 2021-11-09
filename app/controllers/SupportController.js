@@ -69,7 +69,10 @@ class SupportController extends Controlle {
           userID = ObjectID(bodyData.user_id);
         }
 
-        let tickets = await Support.find(userID);
+        let tickets = await Support.find({
+          _id: userID,
+          app_id: this.req.body.app_id,
+        });
 
         if (tickets != null) {
           return this.res.send({
