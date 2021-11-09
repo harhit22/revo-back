@@ -10,6 +10,7 @@ const support_schema = new schema(
     reponse: { type: String, default: "" },
     response_image: { type: String, default: "" },
     status: { type: String, default: "pending" },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

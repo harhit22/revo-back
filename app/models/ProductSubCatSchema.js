@@ -11,6 +11,7 @@ const product_sub = new schema(
     name: { type: String, default: "" },
     image: { type: String, default: "" },
     is_delete: { type: Boolean, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

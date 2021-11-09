@@ -6,6 +6,7 @@ const city_schema = new schema(
     state_id: { type: mongoose.Types.ObjectId, ref: "state", index: true },
     city_name: { type: String, default: "" },
     delete_status: { type: String, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

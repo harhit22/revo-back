@@ -36,7 +36,10 @@ class ExamController extends Controller {
   async GetExam() {
     try {
       if (!this.req.body.category_id) {
-        let gExam = await Exam.find({ is_delete: false });
+        let gExam = await Exam.find({
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         if (gExam != null) {
           this.res.send({ status: 1, message: "return all exams" });
         }
@@ -45,6 +48,7 @@ class ExamController extends Controller {
         let getExam = await Exam.find({
           category_id: ObjectID(catID),
           is_delete: false,
+          app_id: this.req.body.app_id,
         });
         if (getExam != null) {
           this.res.send({ status: 1, message: "return exam by category" });

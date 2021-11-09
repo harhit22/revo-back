@@ -32,6 +32,7 @@ var transaction = new schema(
     status: { type: Boolean, default: true },
     is_delete: { type: Boolean, default: false },
     is_save_card: { type: Boolean, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

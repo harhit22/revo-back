@@ -18,6 +18,7 @@ const question_schema = new schema(
     solution_image: { type: String, default: "" },
     difficulty: { type: String, default: "" },
     is_delete: { type: Boolean, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

@@ -7,6 +7,7 @@ const paper_schema = new schema(
     name: { type: String, default: "" },
     is_free: { type: Boolean, default: false },
     delete_status: { type: Boolean, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

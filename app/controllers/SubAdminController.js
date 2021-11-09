@@ -1,34 +1,42 @@
 const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
-const Admin = require("../models/AdminSchema").Admin;
+const Permission = require("../models/SubAdminSchema").Permission;
+const SubAdmin = require("../models/SubAdminSchema").SubAdmin;
 
 const Model = require("../models/model");
 const bcrypt = require("bcrypt");
 
-class AdminController extends Controller {
+class SubAdminController extends Controller {
   constructor() {
     super();
   }
 
-  async RegisterAdmin() {
+  async RegisterSubAdmin() {
     try {
-      let adminData = this.req.body;
-      adminData["password"] = await hashPassword(adminData.password);
+      let subAdminData = this.req.body;
+      subAdminData["password"] = await hashPassword(subAdminData.password);
 
-      let admininfovalidation = validateAdminInfo(adminData);
-      if (admininfovalidation.is_valid) {
-        let alreadyAdmin = await Admin.find({ email: adminData.email });
-        if (alreadyAdmin.length == 1) {
+      let subAdminInfoValidation = validateSubAdminInfo(subAdminData);
+      if (subAdminInfoValidation.is_valid) {
+        let alreadySubAdmin = await SubAdmin.find({
+          email: subAdminData.email,
+        });
+        if (alreadySubAdmin.length == 1) {
           this.res.send({
             status: 0,
-            message: "admin already registered....please login",
+            message: "sub admin already registered....please login",
           });
         } else {
-          let regAdmin = await new Model(Admin).store(adminData);
-          if (regAdmin != null) {
+          let regSubAdmin = await new Model(SubAdmin).store(subAdminData);
+          let subAdminId = regSubAdmin._id;
+          subAdminData["subAdmin_id"] = subAdminId;
+          let permission = await new Model(Permission).store(subAdminData);
+          // console.log(subAdminId);
+
+          if (regSubAdmin != null && permission != null) {
             this.res.send({
               status: 1,
-              message: "admin successfully registered",
+              message: "sub admin successfully registered",
             });
           } else {
             this.res.send({
@@ -50,8 +58,8 @@ class AdminController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "Register admin api",
-        function_name: "RegisterAdmin",
+        api_name: "Register subAdmin api",
+        function_name: "RegisterSubAdmin",
         error_title: error.name,
         descriprion: error.message,
       };
@@ -59,18 +67,18 @@ class AdminController extends Controller {
     }
   }
 
-  async LoginAdmin() {
+  async LoginSubAdmin() {
     try {
       let email = this.req.body.email;
       let password = this.req.body.password;
 
-      let admin = await Admin.find({ email: email });
-      if (admin != null && admin.length == 1) {
-        if (await bcrypt.compare(password, admin[0].password)) {
+      let subAdmin = await SubAdmin.find({ email: email });
+      if (subAdmin != null && subAdmin.length == 1) {
+        if (await bcrypt.compare(password, subAdmin[0].password)) {
           this.res.send({
             status: 1,
-            message: "admin logged in successfully",
-            data: admin[0],
+            message: "sub admin logged in successfully",
+            data: subAdmin[0],
           });
         } else {
           this.res.send({ status: 0, message: "incorrect password" });
@@ -100,14 +108,14 @@ class AdminController extends Controller {
     }
   }
 
-  async ChangePasswordAdmin() {
+  async ChangePasswordSubAdmin() {
     try {
       let newPassword = this.req.body.newpassword;
-      let admin_id = this.req.body.admin_id;
+      let subAdmin_id = this.req.body.subadmin_id;
 
       let hashedPassword = await hashPassword(newPassword);
 
-      let passwordChangedAdmin = await Admin.findByIdAndUpdate(admin_id, {
+      let passwordChangedAdmin = await SubAdmin.findByIdAndUpdate(subAdmin_id, {
         password: hashedPassword,
       });
 
@@ -130,8 +138,8 @@ class AdminController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "Admin routes Api",
-        function_name: "changePasswordAdmin()",
+        api_name: "subAdmin routes Api",
+        function_name: "changePasswordSubAdmin()",
         error_title: error.name,
         description: error.message,
       };
@@ -139,14 +147,17 @@ class AdminController extends Controller {
     }
   }
 
-  async UpdateProfileAdmin() {
+  async UpdateProfileSubAdmin() {
     try {
       let newData = this.req.body;
-      let admin_id = this.req.body.admin_id;
+      let subAdmin_id = this.req.body.subadmin_id;
 
-      let updateAdmin = await Admin.findByIdAndUpdate(admin_id, newData);
+      let updateSubAdmin = await SubAdmin.findByIdAndUpdate(
+        subAdmin_id,
+        newData
+      );
 
-      if (updateAdmin != null) {
+      if (updateSubAdmin != null) {
         this.res.send({ status: 1, message: "profile updated!!" });
       } else {
         this.res.send({
@@ -165,8 +176,8 @@ class AdminController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "Admin routes Api",
-        function_name: "UpdateProfileAdmin()",
+        api_name: "sub Admin routes Api",
+        function_name: "UpdateProfileSubAdmin()",
         error_title: error.name,
         description: error.message,
       };
@@ -175,7 +186,7 @@ class AdminController extends Controller {
   }
 }
 
-function validateAdminInfo(data) {
+function validateSubAdminInfo(data) {
   let validation = {
     is_valid: false,
     message: "",
@@ -189,6 +200,8 @@ function validateAdminInfo(data) {
     validation.message = "email is null";
   } else if (data.password == null) {
     validation.message = "password  is null";
+  } else if (data.phone_no == null) {
+    validation.message = "phone number  is null";
   } else {
     validation.is_valid = true;
     validation.message = "valid";
@@ -202,4 +215,4 @@ async function hashPassword(password) {
   return hashedPassword;
 }
 
-module.exports = AdminController;
+module.exports = SubAdminController;

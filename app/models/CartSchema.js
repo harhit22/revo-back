@@ -14,6 +14,7 @@ const cart = new schema(
       index: true,
     },
     quantity: { type: Number, default: 0 },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

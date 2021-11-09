@@ -17,6 +17,7 @@ const orderItem = new schema(
     order_price: { type: Number, default: 0 },
     order_discount: { type: Number, default: 0 },
     quantity: { type: Number, default: 0 },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

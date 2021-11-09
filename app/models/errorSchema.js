@@ -9,6 +9,7 @@ const error = new mongoose.Schema(
     error_title: { type: String, default: "NA" },
     mobile_data: { type: String, default: "NA" },
     status: { type: String, default: "Pending" },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

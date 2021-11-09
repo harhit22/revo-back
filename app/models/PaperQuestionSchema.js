@@ -11,6 +11,7 @@ const paper_question = new schema(
     },
     subject_id: { type: mongoose.Types.ObjectId, ref: "subject", index: true },
     is_delete: { type: Boolean, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

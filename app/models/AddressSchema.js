@@ -9,6 +9,7 @@ const address_schema = new schema(
     city: { type: String, default: "" },
     state: { type: String, default: "" },
     country: { type: String, default: "" },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

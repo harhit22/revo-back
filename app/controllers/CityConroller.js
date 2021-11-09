@@ -40,6 +40,7 @@ class CityController extends Controller {
         let city = await City.find({
           _id: this.req.body.id,
           delete_status: false,
+          app_id: this.req.body.app_id,
         });
         if (city != null) {
           this.res.send({
@@ -53,6 +54,7 @@ class CityController extends Controller {
         let cities = await City.find({
           state_id: ObjectID(stateID),
           delete_status: false,
+          app_id: this.req.body.app_id,
         });
         this.res.send({
           status: 1,

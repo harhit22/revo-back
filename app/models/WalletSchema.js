@@ -8,6 +8,7 @@ const wallet_schema = new schema(
     amount: { type: Number, default: 0 },
     cr_dr: { type: String, default: "" },
     description: { type: String, default: "" },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

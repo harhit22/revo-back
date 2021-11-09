@@ -16,7 +16,8 @@ class ExamCategoryController extends Controller {
       if (examCat != null) {
         this.res.send({
           status: 1,
-          message: "exam category added successfully",
+          message: "exam category added successfully ",
+          data: examCat,
         });
       }
     } catch (error) {
@@ -41,14 +42,20 @@ class ExamCategoryController extends Controller {
   async GetExamCat() {
     try {
       if (!this.req.body.cat_id) {
-        let getCat = await ExamCategory.find({ is_delete: false });
+        let getCat = await ExamCategory.find({
+          is_delete: false,
+          app_id: this.req.body.app_id,
+        });
         this.res.send({
           status: 1,
           message: "all exam categories returned",
           data: getCat,
         });
       } else {
-        let getCatg = await ExamCategory.find({ _id: this.req.body.cat_id });
+        let getCatg = await ExamCategory.find({
+          _id: this.req.body.cat_id,
+          app_id: this.req.body.app_id,
+        });
         this.res.send({
           status: 1,
           message: "single category returned",

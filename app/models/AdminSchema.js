@@ -8,6 +8,7 @@ const admin_schema = new schema(
     lname: { type: String, default: "" },
     email: { type: String, default: "" },
     password: { type: String, default: "" },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

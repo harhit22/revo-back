@@ -10,6 +10,7 @@ const user_schema = new schema(
     state_id: { type: mongoose.Types.ObjectId, ref: "state", index: true },
     city_id: { type: mongoose.Types.ObjectId, ref: "city", index: true },
     status: { type: Boolean, default: true },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

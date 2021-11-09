@@ -36,7 +36,10 @@ class LanguageController extends Controller {
   async GetLang() {
     try {
       if (!this.req.body.lang_id) {
-        let getLang = await Language.find({ delete_status: false });
+        let getLang = await Language.find({
+          delete_status: false,
+          app_id: this.req.body.app_id,
+        });
         if (getLang != null) {
           this.res.send({
             status: 1,
@@ -48,6 +51,7 @@ class LanguageController extends Controller {
         let singleLang = await Language.find({
           _id: this.req.body.lang_id,
           delete_status: false,
+          app_id: this.req.body.app_id,
         });
         if (singleLang != null) {
           this.res.send({

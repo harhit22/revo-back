@@ -26,6 +26,7 @@ var order = new schema(
     order_status: { type: String, default: "pending" },
     status: { type: Boolean, default: true },
     is_delete: { type: Boolean, default: false },
+    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,
