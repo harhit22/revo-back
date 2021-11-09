@@ -184,6 +184,48 @@ class SubAdminController extends Controller {
       globalObj.addErrorLogInDB(dataErrorObj);
     }
   }
+
+  async GetSubAdmin() {
+    try {
+      if (!this.req.body.subadmin_id) {
+        let getSubAdmin = await SubAdmin.find({ app_id: this.req.body.app_id });
+        if (getSubAdmin != null) {
+          this.res.send({
+            status: 1,
+            message: "return all sub admin",
+            data: getSubAdmin,
+          });
+        }
+      } else {
+        let getSingleSubAdmin = await SubAdmin.find({
+          _id: subadmin_id,
+          app_id: this.req.body.app_id,
+        });
+        if (getSingleSubAdmin != null) {
+          this.res.send({
+            status: 1,
+            message: "single SubAdmin returned",
+            data: getSingleSubAdmin,
+          });
+        }
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message: "some error occured...please try after some time",
+      });
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "get subadmin api",
+        function_name: "GetSubAdmin()",
+        error_title: "error.name",
+        description: "error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
 }
 
 function validateSubAdminInfo(data) {
