@@ -188,18 +188,19 @@ class SubAdminController extends Controller {
   async GetSubAdmin() {
     try {
       if (!this.req.body.subadmin_id) {
-        let getSubAdmin = await SubAdmin.find({ app_id: this.req.body.app_id });
+        let getSubAdmin = await SubAdmin.find({ is_delete: false });
         if (getSubAdmin != null) {
           this.res.send({
             status: 1,
             message: "return all sub admin",
             data: getSubAdmin,
           });
+          console.log(getSubAdmin);
         }
       } else {
-        let getSingleSubAdmin = await SubAdmin.find({
-          _id: subadmin_id,
-          app_id: this.req.body.app_id,
+        let getSingleSubAdmin = await SubAdmin.findOne({
+          _id: this.req.body.subadmin_id,
+          is_delete: false,
         });
         if (getSingleSubAdmin != null) {
           this.res.send({
@@ -222,6 +223,31 @@ class SubAdminController extends Controller {
         function_name: "GetSubAdmin()",
         error_title: "error.name",
         description: "error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async DeleteSubAdmin() {
+    try {
+      let subAdmin = this.req.body.subadmin_id;
+      let deleteSubAdmin = await SubAdmin.findByIdAndUpdate(subAdmin, {
+        is_delete: true,
+      });
+      if (deleteSubAdmin != null) {
+        this.res.send({
+          status: 1,
+          message: "single SubAdmin delete",
+        });
+      }
+    } catch (error) {
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "delete subadmin api",
+        function_name: "DeleteSubAdmin()",
+        error_title: " error.name",
+        descriprion: " error.message",
       };
       globalObj.addErrorLogInDB(dataErrorObj);
     }

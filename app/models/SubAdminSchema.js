@@ -8,7 +8,8 @@ const subAdmin = new schema({
   email: { type: String, default: "" },
   password: { type: String, default: "" },
   phone_no: { type: Number, default: "" },
-  is_suspended: { type: Boolean },
+  is_suspended: { type: Boolean, default: false },
+  is_delete: { type: Boolean, default: false },
   app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
 });
 

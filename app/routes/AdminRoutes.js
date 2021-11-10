@@ -51,5 +51,10 @@ module.exports = (app, express) => {
     return subAdminObj.GetSubAdmin();
   });
 
+  router.post("/deleteSubAdmin", (req, res) => {
+    const subAdminObj = new SubAdminController().boot(req, res);
+    return subAdminObj.DeleteSubAdmin();
+  });
+
   app.use(config.baseApiUrl, router);
 };
