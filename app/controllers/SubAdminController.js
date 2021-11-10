@@ -188,14 +188,26 @@ class SubAdminController extends Controller {
   async GetSubAdmin() {
     try {
       if (!this.req.body.subadmin_id) {
-        let getSubAdmin = await SubAdmin.find({ is_delete: false });
-        if (getSubAdmin != null) {
-          this.res.send({
-            status: 1,
-            message: "return all sub admin",
-            data: getSubAdmin,
-          });
-          console.log(getSubAdmin);
+        if (!this.req.body.page || !this.req.body.pagesize) {
+          this.res.send({ status: 0, message: "send proper data" });
+        } else {
+          let page = this.req.body.page;
+          let pagesize = this.req.body.pagesize;
+          let skip = (page - 1) * pagesize;
+          let getSubAdmin = await SubAdmin.find({ is_delete: false })
+            .skip(skip)
+            .limit(pagesize);
+
+          let total = await SubAdmin.find({ is_delete: false }).count();
+          if (getSubAdmin != null) {
+            this.res.send({
+              status: 1,
+              message: "return all sub admin",
+              data: getSubAdmin,
+              total: total,
+            });
+            console.log(getSubAdmin);
+          }
         }
       } else {
         let getSingleSubAdmin = await SubAdmin.findOne({
