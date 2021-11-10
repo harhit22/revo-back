@@ -20,6 +20,7 @@ class SubAdminController extends Controller {
       if (subAdminInfoValidation.is_valid) {
         let alreadySubAdmin = await SubAdmin.find({
           email: subAdminData.email,
+          is_delete: false,
         });
         if (alreadySubAdmin.length == 1) {
           this.res.send({
