@@ -37,7 +37,7 @@ class CityController extends Controller {
   async GetCity() {
     try {
       if (this.req.body.city_id) {
-        let city = await City.find({
+        let city = await City.findOne({
           _id: this.req.body.id,
           delete_status: false,
           app_id: this.req.body.app_id,
@@ -51,7 +51,7 @@ class CityController extends Controller {
         }
       } else if (this.req.body.state_id) {
         let stateID = ObjectID(this.req.body.state_id);
-        let cities = await City.find({
+        let cities = await City.findOne({
           state_id: ObjectID(stateID),
           delete_status: false,
           app_id: this.req.body.app_id,

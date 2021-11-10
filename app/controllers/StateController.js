@@ -51,7 +51,7 @@ class StateController extends Controller {
           });
         }
       } else {
-        let stat = await State.find({
+        let stat = await State.findOne({
           _id: this.req.body.state_id,
           delete_status: false,
           app_id: this.req.body.app_id,

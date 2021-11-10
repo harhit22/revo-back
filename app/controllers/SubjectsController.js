@@ -50,7 +50,7 @@ class SubjectController extends Controller {
           });
         }
       } else {
-        let allSub = await Subject.find({
+        let allSub = await Subject.findOne({
           _id: this.req.body.subject_id,
           delete_status: false,
           app_id: this.req.body.app_id,

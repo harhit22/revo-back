@@ -48,7 +48,7 @@ class PublisherController extends Controller {
           });
         }
       } else {
-        let getSinglePublisher = await Publisher.find({
+        let getSinglePublisher = await Publisher.findOne({
           _id: publisher_id,
           status: true,
           app_id: this.req.body.app_id,

@@ -46,7 +46,7 @@ class AddressController extends Controller {
         });
       } else {
         let userId = ObjectID(this.req.body.user_id);
-        let address = await Address.find({
+        let address = await Address.findOne({
           user_id: userId,
           app_id: this.req.body.app_id,
         });

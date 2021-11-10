@@ -48,7 +48,7 @@ class LanguageController extends Controller {
           });
         }
       } else {
-        let singleLang = await Language.find({
+        let singleLang = await Language.findOne({
           _id: this.req.body.lang_id,
           delete_status: false,
           app_id: this.req.body.app_id,

@@ -52,7 +52,7 @@ class ExamCategoryController extends Controller {
           data: getCat,
         });
       } else {
-        let getCatg = await ExamCategory.find({
+        let getCatg = await ExamCategory.findOne({
           _id: this.req.body.cat_id,
           app_id: this.req.body.app_id,
         });

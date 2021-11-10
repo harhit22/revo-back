@@ -80,7 +80,7 @@ class QuestionController extends Controller {
         }
       } else if (this.req.body.question_id) {
         let Q = ObjectID(this.req.body.question_id);
-        let byQID = await Question.find({
+        let byQID = await Question.findOne({
           _id: ObjectID(Q),
           is_delete: false,
           app_id: this.req.body.app_id,
