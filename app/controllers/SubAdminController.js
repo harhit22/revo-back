@@ -248,8 +248,10 @@ class SubAdminController extends Controller {
       let deleteSubAdmin = await SubAdmin.findByIdAndUpdate(subAdmin, {
         is_delete: true,
       });
-      let appId = deleteSubAdmin.app_id;
-      let deleteApp = await App.findByIdAndUpdate(appId, { is_delete: true });
+      let deleteApp = await App.updateOne(
+        { subadmin_id: subAdmin },
+        { is_delete: true }
+      );
       if (deleteSubAdmin != null && deleteApp != null) {
         this.res.send({
           status: 1,

@@ -110,6 +110,7 @@ class AppController extends Controller {
   async DeleteApp() {
     try {
       let app = this.req.body.app_id;
+      console.log("delete app body ", this.req.body);
       let deleteApp = await App.findByIdAndUpdate(app, {
         is_delete: true,
       });
