@@ -217,11 +217,14 @@ class Agreegate {
     });
   }
 
-  getApp(skip, limit, sort) {
+  getApp(skip, limit, sort, filter) {
     try {
       return new Promise((resolve, reject) => {
         this.collection.aggregate(
           [
+            {
+              $match: filter,
+            },
             {
               $sort: sort,
             },

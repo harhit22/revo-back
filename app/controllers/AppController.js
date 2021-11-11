@@ -61,7 +61,13 @@ class AppController extends Controller {
           let pagesize = parseInt(this.req.body.pagesize);
           let skip = (page - 1) * pagesize;
           let sort = { createdAt: 1 };
-          let app = await new Agreegate(App).getApp(skip, pagesize, sort);
+          let filter = { is_delete: false };
+          let app = await new Agreegate(App).getApp(
+            skip,
+            pagesize,
+            sort,
+            filter
+          );
           console.log(app);
           if (app != null) {
             this.res.send({
