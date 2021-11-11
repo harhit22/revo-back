@@ -216,6 +216,49 @@ class Agreegate {
       }
     });
   }
+
+  getApp(sort) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $sort: sort,
+            },
+            {
+              $lookup: {
+                from: "subadmin",
+                let: { prod: "$subadmin_id" },
+                pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$prod"] } } }],
+                as: "subadmin_info",
+              },
+            },
+            // {
+            //   $unwind: {
+            //     path: "$subadmin_info",
+            //   },
+            // },
+            // {
+            //   $group: {
+            //     _id: "$subadmin_id",
+            //     subadmin_info: { $push: "$subadmin_info" },
+            //   },
+            // },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getApp() in aggregation!!");
+    }
+  }
   //   GetQuestionByPaperId(filter) {
   //     return new promise((resolve, reject) => {
   //       this.collection.aggregate([

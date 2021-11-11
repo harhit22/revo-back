@@ -4,6 +4,7 @@ const Globals = require("../../configs/globals");
 const ObjectID = require("mongodb").ObjectID;
 const Controller = require("../controllers/Controller");
 const SubAdmin = require("../models/SubAdminSchema").SubAdmin;
+const Agreegate = require("../models/Aggregations");
 
 class AppController extends Controller {
   constructor() {
@@ -14,8 +15,12 @@ class AppController extends Controller {
     try {
       let addData = this.req.body;
       let subAdminEmail = addData.email;
-      let findSubAdminId = await SubAdmin.findOne({ email: subAdminEmail });
-      let subAdminId = findSubAdminId._id;
+      let findSubAdminId = await SubAdmin.findOne({
+        email: subAdminEmail,
+        is_delete: false,
+      });
+      console.log(findSubAdminId);
+      let subAdminId = findSubAdminId.id;
       addData["subadmin_id"] = subAdminId;
       let addApp = await new Model(App).store(addData);
 
@@ -39,19 +44,22 @@ class AppController extends Controller {
       globalObj.addErrorLogInDB(dataErrorObj);
     }
   }
-  async GetExam() {
+  async GetApp() {
     try {
-      if (!this.req.body.category_id) {
-        let gExam = await Exam.find({
-          is_delete: false,
-          app_id: this.req.body.app_id,
-        });
-        if (gExam != null) {
-          this.res.send({ status: 1, message: "return all exams" });
+      if (!this.req.body.subadmin_id) {
+        let sort = { createdAt: 1 };
+        let app = await new Agreegate(App).getApp(sort);
+        console.log(app);
+        if (app != null) {
+          this.res.send({
+            status: 1,
+            message: "all app returned successfully",
+            data: app,
+          });
         }
       } else {
-        let catID = ObjectID(this.req.body.category_id);
-        let getExam = await Exam.find({
+        let appID = ObjectID(this.req.body.subadmin_id);
+        let getApp = await App.find({
           category_id: ObjectID(catID),
           is_delete: false,
           app_id: this.req.body.app_id,

@@ -62,5 +62,10 @@ module.exports = (app, express) => {
     return appObj.AddApp();
   });
 
+  router.post("/getApp", (req, res) => {
+    const appObj = new AppController().boot(req, res);
+    return appObj.GetApp();
+  });
+
   app.use(config.baseApiUrl, router);
 };
