@@ -2,6 +2,7 @@ module.exports = (app, express) => {
   const router = express.Router();
   const AdminController = require("../controllers/AdminController");
   const SubAdminController = require("../controllers/SubAdminController");
+  const AppController = require("../controllers/AppController");
 
   //   Admin routes
   router.post("/registerAdmin", (req, res) => {
@@ -54,6 +55,11 @@ module.exports = (app, express) => {
   router.post("/deleteSubAdmin", (req, res) => {
     const subAdminObj = new SubAdminController().boot(req, res);
     return subAdminObj.DeleteSubAdmin();
+  });
+
+  router.post("/addApp", (req, res) => {
+    const appObj = new AppController().boot(req, res);
+    return appObj.AddApp();
   });
 
   app.use(config.baseApiUrl, router);

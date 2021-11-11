@@ -47,7 +47,7 @@ class SubAdminController extends Controller {
           }
         }
       } else {
-        this.res.send({ status: 0, message: subAdmininfovalidation.message });
+        this.res.send({ status: 0, message: subAdminInfoValidation.message });
       }
     } catch (error) {
       this.res.send({
