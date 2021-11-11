@@ -217,7 +217,7 @@ class Agreegate {
     });
   }
 
-  getApp(skip, pagesize, sort) {
+  getApp(skip, limit, sort) {
     try {
       return new Promise((resolve, reject) => {
         this.collection.aggregate(
