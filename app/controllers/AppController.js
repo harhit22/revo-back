@@ -53,11 +53,11 @@ class AppController extends Controller {
   }
   async GetApp() {
     try {
-      if (!this.req.body.subadmin_id) {
+      if (!this.req.body.subadmin_id && !this.req.body.app_id) {
         if (!this.req.body.page || !this.req.body.pagesize) {
           this.res.send({ status: 0, message: "send proper data" });
         } else {
-          let page = this.req.body.page;
+          let page = parseInt(this.req.body.page);
           let pagesize = parseInt(this.req.body.pagesize);
           let skip = (page - 1) * pagesize;
           let sort = { createdAt: 1 };

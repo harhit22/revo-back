@@ -2,9 +2,11 @@ const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
 const Permission = require("../models/SubAdminSchema").Permission;
 const SubAdmin = require("../models/SubAdminSchema").SubAdmin;
+const App = require("../models/AppSchema").App;
 
 const Model = require("../models/model");
 const bcrypt = require("bcrypt");
+const { App } = require("../models/AppSchema");
 
 class SubAdminController extends Controller {
   constructor() {
@@ -247,10 +249,12 @@ class SubAdminController extends Controller {
       let deleteSubAdmin = await SubAdmin.findByIdAndUpdate(subAdmin, {
         is_delete: true,
       });
-      if (deleteSubAdmin != null) {
+      let appId = deleteSubAdmin.app_id;
+      let deleteApp = await App.findByIdAndUpdate(appId, { is_delete: true });
+      if (deleteSubAdmin != null && deleteApp != null) {
         this.res.send({
           status: 1,
-          message: "single SubAdmin delete",
+          message: " SubAdmin delete",
         });
       }
     } catch (error) {
