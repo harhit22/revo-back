@@ -67,5 +67,10 @@ module.exports = (app, express) => {
     return appObj.GetApp();
   });
 
+  router.post("/deleteApp", (req, res) => {
+    const appObj = new AppController().boot(req, res);
+    return appObj.DeleteApp();
+  });
+
   app.use(config.baseApiUrl, router);
 };

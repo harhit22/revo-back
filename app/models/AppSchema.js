@@ -8,9 +8,11 @@ const app_schema = new schema(
       ref: "subadmin",
       index: true,
     },
+    app_name: { type: String, default: "" },
     app_logo: { type: String, default: "" },
     app_primary_color: { type: String, default: "" },
     app_secondary_color: { type: String, default: "" },
+    is_delete: { type: Boolean, default: false },
   },
   {
     timestamps: true,

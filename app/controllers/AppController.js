@@ -54,15 +54,25 @@ class AppController extends Controller {
   async GetApp() {
     try {
       if (!this.req.body.subadmin_id) {
-        let sort = { createdAt: 1 };
-        let app = await new Agreegate(App).getApp(sort);
-        console.log(app);
-        if (app != null) {
-          this.res.send({
-            status: 1,
-            message: "all app returned successfully",
-            data: app,
-          });
+        if (!this.req.body.page || !this.req.body.pagesize) {
+          this.res.send({ status: 0, message: "send proper data" });
+        } else {
+          let page = this.req.body.page;
+          let pagesize = this.req.body.pagesize;
+          let skip = (page - 1) * pagesize;
+          let sort = { createdAt: 1 };
+          let app = await new Agreegate(App)
+            .getApp(sort)
+            .skip(skip)
+            .limit(pagesize);
+          console.log(app);
+          if (app != null) {
+            this.res.send({
+              status: 1,
+              message: "all app returned successfully",
+              data: app,
+            });
+          }
         }
       } else {
         let appID = ObjectID(this.req.body.subadmin_id);
@@ -94,34 +104,24 @@ class AppController extends Controller {
     }
   }
 
-  async UpdateExam() {
+  async DeleteApp() {
     try {
-      if (!this.req.body.delete_status) {
-        let updateData = this.req.body;
-        let update_exam = await Exam.findByIdAndUpdate(
-          this.req.body.exam_id,
-          updateData
-        );
-        if (update_exam != null) {
-          this.res.send({ status: 1, message: "exam updated successfully" });
-        }
-      } else {
-        let dData = this.req.body;
-        let deletexams = await Exam.findByIdAndUpdate(
-          this.req.body.exam_id,
-          dData
-        );
-        console.log(deletexams);
-        if (deletexams != null) {
-          this.res.send({ status: 1, message: "exam deleted successfully" });
-        }
+      let app = this.req.body.app_id;
+      let deleteApp = await App.findByIdAndUpdate(app, {
+        is_delete: true,
+      });
+      if (deleteApp != null) {
+        this.res.send({
+          status: 1,
+          message: "single App deleted",
+        });
       }
     } catch (error) {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "update exam api",
-        function_name: "UpdateExam()",
+        api_name: "delete app api",
+        function_name: "DeleteApp()",
         error_title: " error.name",
         descriprion: " error.message",
       };
