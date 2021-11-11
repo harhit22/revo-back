@@ -227,21 +227,33 @@ class Agreegate {
             },
             {
               $lookup: {
-                from: "subadmin",
-                let: { prod: "$subadmin_id" },
-                pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$prod"] } } }],
+                from: "subadmins",
+                let: { appId: "$subadmin_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$appId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
                 as: "subadmin_info",
               },
             },
-            // {
-            //   $unwind: {
-            //     path: "$subadmin_info",
-            //   },
-            // },
+            {
+              $unwind: {
+                path: "$subadmin_info",
+              },
+            },
             // {
             //   $group: {
             //     _id: "$subadmin_id",
-            //     subadmin_info: { $push: "$subadmin_info" },
+            //     subadmin_info: { $first: "$subadmin_info" },
             //   },
             // },
           ],
