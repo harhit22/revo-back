@@ -217,13 +217,19 @@ class Agreegate {
     });
   }
 
-  getApp(sort) {
+  getApp(skip, pagesize, sort) {
     try {
       return new Promise((resolve, reject) => {
         this.collection.aggregate(
           [
             {
               $sort: sort,
+            },
+            {
+              $skip: skip,
+            },
+            {
+              $limit: limit,
             },
             {
               $lookup: {
