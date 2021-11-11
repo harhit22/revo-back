@@ -6,7 +6,6 @@ const App = require("../models/AppSchema").App;
 
 const Model = require("../models/model");
 const bcrypt = require("bcrypt");
-const { App } = require("../models/AppSchema");
 
 class SubAdminController extends Controller {
   constructor() {
