@@ -20,12 +20,19 @@ class AppController extends Controller {
         is_delete: false,
       });
       console.log(findSubAdminId);
-      let subAdminId = findSubAdminId.id;
-      addData["subadmin_id"] = subAdminId;
-      let addApp = await new Model(App).store(addData);
+      if (findSubAdminId) {
+        let subAdminId = findSubAdminId.id;
+        addData["subadmin_id"] = subAdminId;
+        let addApp = await new Model(App).store(addData);
 
-      if (addApp != null) {
-        this.res.send({ status: 1, message: "app added successfully" });
+        if (addApp != null) {
+          this.res.send({ status: 1, message: "app added successfully" });
+        }
+      } else {
+        this.res.send({
+          status: 0,
+          message: "no subadmin existd by this email",
+        });
       }
     } catch (error) {
       this.res.send({
