@@ -10,7 +10,7 @@ const subAdmin = new schema({
   phone_no: { type: Number, default: "" },
   is_suspended: { type: Boolean, default: false },
   is_delete: { type: Boolean, default: false },
-  domain_name: { type: string, default: false },
+  domain_name: { type: String, default: false },
 });
 
 const SubAdmin = mongoose.model("subadmin", subAdmin);

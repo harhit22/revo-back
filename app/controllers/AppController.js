@@ -17,7 +17,9 @@ class AppController extends Controller {
       let domainName = addData.app_name
         .split(" ")
         .join("")
-        .replace(/[^a-zA-Z ]/g, "");
+        .replace(/[^a-zA-Z ]/g, "")
+        .toLowerCase();
+      console.log("domain name print ", domainName);
       let subAdminEmail = addData.email;
       let findSubAdminId = await SubAdmin.findOne({
         email: subAdminEmail,
@@ -40,10 +42,9 @@ class AppController extends Controller {
           addData["subadmin_id"] = subAdminId;
           let addApp = await new Model(App).store(addData);
           let subId = addApp.subadmin_id;
-          let updateDomain = await SubAdmin.updateOne(
-            { subadmin_id: subId },
-            { domain_name: domainName }
-          );
+          let updateDomain = await SubAdmin.findByIdAndUpdate(subId, {
+            domain_name: domainName,
+          });
 
           if (addApp != null && updateDomain) {
             this.res.send({ status: 1, message: "app added successfully" });
