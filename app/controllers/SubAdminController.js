@@ -166,8 +166,8 @@ class SubAdminController extends Controller {
         subAdmin_id,
         newData
       );
-      let updatePrmission = await Permission.findByIdAndUpdate(
-        subAdmin_id,
+      let updatePrmission = await Permission.updateOne(
+        { subAdmin_id: subAdmin_id },
         newData
       );
 
