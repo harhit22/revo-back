@@ -166,8 +166,12 @@ class SubAdminController extends Controller {
         subAdmin_id,
         newData
       );
+      let updatePrmission = await Permission.findByIdAndUpdate(
+        subAdmin_id,
+        newData
+      );
 
-      if (updateSubAdmin != null) {
+      if (updateSubAdmin != null && updatePrmission != null) {
         this.res.send({ status: 1, message: "profile updated!!" });
       } else {
         this.res.send({
