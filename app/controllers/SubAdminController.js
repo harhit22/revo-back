@@ -88,7 +88,7 @@ class SubAdminController extends Controller {
           this.res.send({
             status: 1,
             message: "sub admin logged in successfully",
-            data: subAdmin[0],
+            subAdmin_data: subAdmin[0],
           });
         } else {
           this.res.send({ status: 0, message: "incorrect password" });
