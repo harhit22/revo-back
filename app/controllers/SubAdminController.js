@@ -8,6 +8,7 @@ const Aggregations = require("../models/Aggregations");
 const Model = require("../models/model");
 const bcrypt = require("bcrypt");
 const Agreegate = require("../models/Aggregations");
+const ObjectID = require("mongodb").ObjectID;
 
 class SubAdminController extends Controller {
   constructor() {
@@ -219,7 +220,7 @@ class SubAdminController extends Controller {
           }
         }
       } else {
-        filter = { _id: this.req.body.subadmin_id, is_delete: false };
+        let filter = { _id: ObjectID(this.req.body.subadmin_id) };
         let getSingleSubAdmin = await new Agreegate(SubAdmin).getSubadmin(
           filter
         );

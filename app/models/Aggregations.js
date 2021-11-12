@@ -292,14 +292,14 @@ class Agreegate {
             {
               $lookup: {
                 from: "permissions",
-                let: { perId: "$subadmin_id" },
+                let: { subId: "$_id" },
                 pipeline: [
                   {
                     $match: {
                       $expr: {
                         $and: [
                           {
-                            $eq: ["$_id", "$$perId"],
+                            $eq: ["$subAdmin_id", "$$subId"],
                           },
                         ],
                       },
@@ -312,6 +312,18 @@ class Agreegate {
             {
               $unwind: {
                 path: "$permissions",
+              },
+            },
+            {
+              $group: {
+                _id: "$_id",
+                fname: { $first: "$fname" },
+                lname: { $first: "$lname" },
+                email: { $first: "$email" },
+                phone_no: { $first: "$phone_no" },
+                is_suspended: { $first: "$is_suspended" },
+                is_delete: { $first: "$is_delete" },
+                permissions: { $first: "$permissions" },
               },
             },
           ],
