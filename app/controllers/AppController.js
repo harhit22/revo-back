@@ -143,6 +143,41 @@ class AppController extends Controller {
       globalObj.addErrorLogInDB(dataErrorObj);
     }
   }
+
+  async UpdateApp() {
+    try {
+      let newData = this.req.body;
+      let app_id = this.req.body.app_id;
+
+      let UpdateApp = await App.findByIdAndUpdate(app_id, newData);
+
+      if (UpdateApp != null) {
+        this.res.send({ status: 1, message: "App updated!!" });
+      } else {
+        this.res.send({
+          status: 0,
+          message:
+            "Some error occoured on server. Please try again after some time",
+        });
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message:
+          "Some error occoured on server. Please try again after some time",
+      });
+
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "App routes Api",
+        function_name: "UpdateApp()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
 }
 
 module.exports = AppController;

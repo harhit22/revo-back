@@ -72,5 +72,10 @@ module.exports = (app, express) => {
     return appObj.DeleteApp();
   });
 
+  router.post("/updateApp", (req, res) => {
+    const appObj = new AppController().boot(req, res);
+    return appObj.UpdateApp();
+  });
+
   app.use(config.baseApiUrl, router);
 };
