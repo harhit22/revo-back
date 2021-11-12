@@ -22,11 +22,19 @@ class AppController extends Controller {
       console.log(findSubAdminId);
       if (findSubAdminId) {
         let subAdminId = findSubAdminId.id;
-        addData["subadmin_id"] = subAdminId;
-        let addApp = await new Model(App).store(addData);
+        let exist = await App.find({ subAdminId, is_delete: false });
+        if (exist.length == 1) {
+          this.res.send({
+            status: 0,
+            message: "app with this subadmin is already exist",
+          });
+        } else {
+          addData["subadmin_id"] = subAdminId;
+          let addApp = await new Model(App).store(addData);
 
-        if (addApp != null) {
-          this.res.send({ status: 1, message: "app added successfully" });
+          if (addApp != null) {
+            this.res.send({ status: 1, message: "app added successfully" });
+          }
         }
       } else {
         this.res.send({
@@ -77,15 +85,18 @@ class AppController extends Controller {
             });
           }
         }
-      } else {
-        let appID = ObjectID(this.req.body.subadmin_id);
-        let getApp = await App.find({
-          category_id: ObjectID(catID),
-          is_delete: false,
-          app_id: this.req.body.app_id,
-        });
-        if (getExam != null) {
-          this.res.send({ status: 1, message: "return exam by category" });
+      } else if (this.req.body.app_id) {
+        let appID = ObjectID(this.req.body.app_id);
+        let sort = { createdAt: 1 };
+        let filter = { _id: appID, is_delete: false };
+        let app = await new Agreegate(App).getApp(0, 1, sort, filter);
+        console.log(app);
+        if (app != null) {
+          this.res.send({
+            status: 1,
+            message: "single app returned successfully",
+            data: app,
+          });
         }
       }
     } catch (error) {
