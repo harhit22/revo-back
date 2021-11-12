@@ -280,6 +280,55 @@ class Agreegate {
       console.log("error is getApp() in aggregation!!");
     }
   }
+
+  getSubadmin(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "permissions",
+                let: { perId: "$subadmin_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$perId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "permissions",
+              },
+            },
+            {
+              $unwind: {
+                path: "$permissions",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getSubadmin() in aggregation!!");
+    }
+  }
   //   GetQuestionByPaperId(filter) {
   //     return new promise((resolve, reject) => {
   //       this.collection.aggregate([

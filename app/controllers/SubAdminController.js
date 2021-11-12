@@ -3,9 +3,11 @@ const Globals = require("../../configs/globals");
 const Permission = require("../models/SubAdminSchema").Permission;
 const SubAdmin = require("../models/SubAdminSchema").SubAdmin;
 const App = require("../models/AppSchema").App;
+const Aggregations = require("../models/Aggregations");
 
 const Model = require("../models/model");
 const bcrypt = require("bcrypt");
+const Agreegate = require("../models/Aggregations");
 
 class SubAdminController extends Controller {
   constructor() {
@@ -217,10 +219,10 @@ class SubAdminController extends Controller {
           }
         }
       } else {
-        let getSingleSubAdmin = await SubAdmin.findOne({
-          _id: this.req.body.subadmin_id,
-          is_delete: false,
-        });
+        filter = { _id: this.req.body.subadmin_id, is_delete: false };
+        let getSingleSubAdmin = await new Agreegate(SubAdmin).getSubadmin(
+          filter
+        );
         if (getSingleSubAdmin != null) {
           this.res.send({
             status: 1,
