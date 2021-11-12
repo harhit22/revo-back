@@ -82,7 +82,7 @@ class SubAdminController extends Controller {
       let email = this.req.body.email;
       let password = this.req.body.password;
 
-      let subAdmin = await SubAdmin.find({ email: email });
+      let subAdmin = await SubAdmin.find({ email: email, is_delete: false });
       if (subAdmin != null && subAdmin.length == 1) {
         if (await bcrypt.compare(password, subAdmin[0].password)) {
           this.res.send({
