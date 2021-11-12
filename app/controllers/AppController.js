@@ -17,7 +17,8 @@ class AppController extends Controller {
       let domainName = addData.app_name
         .split(" ")
         .join("")
-        .replace(/[^a-zA-Z ]/g, "");
+        .replace(/[^a-zA-Z ]/g, "")
+        .toLowerCase();
       let subAdminEmail = addData.email;
       let findSubAdminId = await SubAdmin.findOne({
         email: subAdminEmail,
