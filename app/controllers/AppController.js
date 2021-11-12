@@ -17,9 +17,7 @@ class AppController extends Controller {
       let domainName = addData.app_name
         .split(" ")
         .join("")
-        .replace(/[^a-zA-Z ]/g, "")
-        .toLowerCase();
-      console.log("domain name print ", domainName);
+        .replace(/[^a-zA-Z ]/g, "");
       let subAdminEmail = addData.email;
       let findSubAdminId = await SubAdmin.findOne({
         email: subAdminEmail,
@@ -42,9 +40,10 @@ class AppController extends Controller {
           addData["subadmin_id"] = subAdminId;
           let addApp = await new Model(App).store(addData);
           let subId = addApp.subadmin_id;
-          let updateDomain = await SubAdmin.findByIdAndUpdate(subId, {
-            domain_name: domainName,
-          });
+          let updateDomain = await SubAdmin.updateOne(
+            { subadmin_id: subId },
+            { domain_name: domainName }
+          );
 
           if (addApp != null && updateDomain) {
             this.res.send({ status: 1, message: "app added successfully" });
@@ -214,6 +213,38 @@ class AppController extends Controller {
         function_name: "UpdateApp()",
         error_title: error.name,
         description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async VerifySubDomain() {
+    try {
+      let domain = this.req.body.domain_name;
+      let existDomain = await SubAdmin.findOne({
+        domain_name: domain,
+        is_delete: false,
+      });
+      if (existDomain) {
+        if (existDomain.is_suspended) {
+          this.res.send({
+            status: 0,
+            message: "Your account has been suspended.",
+          });
+        } else {
+          this.res.send({ status: 1, message: "domain valid" });
+        }
+      } else {
+        this.res.send({ status: 0, message: "404" });
+      }
+    } catch (error) {
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "delete app api",
+        function_name: "DeleteApp()",
+        error_title: " error.name",
+        descriprion: " error.message",
       };
       globalObj.addErrorLogInDB(dataErrorObj);
     }
