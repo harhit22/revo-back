@@ -77,5 +77,10 @@ module.exports = (app, express) => {
     return appObj.UpdateApp();
   });
 
+  router.post("/verifySubDomain", (req, res) => {
+    const appObj = new AppController().boot(req, res);
+    return appObj.VerifySubDomain();
+  });
+
   app.use(config.baseApiUrl, router);
 };
