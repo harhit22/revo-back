@@ -19,10 +19,14 @@ class AppController extends Controller {
         email: subAdminEmail,
         is_delete: false,
       });
-      console.log(findSubAdminId);
+      // console.log(findSubAdminId);
       if (findSubAdminId) {
         let subAdminId = findSubAdminId.id;
-        let exist = await App.find({ subAdminId, is_delete: false });
+        console.log(subAdminId);
+        let exist = await App.find({
+          subadmin_id: subAdminId,
+          is_delete: false,
+        });
         if (exist.length == 1) {
           this.res.send({
             status: 0,

@@ -24,9 +24,7 @@ const permission = new schema(
     test_series: { type: Boolean, default: false },
     video_courses: { type: Boolean, default: false },
     live_classes: { type: Boolean, default: false },
-    course_content: { type: Boolean, default: false },
     ecommerce: { type: Boolean, default: false },
-    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
     timestamps: true,

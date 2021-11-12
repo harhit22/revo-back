@@ -32,6 +32,11 @@ class SubAdminController extends Controller {
           let regSubAdmin = await new Model(SubAdmin).store(subAdminData);
           let subAdminId = regSubAdmin._id;
           subAdminData["subAdmin_id"] = subAdminId;
+          subAdminData["test_series"] = subAdminData.permissions.test_series;
+          subAdminData["video_courses"] =
+            subAdminData.permissions.video_courses;
+          subAdminData["live_classes"] = subAdminData.permissions.live_classes;
+          subAdminData["ecommerce"] = subAdminData.permissions.eccomerce;
           let permission = await new Model(Permission).store(subAdminData);
           // console.log(subAdminId);
 
