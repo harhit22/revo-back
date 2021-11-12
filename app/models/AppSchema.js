@@ -13,6 +13,7 @@ const app_schema = new schema(
     app_primary_color: { type: String, default: "" },
     app_secondary_color: { type: String, default: "" },
     is_delete: { type: Boolean, default: false },
+    is_suspended: { type: Boolean, default: false },
   },
   {
     timestamps: true,

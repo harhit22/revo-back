@@ -14,6 +14,10 @@ class AppController extends Controller {
   async AddApp() {
     try {
       let addData = this.req.body;
+      let domainName = addData.app_name
+        .split(" ")
+        .join("")
+        .replace(/[^a-zA-Z ]/g, "");
       let subAdminEmail = addData.email;
       let findSubAdminId = await SubAdmin.findOne({
         email: subAdminEmail,
@@ -35,8 +39,13 @@ class AppController extends Controller {
         } else {
           addData["subadmin_id"] = subAdminId;
           let addApp = await new Model(App).store(addData);
+          let subId = addApp.subadmin_id;
+          let updateDomain = await SubAdmin.updateOne(
+            { subadmin_id: subId },
+            { domain_name: domainName }
+          );
 
-          if (addApp != null) {
+          if (addApp != null && updateDomain) {
             this.res.send({ status: 1, message: "app added successfully" });
           }
         }
@@ -73,7 +82,7 @@ class AppController extends Controller {
           let pagesize = parseInt(this.req.body.pagesize);
           let skip = (page - 1) * pagesize;
           let sort = { createdAt: 1 };
-          let filter = { is_delete: false };
+          let filter = { is_delete: false, is_suspended: false };
           let app = await new Agreegate(App).getApp(
             skip,
             pagesize,
@@ -92,7 +101,7 @@ class AppController extends Controller {
       } else if (this.req.body.app_id) {
         let appID = ObjectID(this.req.body.app_id);
         let sort = { createdAt: 1 };
-        let filter = { _id: appID, is_delete: false };
+        let filter = { _id: appID, is_delete: false, is_suspended: false };
         let app = await new Agreegate(App).getApp(0, 1, sort, filter);
         console.log(app);
         if (app != null) {
@@ -133,6 +142,32 @@ class AppController extends Controller {
         this.res.send({
           status: 1,
           message: "single App deleted",
+        });
+      }
+    } catch (error) {
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "delete app api",
+        function_name: "DeleteApp()",
+        error_title: " error.name",
+        descriprion: " error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async SuspendApp() {
+    try {
+      let app = this.req.body.app_id;
+
+      let suspendApp = await App.findByIdAndUpdate(app, {
+        is_suspended: true,
+      });
+      if (suspendApp != null) {
+        this.res.send({
+          status: 1,
+          message: "single App suspended",
         });
       }
     } catch (error) {
