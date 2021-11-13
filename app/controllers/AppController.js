@@ -113,6 +113,7 @@ class AppController extends Controller {
         }
       } else if (this.req.body.subadmin_id) {
         let subID = ObjectID(this.req.body.subadmin_id);
+        console.log(subID);
         let sort = { createdAt: 1 };
         let filter = {
           subadmin_id: subID,
