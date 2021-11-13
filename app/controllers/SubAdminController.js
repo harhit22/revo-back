@@ -91,7 +91,9 @@ class SubAdminController extends Controller {
           let permissions = await Permission.findOne({
             subAdmin_id: subAdmin[0]._id,
           });
+          let appData = await App.findOne({ subadmin_id: subAdmin[0]._id });
           subAdmin[0]["permissions"] = permissions;
+          subAdmin[0]["app_data"] = appData;
           this.res.send({
             status: 1,
             message: "sub admin logged in successfully",
@@ -168,6 +170,7 @@ class SubAdminController extends Controller {
     try {
       let newData = this.req.body;
       let subAdmin_id = this.req.body.subadmin_id;
+      let newPermissions = newData.permissions;
 
       let updateSubAdmin = await SubAdmin.findByIdAndUpdate(
         subAdmin_id,
@@ -175,7 +178,7 @@ class SubAdminController extends Controller {
       );
       let updatePrmission = await Permission.updateOne(
         { subAdmin_id: subAdmin_id },
-        newData
+        newPermissions
       );
 
       if (updateSubAdmin != null && updatePrmission != null) {
