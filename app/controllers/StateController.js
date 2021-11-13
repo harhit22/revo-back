@@ -38,8 +38,8 @@ class StateController extends Controller {
 
   async GetState() {
     try {
-      if (!this.req.state_id) {
-        if (!this.req.app_id) {
+      if (!this.req.body.state_id) {
+        if (!this.req.body.app_id) {
           this.res.send({ status: 0, message: "please send app ID" });
         } else {
           let states = await State.find({
