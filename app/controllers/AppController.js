@@ -111,6 +111,19 @@ class AppController extends Controller {
             data: app,
           });
         }
+      } else if (this.req.body.subadmin_id) {
+        let subID = ObjectID(this.req.body.subadmin_id);
+        let sort = { createdAt: 1 };
+        let filter = { _id: subID, is_delete: false, is_suspended: false };
+        let app = await new Agreegate(App).getApp(0, 1, sort, filter);
+        console.log(app);
+        if (app != null) {
+          this.res.send({
+            status: 1,
+            message: "single app returned successfully",
+            data: app,
+          });
+        }
       }
     } catch (error) {
       this.res.send({
