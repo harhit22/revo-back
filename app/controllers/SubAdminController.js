@@ -82,9 +82,16 @@ class SubAdminController extends Controller {
       let email = this.req.body.email;
       let password = this.req.body.password;
 
-      let subAdmin = await SubAdmin.find({ email: email, is_delete: false });
+      let subAdmin = await SubAdmin.find({
+        email: email,
+        is_delete: false,
+      }).lean();
       if (subAdmin != null && subAdmin.length == 1) {
         if (await bcrypt.compare(password, subAdmin[0].password)) {
+          let permissions = await Permission.findOne({
+            subAdmin_id: subAdmin[0]._id,
+          });
+          subAdmin[0]["permissions"] = permissions;
           this.res.send({
             status: 1,
             message: "sub admin logged in successfully",
