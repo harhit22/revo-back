@@ -114,7 +114,11 @@ class AppController extends Controller {
       } else if (this.req.body.subadmin_id) {
         let subID = ObjectID(this.req.body.subadmin_id);
         let sort = { createdAt: 1 };
-        let filter = { _id: subID, is_delete: false, is_suspended: false };
+        let filter = {
+          subadmin_id: subID,
+          is_delete: false,
+          is_suspended: false,
+        };
         let app = await new Agreegate(App).getApp(0, 1, sort, filter);
         console.log(app);
         if (app != null) {
