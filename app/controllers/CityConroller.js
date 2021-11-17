@@ -64,8 +64,11 @@ class CityController extends Controller {
           data: cities,
         });
       } else {
-        const filter = { delete_status: false };
-        let city = await new Agreegate(City).getCity();
+        const filter = {
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        };
+        let city = await new Agreegate(City).getCity(filter);
         console.log(city);
         if (app != null) {
           this.res.send({

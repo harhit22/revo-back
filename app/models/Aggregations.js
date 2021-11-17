@@ -347,9 +347,9 @@ class Agreegate {
       return new Promise((resolve, reject) => {
         this.collection.aggregate(
           [
-            // {
-            //   $match: filter,
-            // },
+            {
+              $match: filter,
+            },
             {
               $lookup: {
                 from: "states",
