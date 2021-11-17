@@ -1,7 +1,7 @@
 const Cart = require("../models/CartSchema").Cart;
 const Order = require("../models/OrderSchema").Orders;
 const Transactions = require("../models/TransactionSchema").Transactions;
-const ObjectId = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const OrderItem = require("../models/OrderItemSchema").OrderItem;
 const Product = require("../models/ProductSchema").Product;
 const Model = require("../models/Model");
@@ -27,15 +27,15 @@ class OrderController extends Controller {
       let orderData = await new Model(Order).store(bodyData);
 
       orderItems.forEach((val) => {
-        val["transaction_id"] = bodyData.transaction_id;
-        val["order_id"] = orderData.id;
-        val["user_id"] = bodyData.user_id;
+        val["transaction_id"] = ObjectID(bodyData.transaction_id);
+        val["order_id"] = ObjectID(orderData.id);
+        val["user_id"] = ObjectID(bodyData.user_id);
       });
 
       if (orderData != null) {
         let updateTransaction = await Transactions.findByIdAndUpdate(
-          bodyData.transaction_id,
-          { order_id: orderData.id }
+          ObjectID(bodyData.transaction_id),
+          { order_id: ObjectID(orderData.id) }
         );
 
         if (updateTransaction != null) {
@@ -43,13 +43,13 @@ class OrderController extends Controller {
 
           if (order_Items != null) {
             let clearCart = await Cart.deleteMany({
-              user_id: ObjectId(bodyData.user_id),
+              user_id: ObjectID(bodyData.user_id),
             });
             let page = 0;
             let pagesize = 0;
             let skip = (page - 1) * pagesize;
 
-            let filter = { order_id: ObjectId(orderData.id) };
+            let filter = { order_id: ObjectID(orderData.id) };
             let sort = { createdAt: 1 };
 
             let finalOrderDetails = await new Agreegate(
@@ -86,7 +86,7 @@ class OrderController extends Controller {
       if (bodyData.from_admin) {
         if (bodyData.hasOwnProperty("orderid")) {
           console.log("has order id value!!");
-          filter["order_id"] = ObjectId(bodyData.orderid);
+          filter["order_id"] = ObjectID(bodyData.orderid);
         }
 
         if (bodyData.return_orders) {
@@ -106,10 +106,10 @@ class OrderController extends Controller {
         }
       } else {
         if (bodyData.hasOwnProperty("order_id")) {
-          filter["order_id"] = ObjectId(bodyData.order_id);
+          filter["order_id"] = ObjectID(bodyData.order_id);
         }
         if (bodyData.hasOwnProperty("user_id")) {
-          filter["user_id"] = ObjectId(bodyData.user_id);
+          filter["user_id"] = ObjectID(bodyData.user_id);
         }
 
         let orderData = await new Agreegate(OrderItem).getOrderList(
@@ -153,7 +153,7 @@ class OrderController extends Controller {
 
       if (bodyData.isDelete) {
         let deleteResponse = await Order.updateMany(
-          { order_id: ObjectId(bodyData.order_id) },
+          { order_id: ObjectID(bodyData.order_id) },
           { is_delete: true }
         );
 
@@ -161,14 +161,14 @@ class OrderController extends Controller {
           this.res.send({ status: 1, message: "deleted" });
         }
       } else if (bodyData.is_return) {
-        let orderID = bodyData.order_id;
+        let orderID = ObjectID(bodyData.order_id);
 
         let orderUpdate = await Order.findByIdAndUpdate(orderID, {
           order_status: "return",
         });
 
         let orderItemUpdate = await OrderItem.updateMany(
-          { id: ObjectId(orderID) },
+          { id: ObjectID(orderID) },
           { current_status: "return" }
         );
 
@@ -177,7 +177,7 @@ class OrderController extends Controller {
         }
       } else if (bodyData.is_cancel) {
         console.log("in cancel order");
-        let orderID = bodyData.order_id;
+        let orderID = ObjectID(bodyData.order_id);
         let orderUpdate = await Order.findByIdAndUpdate(orderID, {
           order_status: "cancel",
         });
@@ -185,18 +185,18 @@ class OrderController extends Controller {
         console.log("order status updated!!");
 
         let OrderItemUpdate = await OrderItem.updateMany(
-          { id: ObjectId(orderID) },
+          { id: ObjectID(orderID) },
           { current_status: "cancel" }
         );
 
         console.log("order item status updated!!");
 
         let orderItems = await OrderItem.find({
-          order_id: ObjectId(orderID),
+          order_id: ObjectID(orderID),
         });
 
         orderItems.forEach(async (element) => {
-          await Product.findByIdAndUpdate(ObjectId(element.product_id), {
+          await Product.findByIdAndUpdate(ObjectID(element.product_id), {
             $inc: { quantity: element.quantity },
           });
         });
@@ -208,7 +208,7 @@ class OrderController extends Controller {
           return this.res.send({ status: 1, message: "order cancelled!!" });
         }
       } else if (bodyData.accept_refund) {
-        let orderID = bodyData.order_id;
+        let orderID = ObjectID(bodyData.order_id);
         let orderUpdate = await Order.findByIdAndUpdate(orderID, {
           order_status: "return_accept",
         });
@@ -220,7 +220,7 @@ class OrderController extends Controller {
           });
         }
       } else if (bodyData.reject_refund) {
-        let orderID = bodyData.order_id;
+        let orderID = ObjectID(bodyData.order_id);
 
         let orderUpdate = await Order.findByIdAndUpdate(orderID, {
           order_status: "return_reject",
@@ -230,7 +230,7 @@ class OrderController extends Controller {
           return this.res.send({ status: 1, message: "return rejected!!" });
         }
       } else if (bodyData.update_status) {
-        let orderID = bodyData.order_id;
+        let orderID = ObjectID(bodyData.order_id);
         let orderStatus = bodyData.order_status;
 
         let orderUpdate = await Order.findByIdAndUpdate(orderID, {

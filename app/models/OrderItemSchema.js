@@ -4,7 +4,7 @@ const schema = mongoose.Schema;
 const orderItem = new schema(
   {
     transaction_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "transaction",
       index: true,
     },

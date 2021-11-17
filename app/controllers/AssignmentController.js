@@ -2,6 +2,7 @@ const Globals = require("../../configs/globals");
 const Controller = require("./Controller");
 const Model = require("../models/model");
 const Assignment = require("../models/AssignmentSchema").Assignment;
+const ObjectID = require("mongodb").ObjectId;
 
 class AssignmentController extends Controller {
   constructor() {
@@ -38,7 +39,7 @@ class AssignmentController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_assignment = await Assignment.findByIdAndUpdate(
-          this.req.body.assignment_id,
+          ObjectID(this.req.body.assignment_id),
           updateData
         );
         if (update_assignment != null) {
@@ -50,7 +51,7 @@ class AssignmentController extends Controller {
       } else {
         let dData = this.req.body;
         let deleteAssignment = await Assignment.findByIdAndUpdate(
-          this.req.body.assignment_id,
+          ObjectID(this.req.body.assignment_id),
           dData
         );
         console.log(deleteAssignment);

@@ -1,7 +1,7 @@
 const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
 const Admin = require("../models/AdminSchema").Admin;
-const ObjectID = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 
 const Model = require("../models/model");
 const bcrypt = require("bcrypt");
@@ -104,7 +104,7 @@ class AdminController extends Controller {
   async ChangePasswordAdmin() {
     try {
       let newPassword = this.req.body.newpassword;
-      let admin_id = this.req.body.admin_id;
+      let admin_id = ObjectID(this.req.body.admin_id);
 
       let hashedPassword = await hashPassword(newPassword);
 
@@ -143,7 +143,7 @@ class AdminController extends Controller {
   async UpdateProfileAdmin() {
     try {
       let newData = this.req.body;
-      let admin_id = this.req.body.admin_id;
+      let admin_id = ObjectID(this.req.body.admin_id);
 
       let updateAdmin = await Admin.findByIdAndUpdate(admin_id, newData);
 

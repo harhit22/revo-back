@@ -3,6 +3,7 @@ const globals = require("../../configs/globals");
 const ExamCategory = require("../models/ExamCategorySchema").ExamCategory;
 const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
+const ObjectID = require("mongodb").ObjectId;
 
 class ExamCategoryController extends Controller {
   constructor() {
@@ -44,7 +45,7 @@ class ExamCategoryController extends Controller {
       if (!this.req.body.cat_id) {
         let getCat = await ExamCategory.find({
           is_delete: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         this.res.send({
           status: 1,
@@ -53,8 +54,8 @@ class ExamCategoryController extends Controller {
         });
       } else {
         let getCatg = await ExamCategory.findOne({
-          _id: this.req.body.cat_id,
-          app_id: this.req.body.app_id,
+          _id: ObjectID(this.req.body.cat_id),
+          app_id: ObjectID(this.req.body.app_id),
         });
         this.res.send({
           status: 1,
@@ -80,7 +81,7 @@ class ExamCategoryController extends Controller {
       if (!this.req.body.is_delete) {
         let updateCat = this.req.body;
         let upCat = await ExamCategory.findByIdAndUpdate(
-          this.req.body.cat_id,
+          ObjectID(this.req.body.cat_id),
           updateCat
         );
         if (upCat != null) {
@@ -92,10 +93,10 @@ class ExamCategoryController extends Controller {
       } else {
         let delData = this.req.body;
         let delCat = await ExamCategory.findByIdAndUpdate(
-          this.req.body.cat_id,
+          ObjectID(this.req.body.cat_id),
           delData
         );
-        if (delData != null) {
+        if (delCat != null) {
           this.res.send({ status: 1, message: "category delete successfully" });
         }
       }

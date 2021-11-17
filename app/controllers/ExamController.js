@@ -1,7 +1,7 @@
 const Exam = require("../models/ExamSchema").Exam;
 const Model = require("../models/model");
 const Globals = require("../../configs/globals");
-const ObjectID = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const Controller = require("../controllers/Controller");
 
 class ExamController extends Controller {
@@ -38,7 +38,7 @@ class ExamController extends Controller {
       if (!this.req.body.category_id) {
         let gExam = await Exam.find({
           is_delete: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (gExam != null) {
           this.res.send({ status: 1, message: "return all exams" });
@@ -48,7 +48,7 @@ class ExamController extends Controller {
         let getExam = await Exam.find({
           category_id: ObjectID(catID),
           is_delete: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (getExam != null) {
           this.res.send({ status: 1, message: "return exam by category" });

@@ -44,7 +44,7 @@ class StateController extends Controller {
         } else {
           let states = await State.find({
             delete_status: false,
-            app_id: this.req.body.app_id,
+            app_id: ObjectID(this.req.body.app_id),
           });
           if (states != null) {
             this.res.send({
@@ -98,6 +98,7 @@ class StateController extends Controller {
           this.req.body.state_id,
           dData
         );
+
         console.log(deletStates);
         if (deletStates != null) {
           this.res.send({ status: 1, message: "states deleted successfully" });

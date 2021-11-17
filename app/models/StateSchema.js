@@ -3,8 +3,8 @@ const schema = mongoose.Schema;
 
 const state_schema = new schema(
   {
-    state_name: { type: String, default: "" },
-    delete_status: { type: String, default: false },
+    state_id: { type: String, default: "" },
+    delete_status: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {

@@ -3,8 +3,16 @@ const schema = mongoose.Schema;
 
 const question_schema = new schema(
   {
-    subject_id: { type: mongoose.Types.ObjectId, ref: "subject", index: true },
-    lang_id: { type: mongoose.Types.ObjectId, ref: "language", index: true },
+    subject_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "subject",
+      index: true,
+    },
+    lang_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "language",
+      index: true,
+    },
     question: { type: String, default: "" },
     option_1: { type: String, default: "" },
     option_2: { type: String, default: "" },

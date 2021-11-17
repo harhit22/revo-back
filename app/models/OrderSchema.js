@@ -4,17 +4,17 @@ var schema = mongoose.Schema;
 var order = new schema(
   {
     user_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       index: true,
     },
     transaction_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "transaction",
       index: true,
     },
     invoice_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "invoice",
       index: true,
     },

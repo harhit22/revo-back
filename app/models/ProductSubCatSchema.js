@@ -4,7 +4,7 @@ const schema = mongoose.Schema;
 const product_sub = new schema(
   {
     cat_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "product_category",
       index: true,
     },

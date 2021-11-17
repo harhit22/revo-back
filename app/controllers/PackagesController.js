@@ -1,5 +1,5 @@
 const Controller = require("./Controller");
-const ObjectId = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const Package = require("../models/PackagesSchema").Package;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
@@ -40,7 +40,7 @@ class PackageController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_package = await Package.findByIdAndUpdate(
-          this.req.body.package_id,
+          ObjectID(this.req.body.package_id),
           updateData
         );
         if (update_package != null) {
@@ -52,7 +52,7 @@ class PackageController extends Controller {
       } else {
         let dData = this.req.body;
         let deletePackage = await Package.findByIdAndUpdate(
-          this.req.body.package_id,
+          ObjectID(this.req.body.package_id),
           dData
         );
         console.log(deletePackage);

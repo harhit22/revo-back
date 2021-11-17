@@ -3,9 +3,13 @@ const schema = mongoose.Schema;
 
 const wishlist_schema = new schema(
   {
-    user_id: { type: mongoose.Types.ObjectId, ref: "user", index: "true" },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      index: "true",
+    },
     product_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "product",
       index: "true",
     },

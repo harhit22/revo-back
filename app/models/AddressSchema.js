@@ -3,7 +3,7 @@ const schema = mongoose.Schema;
 
 const address_schema = new schema(
   {
-    user_id: { type: mongoose.Types.ObjectId, ref: "user", index: true },
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "user", index: true },
     street_address: { type: String, default: "" },
     postal_code: { type: Number, default: 0 },
     city: { type: String, default: "" },

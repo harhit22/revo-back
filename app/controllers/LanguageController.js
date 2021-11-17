@@ -2,6 +2,7 @@ const Controller = require("../controllers/Controller");
 const Globals = require("../../configs/globals");
 const Language = require("../models/LanguageSchema").Language;
 const Model = require("../models/model");
+const ObjectID = require("mongodb").ObjectId;
 
 class LanguageController extends Controller {
   constructor() {
@@ -38,7 +39,7 @@ class LanguageController extends Controller {
       if (!this.req.body.lang_id) {
         let getLang = await Language.find({
           delete_status: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (getLang != null) {
           this.res.send({
@@ -49,9 +50,9 @@ class LanguageController extends Controller {
         }
       } else {
         let singleLang = await Language.findOne({
-          _id: this.req.body.lang_id,
+          _id: ObjectID(this.req.body.lang_id),
           delete_status: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (singleLang != null) {
           this.res.send({
@@ -84,7 +85,7 @@ class LanguageController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_lang = await Language.findByIdAndUpdate(
-          this.req.body.lang_id,
+          ObjectID(this.req.body.lang_id),
           updateData
         );
         if (update_lang != null) {
@@ -96,7 +97,7 @@ class LanguageController extends Controller {
       } else {
         let dData = this.req.body;
         let delLang = await Language.findByIdAndUpdate(
-          this.req.body.lang_id,
+          ObjectID(this.req.body.lang_id),
           dData
         );
         console.log(delLang);

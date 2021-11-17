@@ -3,7 +3,7 @@ const schema = mongoose.Schema;
 
 const support_schema = new schema(
   {
-    user_id: { type: mongoose.Types.ObjectId, ref: "user", index: true },
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "user", index: true },
     title: { type: String, default: "" },
     description: { type: String },
     image: { type: String, default: "" },

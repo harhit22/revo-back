@@ -43,7 +43,7 @@ class PaperControlller extends Controller {
           exam_id: ObjectID(examID),
           delete_status: false,
           is_free: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (GetPaper != null) {
           this.res.send({
@@ -53,11 +53,10 @@ class PaperControlller extends Controller {
           });
         }
       } else if (this.req.body.is_free) {
-        console.log("aa gye");
         let freePaper = await Paper.find({
           is_free: true,
           delete_status: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (freePaper != null) {
           this.res.send({
@@ -70,7 +69,7 @@ class PaperControlller extends Controller {
       } else {
         let gPaper = await Paper.find({
           delete_status: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (gPaper != null) {
           this.res.send({
@@ -104,7 +103,7 @@ class PaperControlller extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_paper = await Paper.findByIdAndUpdate(
-          this.req.body.paper_id,
+          ObjectID(this.req.body.paper_id),
           updateData
         );
         if (update_paper != null) {
@@ -113,7 +112,7 @@ class PaperControlller extends Controller {
       } else {
         let dData = this.req.body;
         let deletPaper = await Paper.findByIdAndUpdate(
-          this.req.body.paper_id,
+          ObjectID(this.req.body.paper_id),
           dData
         );
         console.log(deletPaper);

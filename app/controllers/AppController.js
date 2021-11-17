@@ -1,7 +1,7 @@
 const App = require("../models/AppSchema").App;
 const Model = require("../models/model");
 const Globals = require("../../configs/globals");
-const ObjectID = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const Controller = require("../controllers/Controller");
 const SubAdmin = require("../models/SubAdminSchema").SubAdmin;
 const Agreegate = require("../models/Aggregations");
@@ -26,7 +26,7 @@ class AppController extends Controller {
       });
       // console.log(findSubAdminId);
       if (findSubAdminId) {
-        let subAdminId = findSubAdminId.id;
+        let subAdminId = ObjectID(findSubAdminId.id);
         console.log(subAdminId);
         let exist = await App.find({
           subadmin_id: subAdminId,
@@ -40,7 +40,7 @@ class AppController extends Controller {
         } else {
           addData["subadmin_id"] = subAdminId;
           let addApp = await new Model(App).store(addData);
-          let subId = addApp.subadmin_id;
+          let subId = ObjectID(addApp.subadmin_id);
           let updateDomain = await SubAdmin.findByIdAndUpdate(subId, {
             domain_name: domainName,
           });
@@ -151,7 +151,7 @@ class AppController extends Controller {
 
   async DeleteApp() {
     try {
-      let app = this.req.body.app_id;
+      let app = ObjectID(this.req.body.app_id);
       console.log("delete app body ", this.req.body);
       let deleteApp = await App.findByIdAndUpdate(app, {
         is_delete: true,
@@ -177,7 +177,7 @@ class AppController extends Controller {
 
   async SuspendApp() {
     try {
-      let app = this.req.body.app_id;
+      let app = ObjectID(this.req.body.app_id);
 
       let suspendApp = await App.findByIdAndUpdate(app, {
         is_suspended: true,
@@ -204,7 +204,7 @@ class AppController extends Controller {
   async UpdateApp() {
     try {
       let newData = this.req.body;
-      let app_id = this.req.body.app_id;
+      let app_id = ObjectID(this.req.body.app_id);
 
       let UpdateApp = await App.findByIdAndUpdate(app_id, newData);
 

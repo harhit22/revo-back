@@ -2,7 +2,7 @@ const Controller = require("../controllers/Controller");
 const Globals = require("../../configs/globals");
 const Subject = require("../models/PaperSubjectSchema").Subject;
 const Model = require("../models/model");
-const ObjectID = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 
 class PaperSubjectController extends Controller {
   constructor() {
@@ -40,7 +40,7 @@ class PaperSubjectController extends Controller {
       if (!this.req.body.paper_id) {
         let getSub = await Subject.find({
           is_delete: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (getSub != null) {
           this.res.send({
@@ -54,7 +54,7 @@ class PaperSubjectController extends Controller {
         let getSubject = await Subject.find({
           paper_id: ObjectID(paperID),
           is_delete: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (getSubject != null) {
           this.res.send({
@@ -88,16 +88,23 @@ class PaperSubjectController extends Controller {
       if (!this.req.body.is_delete) {
         let updateData = this.req.body;
         let UpdateSub = await Subject.findByIdAndUpdate(
-          this.req.body.sub_id,
+          ObjectID(this.req.body.sub_id),
           updateData
         );
         if (UpdateSub != null) {
           this.res.send({ status: 1, message: "subject updated successfully" });
         }
       } else {
-        let delSub = await Subject.findByIdAndUpdate(this.req.body.sub_id, {
-          is_delete: true,
-        });
+        let delSub = await Subject.findByIdAndUpdate(
+          ObjectID(this.req.body.sub_id),
+          {
+            is_delete: true,
+          }
+        );
+
+        if (delSub != null) {
+          this.res.send({ status: 1, message: "subject deleted successfully" });
+        }
       }
     } catch (error) {
       let globalObj = new Globals();

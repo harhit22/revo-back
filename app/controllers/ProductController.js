@@ -2,6 +2,7 @@ const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Product = require("../models/ProductSchema").Product;
 const Controller = require("./Controller");
+const ObjectID = require("mongodb").ObjectId;
 
 class ProductController extends Controller {
   constructor() {
@@ -61,8 +62,8 @@ class ProductController extends Controller {
     try {
       if (this.req.body.product_id) {
         let single_product = await Product.find({
-          _id: product_id,
-          app_id: this.req.body.app_id,
+          _id: ObjectID(this.req.body.product_id),
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (single_product != null) {
           this.res.send({
@@ -73,8 +74,8 @@ class ProductController extends Controller {
         }
       } else if (this.req.body.subcat_id) {
         let prod_subcat = await Product.find({
-          subcategory_id: subcat_id,
-          app_id: this.req.body.app_id,
+          subcategory_id: ObjectID(this.req.body.subcat_id),
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (prod_subcat != null) {
           this.res.send({
@@ -85,8 +86,8 @@ class ProductController extends Controller {
         }
       } else if (this.req.body.publishr_id) {
         let prod_publisher = await Product.find({
-          publisher_id: publishr_id,
-          app_id: this.req.body.app_id,
+          publisher_id: ObjectID(this.req.body.publishr_id),
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (prod_publisher != null) {
           this.res.send({
@@ -96,7 +97,9 @@ class ProductController extends Controller {
           });
         }
       } else {
-        let all_product = await Product.find({ app_id: this.req.body.app_id });
+        let all_product = await Product.find({
+          app_id: ObjectID(this.req.body.app_id),
+        });
         if (all_product != null) {
           this.res.send({
             status: 1,
@@ -128,7 +131,7 @@ class ProductController extends Controller {
       if (!this.req.body.status) {
         let upData = this.req.body;
         let updateProduct = await Product.findByIdAndUpdate(
-          this.req.body.product_id,
+          ObjectID(this.req.body.product_id),
           upData
         );
         if (updateProduct != null) {
@@ -140,7 +143,7 @@ class ProductController extends Controller {
       } else {
         let delData = this.req.body;
         let deleteData = await Product.findByIdAndRemove(
-          this.req.body.product_id,
+          ObjectID(this.req.body.product_id),
           delData
         );
         if (deleteData != null) {

@@ -48,7 +48,7 @@ class AddressController extends Controller {
         let userId = ObjectID(this.req.body.user_id);
         let address = await Address.findOne({
           user_id: userId,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (address != null) {
           this.res.send({

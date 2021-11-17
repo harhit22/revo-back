@@ -14,7 +14,10 @@ class UserController extends Controller {
       let userData = this.req.body;
       let userinfovalidation = validateUserInfo(userData);
       if (userinfovalidation.is_valid) {
-        let alreadyUser = await User.find({ mobile: userData.mobile });
+        let alreadyUser = await User.find({
+          mobile: userData.mobile,
+          app_id: ObjectID(userData.app_id),
+        });
         if (alreadyUser.length == 1) {
           this.res.send({
             status: 0,
@@ -57,7 +60,10 @@ class UserController extends Controller {
     try {
       let mobile = this.req.body.mobile;
 
-      let user = await User.find({ mobile: mobile });
+      let user = await User.find({
+        mobile: mobile,
+        app_id: ObjectID(this.req.body.app_id),
+      });
       if (user != null && user.length == 1) {
         this.res.send({ status: 1, message: "user logged in successfully" });
       } else {

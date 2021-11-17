@@ -3,8 +3,12 @@ const schema = mongoose.Schema;
 
 const result_schema = new schema(
   {
-    paper_id: { type: mongoose.Types.ObjectId, ref: "paper", index: true },
-    user_id: { type: mongoose.Types.ObjectId, ref: "user", index: true },
+    paper_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "paper",
+      index: true,
+    },
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "user", index: true },
     marks: { type: Number, default: "" },
     total_attempt: { type: Number, default: "" },
     not_attempt: { type: Number, default: "" },

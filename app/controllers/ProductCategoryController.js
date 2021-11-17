@@ -1,9 +1,9 @@
 const Model = require("../models/model");
-const globals = require("../../configs/globals");
 const ProductCategory =
   require("../models/ProductCategorySchema").ProductCategory;
 const Controller = require("./Controller");
 const Globals = require("../../configs/globals");
+const ObjectID = require("mongodb").ObjectId;
 
 class ProductCategoryController extends Controller {
   constructor() {
@@ -44,7 +44,7 @@ class ProductCategoryController extends Controller {
       if (!this.req.body.cat_id) {
         let getCat = await ProductCategory.find({
           is_delete: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         this.res.send({
           status: 1,
@@ -53,8 +53,8 @@ class ProductCategoryController extends Controller {
         });
       } else {
         let getCatg = await ProductCategory.findOne({
-          _id: this.req.body.cat_id,
-          app_id: this.req.body.app_id,
+          _id: ObjectID(this.req.body.cat_id),
+          app_id: ObjectID(this.req.body.app_id),
         });
         this.res.send({
           status: 1,
@@ -80,7 +80,7 @@ class ProductCategoryController extends Controller {
       if (!this.req.body.is_delete) {
         let updateCat = this.req.body;
         let upCat = await ProductCategory.findByIdAndUpdate(
-          this.req.body.cat_id,
+          ObjectID(this.req.body.cat_id),
           updateCat
         );
         if (upCat != null) {
@@ -92,7 +92,7 @@ class ProductCategoryController extends Controller {
       } else {
         let delData = this.req.body;
         let delCat = await ProductCategory.findByIdAndUpdate(
-          this.req.body.cat_id,
+          ObjectID(this.req.body.cat_id),
           delData
         );
         if (delData != null) {

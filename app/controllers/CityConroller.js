@@ -3,6 +3,8 @@ const ObjectID = require("mongodb").ObjectID;
 const Model = require("../models/model");
 const City = require("../models/CitySchema").City;
 const Globals = require("../../configs/globals");
+const Agreegate = require("../models/Aggregations");
+// const State = require("../models/StateSchema").State;
 
 class CityController extends Controller {
   constructor() {
@@ -38,9 +40,9 @@ class CityController extends Controller {
     try {
       if (this.req.body.city_id) {
         let city = await City.findOne({
-          _id: this.req.body.id,
+          _id: ObjectID(this.req.body.city_id),
           delete_status: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (city != null) {
           this.res.send({
@@ -54,7 +56,7 @@ class CityController extends Controller {
         let cities = await City.findOne({
           state_id: ObjectID(stateID),
           delete_status: false,
-          app_id: this.req.body.app_id,
+          app_id: ObjectID(this.req.body.app_id),
         });
         this.res.send({
           status: 1,
@@ -62,12 +64,16 @@ class CityController extends Controller {
           data: cities,
         });
       } else {
-        let allCity = await City.find({ delete_status: false });
-        this.res.send({
-          status: 1,
-          message: "all cities returned",
-          data: allCity,
-        });
+        const filter = { delete_status: false };
+        let city = await new Agreegate(City).getCity();
+        console.log(city);
+        if (app != null) {
+          this.res.send({
+            status: 1,
+            message: "all app returned successfully",
+            data: city,
+          });
+        }
       }
     } catch (error) {
       this.res.send({
@@ -92,7 +98,7 @@ class CityController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let updateCity = await City.findByIdAndUpdate(
-          this.req.body.city_id,
+          ObjectID(this.req.body.city_id),
           updateData
         );
         console.log(updateCity);
@@ -102,7 +108,7 @@ class CityController extends Controller {
       } else {
         let dData = this.req.body;
         let deletCity = await City.findByIdAndUpdate(
-          this.req.body.city_id,
+          ObjectID(this.req.body.city_id),
           dData
         );
         console.log(deletCity);

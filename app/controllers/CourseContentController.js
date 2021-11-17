@@ -2,6 +2,7 @@ const Globals = require("../../configs/globals");
 const Controller = require("./Controller");
 const Model = require("../models/model");
 const Content = require("../models/CourseContent").Content;
+const ObjectID = require("mongodb").ObjectId;
 
 class CourseContentController extends Controller {
   constructor() {
@@ -41,7 +42,7 @@ class CourseContentController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_content = await Content.findByIdAndUpdate(
-          this.req.body.content_id,
+          ObjectID(this.req.body.content_id),
           updateData
         );
         if (update_content != null) {
@@ -53,7 +54,7 @@ class CourseContentController extends Controller {
       } else {
         let dData = this.req.body;
         let deleteContent = await Content.findByIdAndUpdate(
-          this.req.body.content_id,
+          ObjectID(this.req.body.content_id),
           dData
         );
         console.log(deleteContent);

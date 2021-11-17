@@ -1,5 +1,5 @@
 const Controller = require("./Controller");
-const ObjectId = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const Lesson = require("../models/LessonSchema").Lesson;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
@@ -40,7 +40,7 @@ class LessonController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_lesson = await Lesson.findByIdAndUpdate(
-          this.req.body.lesson_id,
+          ObjectID(this.req.body.lesson_id),
           updateData
         );
         if (update_lesson != null) {
@@ -52,7 +52,7 @@ class LessonController extends Controller {
       } else {
         let dData = this.req.body;
         let deleteLesson = await Lesson.findByIdAndUpdate(
-          this.req.body.lesson_id,
+          ObjectID(this.req.body.lesson_id),
           dData
         );
         console.log(deleteLesson);

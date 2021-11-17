@@ -4,7 +4,7 @@ const schema = mongoose.Schema;
 const exam_schema = new schema(
   {
     category_id: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "exam_category",
       index: true,
     },

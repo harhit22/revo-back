@@ -1,5 +1,5 @@
 const Controller = require("./Controller");
-const ObjectId = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const Previous = require("../models/PreviousYearPaperSchema").Previous;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
@@ -43,7 +43,7 @@ class PreviousYearController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_previous = await Previous.findByIdAndUpdate(
-          this.req.body.previous_id,
+          ObjectID(this.req.body.previous_id),
           updateData
         );
         if (update_previous != null) {
@@ -55,7 +55,7 @@ class PreviousYearController extends Controller {
       } else {
         let dData = this.req.body;
         let deletePrevious = await Previous.findByIdAndUpdate(
-          this.req.body.previous_id,
+          ObjectID(this.req.body.previous_id),
           dData
         );
         console.log(deletePrevious);
