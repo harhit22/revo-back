@@ -12,7 +12,7 @@ module.exports = (app, express) => {
   });
 
   router.post("/login", (req, res) => {
-    const userObj = new UserController().boot(req, res);
+    const userObj = new UserController().boot(req, res); 
     return userObj.LoginUser();
   });
 

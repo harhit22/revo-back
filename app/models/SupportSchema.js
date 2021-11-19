@@ -5,7 +5,7 @@ const support_schema = new schema(
   {
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: "user", index: true },
     title: { type: String, default: "" },
-    description: { type: String },
+
     image: { type: String, default: "" },
     reponse: { type: String, default: "" },
     response_image: { type: String, default: "" },

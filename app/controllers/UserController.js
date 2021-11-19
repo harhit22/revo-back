@@ -3,6 +3,7 @@ const Model = require("../models/model");
 const Globals = require("../../configs/globals");
 const User = require("../models/UserSchema").User;
 const ObjectID = require("mongodb").ObjectId;
+const Agreegate = require("../models/Aggregations");
 
 class UserController extends Controller {
   constructor() {
@@ -13,10 +14,24 @@ class UserController extends Controller {
     try {
       let userData = this.req.body;
       let userinfovalidation = validateUserInfo(userData);
-      if (userinfovalidation.is_valid) {
+      if (this.req.body.check_user) {
+        let check = await User.find({
+          mobile: userData.mobile,
+          app_id: ObjectID(userData.app_id),
+        });
+        if (check.length == 1) {
+          return this.res.send({
+            status: 0,
+            message: "user already registered",
+          });
+        } else {
+          return this.res.send({ status: 1, message: "user not found" });
+        }
+      } else if (userinfovalidation.is_valid) {
         let alreadyUser = await User.find({
           mobile: userData.mobile,
           app_id: ObjectID(userData.app_id),
+          delete_status: false,
         });
         if (alreadyUser.length == 1) {
           this.res.send({
@@ -59,11 +74,14 @@ class UserController extends Controller {
   async LoginUser() {
     try {
       let mobile = this.req.body.mobile;
-
-      let user = await User.find({
+      let filter = {
         mobile: mobile,
         app_id: ObjectID(this.req.body.app_id),
-      });
+        delete_status: false,
+      };
+
+      let user = await new Agreegate(User).getLoginData(filter);
+      console.log(user);
       if (user != null && user.length == 1) {
         this.res.send({ status: 1, message: "user logged in successfully" });
       } else {
@@ -73,6 +91,7 @@ class UserController extends Controller {
         });
       }
     } catch (error) {
+      console.log(error);
       this.res.send({
         status: 0,
         message:

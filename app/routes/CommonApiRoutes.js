@@ -7,6 +7,7 @@ const PaperControlller = require("../controllers/PaperController");
 const PaperSubjectController = require("../controllers/PaperSubjectController");
 const QuestionController = require("../controllers/QuestionController");
 const ResultController = require("../controllers/ResultController");
+const BannerController = require("../controllers/BannerController");
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/globals");
@@ -162,6 +163,11 @@ module.exports = (app, express) => {
   router.post("/update_result", (req, res) => {
     const resultObj = new ResultController().boot(req, res);
     return resultObj.UpdateResult();
+  });
+
+  router.post("/add_banner", (req, res) => {
+    const bannerObj = new BannerController().boot(req, res);
+    return bannerObj.AddBanner();
   });
 
   app.use(config.baseApiUrl, router);

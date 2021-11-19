@@ -6,7 +6,8 @@ const user_schema = new schema(
     fname: { type: String, default: "" },
     lname: { type: String, default: "" },
     email: { type: String, default: "" },
-    mobile: { type: Number, default: "" },
+    mobile: { type: String, default: "" },
+    profile_picture: { type: String, default: "" },
     state_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "state",
@@ -14,6 +15,7 @@ const user_schema = new schema(
     },
     city_id: { type: mongoose.Schema.Types.ObjectId, ref: "city", index: true },
     status: { type: Boolean, default: true },
+    delete_status: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
