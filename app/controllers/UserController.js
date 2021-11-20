@@ -86,7 +86,7 @@ class UserController extends Controller {
         this.res.send({ status: 1, message: "user logged in successfully" });
       } else {
         this.res.send({
-          status: 0,
+          status: 2,
           message: "account not found...please register first",
         });
       }
