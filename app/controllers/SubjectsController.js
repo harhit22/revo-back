@@ -12,6 +12,7 @@ class SubjectController extends Controller {
   async AddSubject() {
     try {
       let data = this.req.body;
+      console.log(data);
       let addSubject = await new Model(Subject).store(data);
       if (addSubject != null) {
         this.res.send({ status: 1, message: "subject added successfully" });

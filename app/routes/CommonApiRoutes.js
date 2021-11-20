@@ -4,7 +4,7 @@ const StateController = require("../controllers/StateController");
 const ExamController = require("../controllers/ExamController");
 const LanguageController = require("../controllers/LanguageController");
 const PaperControlller = require("../controllers/PaperController");
-const PaperSubjectController = require("../controllers/PaperSubjectController");
+const SubjectController = require("../controllers/SubjectsController");
 const QuestionController = require("../controllers/QuestionController");
 const ResultController = require("../controllers/ResultController");
 const BannerController = require("../controllers/BannerController");
@@ -114,21 +114,21 @@ module.exports = (app, express) => {
     return paperObj.UpdatePaper();
   });
 
-  // paper subject routes
+  //  subject routes
 
   router.post("/add_subject", (req, res) => {
-    const subjectObj = new PaperSubjectController().boot(req, res);
-    return subjectObj.AddSub();
+    const subjectObj = new SubjectController().boot(req, res);
+    return subjectObj.AddSubject();
   });
 
   router.post("/get_subject", (req, res) => {
-    const subjectObj = new PaperSubjectController().boot(req, res);
-    return subjectObj.GetSub();
+    const subjectObj = new SubjectController().boot(req, res);
+    return subjectObj.GetSubject();
   });
 
   router.post("/update_subject", (req, res) => {
-    const subjectObj = new PaperSubjectController().boot(req, res);
-    return subjectObj.UpdateSub();
+    const subjectObj = new SubjectController().boot(req, res);
+    return subjectObj.UpdateSubject();
   });
 
   // question paper routes

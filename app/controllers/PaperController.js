@@ -3,6 +3,7 @@ const Paper = require("../models/PaperSchema").Paper;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const ObjectID = require("mongodb").ObjectId;
+const Agreegate = require("../models/Aggregations");
 
 class PaperControlller extends Controller {
   constructor() {
@@ -67,15 +68,17 @@ class PaperControlller extends Controller {
         }
         console.log(freePaper);
       } else {
-        let gPaper = await Paper.find({
+        const filter = {
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
-        });
-        if (gPaper != null) {
+        };
+        let paper = await new Agreegate(Paper).getPaper(filter);
+        console.log(paper);
+        if (paper != null) {
           this.res.send({
             status: 1,
-            message: "return all papers",
-            data: gPaper,
+            message: "all paper returned successfully",
+            data: paper,
           });
         }
       }

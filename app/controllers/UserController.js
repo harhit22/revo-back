@@ -83,7 +83,11 @@ class UserController extends Controller {
       let user = await new Agreegate(User).getLoginData(filter);
       console.log(user);
       if (user != null && user.length == 1) {
-        this.res.send({ status: 1, message: "user logged in successfully" });
+        this.res.send({
+          status: 1,
+          message: "user logged in successfully",
+          data: user,
+        });
       } else {
         this.res.send({
           status: 2,

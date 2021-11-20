@@ -440,6 +440,54 @@ class Agreegate {
     }
   }
 
+  getPaper(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "exams",
+                let: { examId: "$exam_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$examId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "Exam",
+              },
+            },
+            {
+              $unwind: {
+                path: "$Exam",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getPaper() in aggregation!!");
+    }
+  }
   getLoginData(filter) {
     try {
       return new Promise((resolve, reject) => {
