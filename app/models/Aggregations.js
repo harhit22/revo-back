@@ -391,6 +391,55 @@ class Agreegate {
     }
   }
 
+  getExam(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "exam_categories",
+                let: { catId: "$category_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$catId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "category_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$category_name",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getExam() in aggregation!!");
+    }
+  }
+
   getLoginData(filter) {
     try {
       return new Promise((resolve, reject) => {

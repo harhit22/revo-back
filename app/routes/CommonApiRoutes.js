@@ -165,9 +165,21 @@ module.exports = (app, express) => {
     return resultObj.UpdateResult();
   });
 
+  //banner routes
+
   router.post("/add_banner", (req, res) => {
     const bannerObj = new BannerController().boot(req, res);
     return bannerObj.AddBanner();
+  });
+
+  router.post("/get_banner", (req, res) => {
+    const bannerObj = new BannerController().boot(req, res);
+    return bannerObj.GetBanner();
+  });
+
+  router.post("/update_banner", (req, res) => {
+    const bannerObj = new BannerController().boot(req, res);
+    return bannerObj.UpdateBanner();
   });
 
   app.use(config.baseApiUrl, router);

@@ -38,22 +38,22 @@ class BannerController extends Controller {
   async GetBanner() {
     try {
       if (!this.req.body.banner_id) {
-        let allBanner = Banner.find({
+        let allBanner = await Banner.find({
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
         });
         if (allBanner != null) {
           this.res.send({
-            status: 0,
+            status: 1,
             message: "all banner retuned successfully",
             data: allBanner,
           });
         }
       } else {
-        let singleBanner = Banner.find({
+        let singleBanner = await Banner.find({
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
-          _id: ObjectID(this.req, body.banner_id),
+          _id: ObjectID(this.req.body.banner_id),
         });
         if (singleBanner != null) {
           this.res.send({
@@ -93,7 +93,7 @@ class BannerController extends Controller {
           dataForUpdate
         );
         if (updateData != null) {
-          this.res.send({ status: 0, message: "banner updated successfully" });
+          this.res.send({ status: 1, message: "banner updated successfully" });
         }
       } else {
         let deleteBanner = Banner.findByIdAndUpdate(

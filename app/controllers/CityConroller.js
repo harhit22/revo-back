@@ -53,7 +53,7 @@ class CityController extends Controller {
         }
       } else if (this.req.body.state_id) {
         let stateID = ObjectID(this.req.body.state_id);
-        let cities = await City.findOne({
+        let cities = await City.find({
           state_id: ObjectID(stateID),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
@@ -70,10 +70,10 @@ class CityController extends Controller {
         };
         let city = await new Agreegate(City).getCity(filter);
         console.log(city);
-        if (app != null) {
+        if (city != null) {
           this.res.send({
             status: 1,
-            message: "all app returned successfully",
+            message: "all city returned successfully",
             data: city,
           });
         }

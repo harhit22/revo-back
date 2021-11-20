@@ -3,6 +3,7 @@ const Model = require("../models/model");
 const Globals = require("../../configs/globals");
 const ObjectID = require("mongodb").ObjectId;
 const Controller = require("../controllers/Controller");
+const Agreegate = require("../models/Aggregations");
 
 class ExamController extends Controller {
   constructor() {
@@ -36,12 +37,18 @@ class ExamController extends Controller {
   async GetExam() {
     try {
       if (!this.req.body.category_id) {
-        let gExam = await Exam.find({
+        const filter = {
           is_delete: false,
           app_id: ObjectID(this.req.body.app_id),
-        });
-        if (gExam != null) {
-          this.res.send({ status: 1, message: "return all exams" });
+        };
+        let exam = await new Agreegate(Exam).getExam(filter);
+        console.log(exam);
+        if (exam != null) {
+          this.res.send({
+            status: 1,
+            message: "all exam returned successfully",
+            data: exam,
+          });
         }
       } else {
         let catID = ObjectID(this.req.body.category_id);
