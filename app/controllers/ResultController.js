@@ -4,6 +4,7 @@ const Globals = require("../../configs/globals");
 const ObjectID = require("mongodb").ObjectID;
 const Controller = require("../controllers/Controller");
 const percentile = require("percentile");
+const Agreegate = require("../models/Aggregations");
 class ResultController extends Controller {
   constructor() {
     super();
@@ -55,7 +56,6 @@ class ResultController extends Controller {
             message: "get result by paperid",
             data: getResult,
           });
-          //sss
         }
       } else if (this.req.body.user_id) {
         let userID = ObjectID(this.req.body.user_id);
@@ -71,12 +71,17 @@ class ResultController extends Controller {
           });
         }
       } else {
-        let allResults = await Result.find({ app_id: this.req.body.app_id });
-        if (allResults != null) {
+        const filter = {
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        };
+        let result = await new Agreegate(Result).getResult(filter);
+        console.log(result);
+        if (result != null) {
           this.res.send({
             status: 1,
-            message: "all results returned",
-            data: allResults,
+            message: "all result returned successfully",
+            data: result,
           });
         }
       }
@@ -104,7 +109,7 @@ class ResultController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let UpdateResult = await Result.findByIdAndUpdate(
-          this.req.body.result_id,
+          ObjectID(this.req.body.result_id),
           updateData
         );
         if (UpdateResult != null) {
@@ -114,12 +119,17 @@ class ResultController extends Controller {
           });
         }
       } else {
-        let delResult = await Result.findByIdAndUpdate(
-          this.req.body.result_id,
-          {
-            delete_status: true,
-          }
+        let deleteData = this.req.body;
+        let deleteResult = await Result.findByIdAndUpdate(
+          ObjectID(this.req.body.result_id),
+          deleteData
         );
+        if (deleteResult != null) {
+          this.res.send({
+            status: 1,
+            message: "result deleted successfully",
+          });
+        }
       }
     } catch (error) {
       let globalObj = new Globals();
@@ -127,6 +137,36 @@ class ResultController extends Controller {
         is_from: "API Error",
         api_name: "update result api",
         function_name: "UpdateResult()",
+        error_title: " error.name",
+        descriprion: " error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async GetResultCount() {
+    try {
+      let userID = ObjectID(this.req.body.user_id);
+      let appID = ObjectID(this.req.body.app_id);
+      if (this.req.body.user_id && this.req.body.app_id) {
+        let resultCount = Result.find({
+          user_id: userID,
+          app_id: appID,
+        }).count();
+        if (resultCount != null) {
+          this.res.send({
+            status: 1,
+            message: "result Count get successfully",
+            data: resultCount,
+          });
+        }
+      }
+    } catch (error) {
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: " result count api",
+        function_name: "GetResultCount()",
         error_title: " error.name",
         descriprion: " error.message",
       };

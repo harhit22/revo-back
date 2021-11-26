@@ -15,6 +15,11 @@ const lesson_schema =
       index: true,
     },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
+    delete_status: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "subject",
+      index: true,
+    },
   },
   {
     timestamps: true,

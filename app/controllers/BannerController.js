@@ -49,7 +49,8 @@ class BannerController extends Controller {
             data: allBanner,
           });
         }
-      } else {
+      }
+      if (this.req.body.banner_id) {
         let singleBanner = await Banner.find({
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
@@ -84,28 +85,29 @@ class BannerController extends Controller {
   async UpdateBanner() {
     try {
       if (!this.req.body.delete_status) {
-        let dataForUpdate = this.req.body;
-        let updateData = Banner.findByIdAndUpdate(
-          {
-            app_id: ObjectID(this.req.body.app_id),
-            _id: this.req.body.banner_id,
-          },
-          dataForUpdate
+        let updateData = this.req.body;
+        let update_banner = await Banner.findByIdAndUpdate(
+          ObjectID(this.req.body.banner_id),
+          updateData
         );
-        if (updateData != null) {
-          this.res.send({ status: 1, message: "banner updated successfully" });
+        if (update_banner != null) {
+          this.res.send({
+            status: 1,
+            message: "banner updated successfully",
+          });
         }
       } else {
-        let deleteBanner = Banner.findByIdAndUpdate(
-          {
-            app_id: ObjectID(this.req.body.app_id),
-            _id: ObjectID(this.req.body.banner_id),
-          },
-          { delete_status: true }
+        let dData = this.req.body;
+        let delBanner = await Banner.findByIdAndUpdate(
+          ObjectID(this.req.body.banner_id),
+          dData
         );
-
-        if (deleteBanner != null) {
-          this.res.send({ status: 1, message: "banner deleted successfully" });
+        console.log(delBanner);
+        if (delBanner != null) {
+          this.res.send({
+            status: 1,
+            message: "banner deleted successfully",
+          });
         }
       }
     } catch (error) {

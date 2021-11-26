@@ -562,6 +562,301 @@ class Agreegate {
     }
   }
 
+  getQuestion(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "subjects",
+                let: { subjectId: "$subject_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$subjectId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "subject_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$subject_name",
+              },
+            },
+            {
+              $lookup: {
+                from: "languages",
+                let: { langId: "$lang_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$langId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "language_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$language_name",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getQuestion() in aggregation!!");
+    }
+  }
+
+  getResult(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "users",
+                let: { userId: "$user_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$userId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "user_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$user_name",
+              },
+            },
+            {
+              $lookup: {
+                from: "paper",
+                let: { paperId: "$paper_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$paperId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "paper_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$paper_name",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getQuestion() in aggregation!!");
+    }
+  }
+
+  getSubCategory(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "product_categories",
+                let: { catId: "$cat_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$catId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "category_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$category_name",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getSubCategory() in aggregation!!");
+    }
+  }
+  getProduct(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "product_categories",
+                let: { catId: "$cat_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$catId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "category_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$category_name",
+              },
+            },
+            {
+              $lookup: {
+                from: "product_subcategories",
+                let: { subcatId: "$subcat_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$subcatId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "subcategory_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$subcategory_name",
+              },
+            },
+            {
+              $lookup: {
+                from: "publishers",
+                let: { publisherId: "$publisher_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$publisherId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "publisher_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$publisher_name",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getPublisher() in aggregation!!");
+    }
+  }
+
   //   GetQuestionByPaperId(filter) {
   //     return new promise((resolve, reject) => {
   //       this.collection.aggregate([

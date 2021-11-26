@@ -19,10 +19,15 @@ const product_schema = new schema(
     tax: { type: Number, default: "" },
     price_with_tax: { type: Number, default: "" },
     selling_price: { type: Number, default: "" },
-    image: { type: Number, default: "" },
+    image: { type: String, default: "" },
     stock: { type: Number, default: "" },
     description: { type: String, default: "" },
-    publisher_id: { type: mongoose.Schema.Types.ObjectId, ref: "publisher" },
+    publisher_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "publisher",
+      index: true,
+    },
+    delete_status: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {

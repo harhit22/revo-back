@@ -165,6 +165,11 @@ module.exports = (app, express) => {
     return resultObj.UpdateResult();
   });
 
+  router.post("/get_resultCount", (req, res) => {
+    const resultObj = new ResultController().boot(req, res);
+    return resultObj.GetResultCount();
+  });
+
   //banner routes
 
   router.post("/add_banner", (req, res) => {

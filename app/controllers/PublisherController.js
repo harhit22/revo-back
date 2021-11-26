@@ -2,6 +2,7 @@ const Publisher = require("../models/publisherSchema").Publisher;
 const Globals = require("../../configs/globals");
 const Controller = require("./Controller");
 const Model = require("../models/model");
+const ObjectID = require("mongodb").ObjectId;
 
 class PublisherController extends Controller {
   constructor() {
@@ -37,8 +38,8 @@ class PublisherController extends Controller {
     try {
       if (!this.req.body.publisher_id) {
         let getPublisher = await Publisher.find({
-          status: true,
-          app_id: this.req.body.app_id,
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (getPublisher != null) {
           this.res.send({
@@ -50,8 +51,8 @@ class PublisherController extends Controller {
       } else {
         let getSinglePublisher = await Publisher.findOne({
           _id: publisher_id,
-          status: true,
-          app_id: this.req.body.app_id,
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
         });
         if (getSinglePublisher != null) {
           this.res.send({
@@ -81,7 +82,7 @@ class PublisherController extends Controller {
 
   async UpdatePublisher() {
     try {
-      if (!this.req.body.status) {
+      if (!this.req.body.delete_status) {
         let upData = this.req.body;
         let updatePublisher = await Publisher.findByIdAndUpdate(
           this.req.body.publisher_id,

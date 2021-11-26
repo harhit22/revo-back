@@ -3,6 +3,7 @@ const Model = require("../models/model");
 const Product = require("../models/ProductSchema").Product;
 const Controller = require("./Controller");
 const ObjectID = require("mongodb").ObjectId;
+const Aggregate = require("../models/Aggregations");
 
 class ProductController extends Controller {
   constructor() {
@@ -34,7 +35,8 @@ class ProductController extends Controller {
       productData.selling_price = sp;
       productData.price_with_tax = with_tax;
 
-      let addProduct = new Model(Product).store(productData);
+      let addProduct = await new Model(Product).store(productData);
+      console.log(addProduct);
 
       if (addProduct != null) {
         this.res.send({ status: 1, message: "product added successfully" });
@@ -97,14 +99,17 @@ class ProductController extends Controller {
           });
         }
       } else {
-        let all_product = await Product.find({
+        const filter = {
+          delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
-        });
-        if (all_product != null) {
+        };
+        let prod = await new Aggregate(Product).getProduct(filter);
+        console.log(prod);
+        if (prod != null) {
           this.res.send({
             status: 1,
-            message: "all product return",
-            data: all_product,
+            message: "all product returned successfully",
+            data: prod,
           });
         }
       }

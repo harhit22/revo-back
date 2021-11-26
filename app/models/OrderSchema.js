@@ -18,13 +18,10 @@ var order = new schema(
       ref: "invoice",
       index: true,
     },
-
-    tracking_id: { type: String, default: "" },
     city: { type: String, default: "" },
     state: { type: String, default: "" },
     address: { type: String, default: "" },
     order_status: { type: String, default: "pending" },
-    status: { type: Boolean, default: true },
     is_delete: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },

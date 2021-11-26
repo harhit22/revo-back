@@ -85,21 +85,27 @@ class ExamController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_exam = await Exam.findByIdAndUpdate(
-          this.req.body.exam_id,
+          ObjectID(this.req.body.exam_id),
           updateData
         );
         if (update_exam != null) {
-          this.res.send({ status: 1, message: "exam updated successfully" });
+          this.res.send({
+            status: 1,
+            message: "exam updated successfully",
+          });
         }
       } else {
         let dData = this.req.body;
-        let deletexams = await Exam.findByIdAndUpdate(
-          this.req.body.exam_id,
+        let delExam = await Exam.findByIdAndUpdate(
+          ObjectID(this.req.body.exam_id),
           dData
         );
-        console.log(deletexams);
-        if (deletexams != null) {
-          this.res.send({ status: 1, message: "exam deleted successfully" });
+        console.log(delExam);
+        if (delExam != null) {
+          this.res.send({
+            status: 1,
+            message: "exam deleted successfully",
+          });
         }
       }
     } catch (error) {

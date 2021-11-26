@@ -3,6 +3,7 @@ const Model = require("../models/model");
 const Globals = require("../../configs/globals");
 const Question = require("../models/QuestionSchema").Question;
 const ObjectID = require("mongodb").ObjectID;
+const Agreegate = require("../models/Aggregations");
 
 class QuestionController extends Controller {
   constructor() {
@@ -93,12 +94,17 @@ class QuestionController extends Controller {
           });
         }
       } else {
-        let getAll = await Question.find({ app_id: this.req.body.app_id });
-        if (getAll != null) {
+        const filter = {
+          is_delete: false,
+          app_id: ObjectID(this.req.body.app_id),
+        };
+        let ques = await new Agreegate(Question).getQuestion(filter);
+        console.log(ques);
+        if (ques != null) {
           this.res.send({
             status: 1,
-            message: "all questions returned",
-            data: getAll,
+            message: "all questions returned successfully",
+            data: ques,
           });
         }
       }
@@ -125,9 +131,10 @@ class QuestionController extends Controller {
       if (!this.req.body.is_delete) {
         let updateData = this.req.body;
         let UpdateQues = await Question.findByIdAndUpdate(
-          this.req.body.question_id,
+          ObjectID(this.req.body.question_id),
           updateData
         );
+        console.log("updated ");
         if (UpdateQues != null) {
           this.res.send({
             status: 1,
@@ -135,12 +142,17 @@ class QuestionController extends Controller {
           });
         }
       } else {
-        let delQues = await Question.findByIdAndUpdate(
-          this.req.body.question_id,
-          {
-            is_delete: true,
-          }
+        let deleteData = this.req.body;
+        let deleteQues = await Question.findByIdAndUpdate(
+          ObjectID(this.req.body.question_id),
+          deleteData
         );
+        if (deleteQues != null) {
+          this.res.send({
+            status: 1,
+            message: "question deleted successfully",
+          });
+        }
       }
     } catch (error) {
       let globalObj = new Globals();

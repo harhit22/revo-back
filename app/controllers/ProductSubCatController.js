@@ -4,6 +4,7 @@ const Model = require("../models/model");
 const Globals = require("../../configs/globals");
 const ObjectID = require("mongodb").ObjectID;
 const Controller = require("../controllers/Controller");
+const Aggregate = require("../models/Aggregations");
 
 class SubCatController extends Controller {
   constructor() {
@@ -36,18 +37,32 @@ class SubCatController extends Controller {
   }
   async GetSubCat() {
     try {
-      if (!this.req.body.cat_id) {
-        let gsub = await productSubcategory.find({
+      if (!this.req.body.cat_id && !this.req.body.subcat_id) {
+        const filter = {
           is_delete: false,
-          app_id: this.req.body.app_id,
-        });
-        if (gsub != null) {
+          app_id: ObjectID(this.req.body.app_id),
+        };
+        let subs = await new Aggregate(productSubcategory).getSubCategory(
+          filter
+        );
+        console.log(subs);
+        if (subs != null) {
           this.res.send({
             status: 1,
-            message: "return all subcategory",
-            data: gsub,
+            message: "all subcategory returned successfully",
+            data: subs,
           });
         }
+      } else if (this.req.body.subcat_id) {
+        let getSubCatg = await productSubcategory.findOne({
+          _id: ObjectID(this.req.body.subcat_id),
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        this.res.send({
+          status: 1,
+          message: "single Sub category returned",
+          data: getSubCatg,
+        });
       } else {
         let catID = ObjectID(this.req.body.cat_id);
         let getsub = await productSubcategory.find({
@@ -84,7 +99,7 @@ class SubCatController extends Controller {
 
   async UpdateSubCat() {
     try {
-      if (!this.req.body.delete_status) {
+      if (!this.req.body.is_delete) {
         let updateData = this.req.body;
         let update_subcat = await productSubcategory.findByIdAndUpdate(
           this.req.body.subCat_id,
@@ -99,10 +114,10 @@ class SubCatController extends Controller {
       } else {
         let dData = this.req.body;
         let deletesubcat = await productSubcategory.findByIdAndUpdate(
-          this.req.body.subcat_id,
+          ObjectID(this.req.body.subcat_id),
           dData
         );
-        console.log(deletesubcat);
+
         if (deletesubcat != null) {
           this.res.send({
             status: 1,

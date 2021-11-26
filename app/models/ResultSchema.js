@@ -18,7 +18,7 @@ const result_schema = new schema(
     percentiles: { type: Number, default: "" },
     correct_answer: { type: Number, default: "" },
     incorrect_answer: { type: Number, default: "" },
-    delet_status: { type: Boolean, default: false },
+    delete_status: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {
