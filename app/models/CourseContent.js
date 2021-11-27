@@ -8,6 +8,7 @@ const content_schema = new schema(
     subject_id: { type: mongoose.Schema.Types.ObjectId, default: "" },
     lesson_id: { type: mongoose.Schema.Types.ObjectId, default: "" },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
+    delete_status: { type: Boolean, default: false },
   },
   {
     timestamps: true,

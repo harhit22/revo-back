@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
-const lesson_schema =
-  ({
+const lesson_schema = new schema(
+  {
     name: { type: String, default: "" },
     package_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -16,14 +16,14 @@ const lesson_schema =
     },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
     delete_status: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "subject",
-      index: true,
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
-  });
+  }
+);
 
 const Lesson = mongoose.model("lesson", lesson_schema);
 

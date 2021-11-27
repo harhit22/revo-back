@@ -8,6 +8,9 @@ const SubjectController = require("../controllers/SubjectsController");
 const QuestionController = require("../controllers/QuestionController");
 const ResultController = require("../controllers/ResultController");
 const BannerController = require("../controllers/BannerController");
+const LessonController = require("../controllers/LessonController");
+const CourseContentController = require("../controllers/CourseContentController");
+const HomeBannerController = require("../controllers/HomeBannerController");
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/globals");
@@ -185,6 +188,57 @@ module.exports = (app, express) => {
   router.post("/update_banner", (req, res) => {
     const bannerObj = new BannerController().boot(req, res);
     return bannerObj.UpdateBanner();
+  });
+
+  //Lesson routes
+
+  router.post("/add_lesson", (req, res) => {
+    const lessonObj = new LessonController().boot(req, res);
+    return lessonObj.AddLesson();
+  });
+
+  router.post("/get_lesson", (req, res) => {
+    const lessonObj = new LessonController().boot(req, res);
+    return lessonObj.GetLesson();
+  });
+
+  router.post("/update_lesson", (req, res) => {
+    const lessonObj = new LessonController().boot(req, res);
+    return lessonObj.UpdateLesson();
+  });
+
+  //courses
+
+  router.post("/add_courses", (req, res) => {
+    const coursesObj = new CourseContentController().boot(req, res);
+    return coursesObj.AddContent();
+  });
+
+  router.post("/get_courses", (req, res) => {
+    const coursesObj = new CourseContentController().boot(req, res);
+    return coursesObj.GetCourses();
+  });
+
+  router.post("/update_courses", (req, res) => {
+    const courseObj = new CourseContentController().boot(req, res);
+    return courseObj.UpdateContent();
+  });
+
+  // home Banner
+
+  router.post("/add_homeBanner", (req, res) => {
+    const homeBannerObj = new HomeBannerController().boot(req, res);
+    return homeBannerObj.AddHomeBanner();
+  });
+
+  router.post("/get_homeBanner", (req, res) => {
+    const homeBannerObj = new HomeBannerController().boot(req, res);
+    return homeBannerObj.GetHomeBanner();
+  });
+
+  router.post("/update_homeBanner", (req, res) => {
+    const homeBannerObj = new HomeBannerController().boot(req, res);
+    return homeBannerObj.UpdateHomeBanner();
   });
 
   app.use(config.baseApiUrl, router);
