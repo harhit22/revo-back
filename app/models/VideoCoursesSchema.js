@@ -16,6 +16,7 @@ const video_course = new schema(
       ref: "lesson",
       index: true,
     },
+    delete_status: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
   },
   {

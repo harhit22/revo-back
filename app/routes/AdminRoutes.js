@@ -1,8 +1,11 @@
+const PackageCategoryController = require("../controllers/PackageCategoryController");
+
 module.exports = (app, express) => {
   const router = express.Router();
   const AdminController = require("../controllers/AdminController");
   const SubAdminController = require("../controllers/SubAdminController");
   const AppController = require("../controllers/AppController");
+  const PackageController = require("../controllers/PackagesController");
 
   //   Admin routes
   router.post("/registerAdmin", (req, res) => {
@@ -80,6 +83,18 @@ module.exports = (app, express) => {
   router.post("/verifySubDomain", (req, res) => {
     const appObj = new AppController().boot(req, res);
     return appObj.VerifySubDomain();
+  });
+
+  // package
+
+  router.post("/add_package", (req, res) => {
+    const packageObj = new PackageController().boot(req, res);
+    return packageObj.AddPackage();
+  });
+
+  router.post("/get_package", (req, res) => {
+    const packageObj = new PackageController().boot(req, res);
+    return packageObj.GetPackage();
   });
 
   app.use(config.baseApiUrl, router);

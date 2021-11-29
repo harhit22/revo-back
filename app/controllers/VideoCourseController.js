@@ -1,5 +1,5 @@
 const Controller = require("./Controller");
-const ObjectId = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectId;
 const VideoCourses = require("../models/VideoCoursesSchema").VideoCourses;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
@@ -31,6 +31,56 @@ class VideoCoursesController extends Controller {
         is_from: "API Error",
         api_name: "add video course api",
         function_name: "AddVideoCourse()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async GetVideoCourse() {
+    try {
+      if (this.req.body.videoes_id) {
+        let videoID = ObjectID(this.req.body.videoes_id);
+        let GetVideoes = await VideoCourses.find({
+          videoes_id: ObjectID(videoID),
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        if (GetVideoes != null) {
+          this.res.send({
+            status: 1,
+            message: "return single video course",
+            data: GetVideoes,
+          });
+        }
+      } else {
+        const filter = {
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        };
+        let videoes = await new Agreegate(VideoCourses).getVideoCourses(filter);
+        console.log(videoes);
+        if (videoes != null) {
+          this.res.send({
+            status: 1,
+            message: "all videoes returned successfully",
+            data: videoes,
+          });
+        }
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message:
+          "some error occoured on server....please try again after some time",
+      });
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "get course api",
+        function_name: "GetCourses()",
         error_title: error.name,
         description: error.message,
       };

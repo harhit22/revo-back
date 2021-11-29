@@ -35,6 +35,85 @@ class PackageController extends Controller {
     }
   }
 
+  async GetPackage() {
+    try {
+      if (this.req.body.exam_id) {
+        let examID = ObjectID(this.req.body.exam_id);
+        let getPackage = await Package.find({
+          exam_id: ObjectID(examID),
+          delete_status: false,
+          is_free: false,
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        if (getPackage != null) {
+          this.res.send({
+            status: 1,
+            message: "return package by exam",
+            data: getPackage,
+          });
+        }
+      } else if (this.req.body.is_free) {
+        let freePackage = await Package.find({
+          is_free: true,
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        if (freePackage != null) {
+          this.res.send({
+            status: 1,
+            message: "return free packages",
+            data: freePackage,
+          });
+        }
+        console.log(freePackage);
+      } else if (this.req.body.packageCat_id) {
+        let packageCat = await Package.find({
+          package_category: ObjectID(this.req.body.packageCat_id),
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        if (packageCat != null) {
+          this.res.send({
+            status: 1,
+            message: "return package by category",
+            data: packageCat,
+          });
+        }
+      }
+      //  else {
+      //   const filter = {
+      //     delete_status: false,
+      //     app_id: ObjectID(this.req.body.app_id),
+      //   };
+      //   let paper = await new Agreegate(Paper).getPaper(filter);
+      //   console.log(paper);
+      //   if (paper != null) {
+      //     this.res.send({
+      //       status: 1,
+      //       message: "all paper returned successfully",
+      //       data: paper,
+      //     });
+      //   }
+      // }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message:
+          "some error occoured on server....please try again after some time",
+      });
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "get paper api",
+        function_name: "GetPaper()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
   async UpdatePackage() {
     try {
       if (!this.req.body.delete_status) {
