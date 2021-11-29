@@ -3,6 +3,7 @@ const ObjectID = require("mongodb").ObjectId;
 const Package = require("../models/PackagesSchema").Package;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
+const Agreegate = require("../models/Aggregations");
 
 class PackageController extends Controller {
   constructor() {
@@ -42,7 +43,6 @@ class PackageController extends Controller {
         let getPackage = await Package.find({
           exam_id: ObjectID(examID),
           delete_status: false,
-          is_free: false,
           app_id: ObjectID(this.req.body.app_id),
         });
         if (getPackage != null) {
@@ -79,22 +79,21 @@ class PackageController extends Controller {
             data: packageCat,
           });
         }
+      } else {
+        const filter = {
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        };
+        let gpackage = await new Agreegate(Package).getPackage(filter);
+        console.log(gpackage);
+        if (gpackage != null) {
+          this.res.send({
+            status: 1,
+            message: "all packages returned successfully",
+            data: gpackage,
+          });
+        }
       }
-      //  else {
-      //   const filter = {
-      //     delete_status: false,
-      //     app_id: ObjectID(this.req.body.app_id),
-      //   };
-      //   let paper = await new Agreegate(Paper).getPaper(filter);
-      //   console.log(paper);
-      //   if (paper != null) {
-      //     this.res.send({
-      //       status: 1,
-      //       message: "all paper returned successfully",
-      //       data: paper,
-      //     });
-      //   }
-      // }
     } catch (error) {
       this.res.send({
         status: 0,
@@ -105,8 +104,8 @@ class PackageController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "get paper api",
-        function_name: "GetPaper()",
+        api_name: "get package api",
+        function_name: "GetPackage()",
         error_title: error.name,
         description: error.message,
       };

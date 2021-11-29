@@ -685,6 +685,80 @@ class Agreegate {
     }
   }
 
+  getPackage(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "package_categories",
+                let: { packageId: "$package_category" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$packageId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "package_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$package_name",
+              },
+            },
+            // {
+            //   $lookup: {
+            //     from: "exams",
+            //     let: { examId: "$exam_id" },
+            //     pipeline: [
+            //       {
+            //         $match: {
+            //           $expr: {
+            //             $and: [
+            //               {
+            //                 $eq: ["$_id", "$$examId"],
+            //               },
+            //             ],
+            //           },
+            //         },
+            //       },
+            //     ],
+            //     as: "exam_name",
+            //   },
+            // },
+            // {
+            //   $unwind: {
+            //     path: "$exam_name",
+            //   },
+            // },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getLesson() in aggregation!!");
+    }
+  }
+
   getVideoCourses(filter) {
     try {
       return new Promise((resolve, reject) => {
