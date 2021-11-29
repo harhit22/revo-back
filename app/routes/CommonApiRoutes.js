@@ -11,6 +11,7 @@ const BannerController = require("../controllers/BannerController");
 const LessonController = require("../controllers/LessonController");
 const CourseContentController = require("../controllers/CourseContentController");
 const HomeBannerController = require("../controllers/HomeBannerController");
+const PackageCategoryController = require("../controllers/PackageCategoryController");
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/globals");
@@ -239,6 +240,23 @@ module.exports = (app, express) => {
   router.post("/update_homeBanner", (req, res) => {
     const homeBannerObj = new HomeBannerController().boot(req, res);
     return homeBannerObj.UpdateHomeBanner();
+  });
+
+  // package category
+
+  router.post("/add_packagecat", (req, res) => {
+    const packageCatObj = new PackageCategoryController().boot(req, res);
+    return packageCatObj.AddPackageCat();
+  });
+
+  router.post("/get_packagecat", (req, res) => {
+    const packageCatObj = new PackageCategoryController().boot(req, res);
+    return packageCatObj.GetPackageCat();
+  });
+
+  router.post("/update_packagecat", (req, res) => {
+    const packageCatObj = new PackageCategoryController().boot(req, res);
+    return packageCatObj.UpdatePackageCat();
   });
 
   app.use(config.baseApiUrl, router);
