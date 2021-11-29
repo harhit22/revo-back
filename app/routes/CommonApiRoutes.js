@@ -12,6 +12,8 @@ const LessonController = require("../controllers/LessonController");
 const CourseContentController = require("../controllers/CourseContentController");
 const HomeBannerController = require("../controllers/HomeBannerController");
 const PackageCategoryController = require("../controllers/PackageCategoryController");
+const VideoCoursesController = require("../controllers/VideoCourseController");
+const CoursesRecommedationController = require("../controllers/CoursesRecommedationController");
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/globals");
@@ -257,6 +259,30 @@ module.exports = (app, express) => {
   router.post("/update_packagecat", (req, res) => {
     const packageCatObj = new PackageCategoryController().boot(req, res);
     return packageCatObj.UpdatePackageCat();
+  });
+
+  // video courses
+
+  router.post("/add_videoes", (req, res) => {
+    const videoObj = new VideoCoursesController().boot(req, res);
+    return videoObj.AddVideoCourse();
+  });
+
+  // router.post("/get_videoes", (req, res) => {
+  //   const videoObj = new VideoCoursesController().boot(req, res);
+  //   return videoObj. ();
+  // });
+
+  router.post("/update_packagecat", (req, res) => {
+    const packageCatObj = new PackageCategoryController().boot(req, res);
+    return packageCatObj.UpdatePackageCat();
+  });
+
+  // recommmedation
+
+  router.post("/get_recommededCourses", (req, res) => {
+    const recObj = new CoursesRecommedationController().boot(req, res);
+    return recObj.GetCoursesRecommedation();
   });
 
   app.use(config.baseApiUrl, router);
