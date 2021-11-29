@@ -9,6 +9,7 @@ const package_schema = new schema(
     demo_video_url: { type: String, default: "" },
     short_description: { type: String, default: "" },
     long_description: { type: String, default: "" },
+    image_url: { type: String, default: "" },
     package_category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "package_category",
@@ -17,6 +18,8 @@ const package_schema = new schema(
     has_testSeries: { type: Boolean, default: false },
     exam_id: { type: mongoose.Schema.Types.ObjectId, ref: "exam", index: true },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
+    is_free: { type: Boolean, default: false },
+    delete_status: { type: Boolean, default: false },
   },
   {
     timestamps: true,
