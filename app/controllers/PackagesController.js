@@ -4,6 +4,8 @@ const Package = require("../models/PackagesSchema").Package;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Agreegate = require("../models/Aggregations");
+const Lesson = require("../models/LessonSchema").Lesson;
+const Review = require("../models/ReviewSchema").Review;
 
 class PackageController extends Controller {
   constructor() {
@@ -80,11 +82,34 @@ class PackageController extends Controller {
           });
         }
       } else if (this.req.body.package_id) {
+        let lessonCount = await Lesson.find({
+          package_id: ObjectID(this.req.body.package_id),
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        }).count();
+
+        let newArr = [];
+        let all_ratings = await Review.find(
+          {
+            package_id: ObjectID(this.req.body.package_id),
+            delete_status: false,
+            app_id: ObjectID(this.req.body.app_id),
+          },
+          { rating: 1, _id: 0 }
+        );
+        let all_review = all_ratings.length();
+        all_ratings.forEach((element) => newArr.push(element.rating));
+        let sum_rating = newArr.reduce((a, b) => a + b, 0);
+        let average_rating = (sum_rating / all_review).toFixed(1);
+
         let packageid = await Package.find({
           _id: ObjectID(this.req.body.package_id),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
-        });
+        }).lean();
+        packageid["total_lessons"] = lessonCount;
+        packageid["average_rating"] = average_rating;
+        packageid["total_reviews"] = all_review;
         if (packageid != null) {
           this.res.send({
             status: 1,
