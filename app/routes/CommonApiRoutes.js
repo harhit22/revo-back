@@ -268,14 +268,14 @@ module.exports = (app, express) => {
     return videoObj.AddVideoCourse();
   });
 
-  // router.post("/get_videoes", (req, res) => {
-  //   const videoObj = new VideoCoursesController().boot(req, res);
-  //   return videoObj. ();
-  // });
+  router.post("/get_videoes", (req, res) => {
+    const videoObj = new VideoCoursesController().boot(req, res);
+    return videoObj.GetVideoCourse();
+  });
 
-  router.post("/update_packagecat", (req, res) => {
-    const packageCatObj = new PackageCategoryController().boot(req, res);
-    return packageCatObj.UpdatePackageCat();
+  router.post("/update_videoes", (req, res) => {
+    const videoObj = new VideoCoursesController().boot(req, res);
+    return videoObj.UpdateVideoCourse();
   });
 
   // recommmedation

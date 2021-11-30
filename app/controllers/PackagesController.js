@@ -79,6 +79,19 @@ class PackageController extends Controller {
             data: packageCat,
           });
         }
+      } else if (this.req.body.package_id) {
+        let packageid = await Package.find({
+          _id: ObjectID(this.req.body.package_id),
+          delete_status: false,
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        if (packageid != null) {
+          this.res.send({
+            status: 1,
+            message: "single package return",
+            data: packageid,
+          });
+        }
       } else {
         const filter = {
           delete_status: false,

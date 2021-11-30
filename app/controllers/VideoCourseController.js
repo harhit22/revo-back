@@ -3,6 +3,7 @@ const ObjectID = require("mongodb").ObjectId;
 const VideoCourses = require("../models/VideoCoursesSchema").VideoCourses;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
+const Agreegate = require("../models/Aggregations");
 
 class VideoCoursesController extends Controller {
   constructor() {
@@ -93,7 +94,7 @@ class VideoCoursesController extends Controller {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
         let update_video = await VideoCourses.findByIdAndUpdate(
-          this.req.body.videoCourse_id,
+          ObjectID(this.req.body.videoCourse_id),
           updateData
         );
         if (update_video != null) {
@@ -105,7 +106,7 @@ class VideoCoursesController extends Controller {
       } else {
         let dData = this.req.body;
         let deleteVideo = await VideoCourses.findByIdAndUpdate(
-          this.req.body.videoCourse_id,
+          ObjectID(this.req.body.videoCourse_id),
           dData
         );
         console.log(deleteVideo);
