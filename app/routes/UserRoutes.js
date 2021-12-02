@@ -12,8 +12,13 @@ module.exports = (app, express) => {
   });
 
   router.post("/login", (req, res) => {
-    const userObj = new UserController().boot(req, res); 
+    const userObj = new UserController().boot(req, res);
     return userObj.LoginUser();
+  });
+
+  router.post("/update_profile", (req, res) => {
+    const userObj = new UserController().boot(req, res);
+    return userObj.UpdateProfileUser();
   });
 
   app.use(config.baseApiUrl, router);

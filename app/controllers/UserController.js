@@ -113,6 +113,40 @@ class UserController extends Controller {
       globalObj.addErrorLogInDB(dataErrorObj);
     }
   }
+
+  async UpdateProfileUser() {
+    try {
+      let newData = this.req.body;
+      let userId = this.req.body.user_id;
+
+      let updateUser = await User.findByIdAndUpdate(userId, newData);
+      if (updateUser != null) {
+        this.res.send({ status: 1, message: "profile updated!!" });
+      } else {
+        this.res.send({
+          status: 0,
+          message:
+            "Some error occoured on server. Please try again after some time",
+        });
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message:
+          "Some error occoured on server. Please try again after some time",
+      });
+
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "User routes Api",
+        function_name: "UpdateProfileUser()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
 }
 function validateUserInfo(data) {
   let validation = {
