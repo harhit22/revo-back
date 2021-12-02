@@ -97,19 +97,23 @@ class PackageController extends Controller {
           },
           { rating: 1, _id: 0 }
         );
-        let all_review = all_ratings.length();
+        let all_review = all_ratings.length;
         all_ratings.forEach((element) => newArr.push(element.rating));
         let sum_rating = newArr.reduce((a, b) => a + b, 0);
+        console.log("sum rating ", sum_rating);
         let average_rating = (sum_rating / all_review).toFixed(1);
 
-        let packageid = await Package.find({
+        let packageid = await Package.findOne({
           _id: ObjectID(this.req.body.package_id),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
         }).lean();
         packageid["total_lessons"] = lessonCount;
-        packageid["average_rating"] = average_rating;
+        packageid["average_rating"] = parseInt(average_rating)
+          ? parseInt(average_rating)
+          : 0;
         packageid["total_reviews"] = all_review;
+        // console.log("package by id ", packageid);
         if (packageid != null) {
           this.res.send({
             status: 1,
