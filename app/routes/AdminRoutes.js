@@ -97,5 +97,10 @@ module.exports = (app, express) => {
     return packageObj.GetPackage();
   });
 
+  router.post("/add_ps", (req, res) => {
+    const packageObj = new PackageController().boot(req, res);
+    return packageObj.AddSubjectPackage();
+  });
+
   app.use(config.baseApiUrl, router);
 };

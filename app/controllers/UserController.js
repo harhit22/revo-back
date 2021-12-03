@@ -118,10 +118,22 @@ class UserController extends Controller {
     try {
       let newData = this.req.body;
       let userId = this.req.body.user_id;
+      let mob = this.req.body.mobile;
+
+      let filter = {
+        mobile: mob,
+        app_id: ObjectID(this.req.body.app_id),
+        delete_status: false,
+      };
 
       let updateUser = await User.findByIdAndUpdate(userId, newData);
+      let userData = await new Agreegate(User).getLoginData(filter);
       if (updateUser != null) {
-        this.res.send({ status: 1, message: "profile updated!!" });
+        this.res.send({
+          status: 1,
+          message: "profile updated!!",
+          data: userData,
+        });
       } else {
         this.res.send({
           status: 0,

@@ -6,6 +6,7 @@ const Model = require("../models/model");
 const Agreegate = require("../models/Aggregations");
 const Lesson = require("../models/LessonSchema").Lesson;
 const Review = require("../models/ReviewSchema").Review;
+const PackSub = require("../models/PackageSubjectSchema").PackSub;
 
 class PackageController extends Controller {
   constructor() {
@@ -193,6 +194,18 @@ class PackageController extends Controller {
         descriprion: " error.message",
       };
       globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async AddSubjectPackage() {
+    try {
+      let addData = this.req.body;
+      let packageData = await new Model(PackSub).store(addData);
+      if (packageData != null) {
+        this.res.send({ status: 1, message: "data added successfully" });
+      }
+    } catch (error) {
+      this.res.send({ status: 1, message: "some error occured" });
     }
   }
 }
