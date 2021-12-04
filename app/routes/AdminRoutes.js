@@ -102,5 +102,10 @@ module.exports = (app, express) => {
     return packageObj.AddSubjectPackage();
   });
 
+  router.post("/get_package_structure", (req, res) => {
+    const packageObj = new PackageController().boot(req, res);
+    return packageObj.GetPackageStructure();
+  });
+
   app.use(config.baseApiUrl, router);
 };

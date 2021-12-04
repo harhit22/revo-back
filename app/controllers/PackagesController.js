@@ -208,6 +208,33 @@ class PackageController extends Controller {
       this.res.send({ status: 1, message: "some error occured" });
     }
   }
+
+  async GetPackageStructure() {
+    try {
+      let filter = {
+        package_id: ObjectID(this.body.req.package_id),
+        app_id: ObjectID(this.body.req.app_id),
+      };
+      let packageData = await new Agreegate(PackSub).getSubjectPackage(filter);
+      if (packageData != null) {
+        this.res.send({
+          status: 1,
+          message: "package with all data returned successfully",
+          data: packageData,
+        });
+      }
+    } catch (error) {
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "update package api",
+        function_name: "GetPackageStructure()",
+        error_title: " error.name",
+        descriprion: " error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
 }
 
 module.exports = PackageController;
