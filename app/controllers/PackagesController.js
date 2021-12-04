@@ -212,8 +212,8 @@ class PackageController extends Controller {
   async GetPackageStructure() {
     try {
       let filter = {
-        package_id: ObjectID(this.body.req.package_id),
-        app_id: ObjectID(this.body.req.app_id),
+        package_id: ObjectID(this.req.body.package_id),
+        app_id: ObjectID(this.req.body.app_id),
       };
       let packageData = await new Agreegate(PackSub).getSubjectPackage(filter);
       if (packageData != null) {
@@ -224,6 +224,7 @@ class PackageController extends Controller {
         });
       }
     } catch (error) {
+      console.log(error);
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
