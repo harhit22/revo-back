@@ -42,8 +42,8 @@ class CourseContentController extends Controller {
     try {
       if (this.req.body.courses_id) {
         let coursesID = ObjectID(this.req.body.courses_id);
-        let GetCourses = await Content.find({
-          courses_id: ObjectID(lessonID),
+        let GetCourses = await Content.findOne({
+          _id: ObjectID(coursesID),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
         });

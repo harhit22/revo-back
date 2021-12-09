@@ -63,7 +63,7 @@ class ProductController extends Controller {
   async GetProduct() {
     try {
       if (this.req.body.product_id) {
-        let single_product = await Product.find({
+        let single_product = await Product.findOne({
           _id: ObjectID(this.req.body.product_id),
           app_id: ObjectID(this.req.body.app_id),
         });

@@ -50,7 +50,7 @@ class PublisherController extends Controller {
         }
       } else {
         let getSinglePublisher = await Publisher.findOne({
-          _id: publisher_id,
+          _id: ObjectID(this.req.body.publisher_id),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
         });

@@ -36,7 +36,7 @@ class ExamController extends Controller {
   }
   async GetExam() {
     try {
-      if (!this.req.body.category_id) {
+      if (!this.req.body.category_id && !this.req.body.exam_id) {
         const filter = {
           is_delete: false,
           app_id: ObjectID(this.req.body.app_id),
@@ -48,6 +48,21 @@ class ExamController extends Controller {
             status: 1,
             message: "all exam returned successfully",
             data: exam,
+          });
+        }
+      } else if (this.req.body.exam_id) {
+        let examID = ObjectID(this.req.body.exam_id);
+        let getExam = await Exam.findOne({
+          _id: ObjectID(examID),
+          is_delete: false,
+          app_id: ObjectID(this.req.body.app_id),
+        });
+        console.log("this is", getExam);
+        if (getExam != null) {
+          this.res.send({
+            status: 1,
+            message: "return single exam",
+            data: getExam,
           });
         }
       } else {

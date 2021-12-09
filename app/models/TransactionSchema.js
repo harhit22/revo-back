@@ -1,45 +1,48 @@
-var mongoose = require("mongoose");
-var schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const schema = mongoose.Schema;
 
-var transaction = new schema(
+const transaction = new schema(
   {
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       index: true,
     },
-    order_id: {
+    app_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "order",
+      ref: "app",
       index: true,
     },
-    transaction_status: { type: String, default: "" },
-    transaction_array: { type: String, default: "" },
-    payment_method: { type: String, default: "" },
-    card_number: { type: String, default: "" },
-    card_type: { type: String, default: "" },
-    invoice_id: { type: Number, default: "" },
-    actual_amount: { type: Number, default: "" },
-    discount: { type: Number, default: "" },
-    final_amount: { type: Number, default: "" },
+    package_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "package",
+      index: true,
+    },
+    exam_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "exam",
+      index: true,
+    },
+    promocode_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "promocode",
+      index: true,
+    },
+    promo_discount: { type: Number, default: 0 },
     wallet_used: { type: Number, default: 0 },
-    currency: { type: String, default: "" },
-    localization: { type: String, default: "" },
-    device_type: { type: String, default: "" },
-    os_type: { type: String, default: "" },
-    location: { type: String, default: "" },
-    time: { type: String, default: "" },
-    status: { type: Boolean, default: true },
-    is_delete: { type: Boolean, default: false },
-    is_save_card: { type: Boolean, default: false },
-    app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
+    transaction_type: { type: String, default: "" },
+    transaction_mode: { type: String, default: "" },
+    transaction_status: { type: Boolean, default: false },
+    actual_amount: { type: Number, default: 0 },
+    discount: { type: Number, default: 0 },
+    final_amount: { type: Number, default: 0 },
   },
   {
     timestamps: true,
   }
 );
 
-var Transactions = mongoose.model("Transaction", transaction);
+const Transactions = mongoose.model("Transaction", transaction);
 
 module.exports = {
   Transactions,

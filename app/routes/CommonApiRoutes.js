@@ -14,6 +14,7 @@ const HomeBannerController = require("../controllers/HomeBannerController");
 const PackageCategoryController = require("../controllers/PackageCategoryController");
 const VideoCoursesController = require("../controllers/VideoCourseController");
 const CoursesRecommedationController = require("../controllers/CoursesRecommedationController");
+
 module.exports = (app, express) => {
   const router = express.Router();
   const Globals = require("../../configs/globals");

@@ -6,6 +6,7 @@ module.exports = (app, express) => {
   const SubAdminController = require("../controllers/SubAdminController");
   const AppController = require("../controllers/AppController");
   const PackageController = require("../controllers/PackagesController");
+  const TransactionController = require("../controllers/TransactionController");
 
   //   Admin routes
   router.post("/registerAdmin", (req, res) => {
@@ -105,6 +106,11 @@ module.exports = (app, express) => {
   router.post("/get_package_structure", (req, res) => {
     const packageObj = new PackageController().boot(req, res);
     return packageObj.GetPackageStructure();
+  });
+
+  router.post("/make_transaction", (req, res) => {
+    const transactionObj = new TransactionController().boot(req, res);
+    return transactionObj.MakeTranscation();
   });
 
   app.use(config.baseApiUrl, router);

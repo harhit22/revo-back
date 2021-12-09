@@ -38,7 +38,7 @@ class SubjectController extends Controller {
 
   async GetSubject() {
     try {
-      if (!this.req.subject_id) {
+      if (!this.req.body.subject_id) {
         let sub = await Subject.find({
           delete_status: false,
           app_id: this.req.body.app_id,
@@ -56,15 +56,17 @@ class SubjectController extends Controller {
           delete_status: false,
           app_id: this.req.body.app_id,
         });
+        console.log(allSub);
         if (allSub != null) {
           this.res.send({
             status: 1,
             message: "single subject returned",
-            data: stat,
+            data: allSub,
           });
         }
       }
     } catch (error) {
+      console.log(error);
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",

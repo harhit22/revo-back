@@ -54,10 +54,12 @@ class SubCatController extends Controller {
           });
         }
       } else if (this.req.body.subcat_id) {
+        console.log("hello subcat");
         let getSubCatg = await productSubcategory.findOne({
           _id: ObjectID(this.req.body.subcat_id),
           app_id: ObjectID(this.req.body.app_id),
         });
+        console.log("thisis subcat", getSubCatg);
         this.res.send({
           status: 1,
           message: "single Sub category returned",

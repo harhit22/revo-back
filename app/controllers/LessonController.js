@@ -40,8 +40,8 @@ class LessonController extends Controller {
     try {
       if (this.req.body.lesson_id) {
         let lessonID = ObjectID(this.req.body.lesson_id);
-        let GetLesson = await Lesson.find({
-          lesson_id: ObjectID(lessonID),
+        let GetLesson = await Lesson.findOne({
+          _id: ObjectID(lessonID),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
         });

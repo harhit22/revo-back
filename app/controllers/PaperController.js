@@ -53,6 +53,19 @@ class PaperControlller extends Controller {
             data: GetPaper,
           });
         }
+      } else if (this.req.body.paper_id) {
+        let singlePaper = await Paper.findOne({
+          delete_status: false,
+          _id: ObjectID(this.req.body.paper_id),
+        });
+        console.log("singe paper", singlePaper);
+        if (singlePaper != null) {
+          this.res.send({
+            status: 1,
+            message: "return single paper",
+            data: singlePaper,
+          });
+        }
       } else if (this.req.body.is_free) {
         let freePaper = await Paper.find({
           is_free: true,

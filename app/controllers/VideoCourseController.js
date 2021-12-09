@@ -43,8 +43,8 @@ class VideoCoursesController extends Controller {
     try {
       if (this.req.body.videoes_id) {
         let videoID = ObjectID(this.req.body.videoes_id);
-        let GetVideoes = await VideoCourses.find({
-          videoes_id: ObjectID(videoID),
+        let GetVideoes = await VideoCourses.findOne({
+          _id: ObjectID(videoID),
           delete_status: false,
           app_id: ObjectID(this.req.body.app_id),
         });
