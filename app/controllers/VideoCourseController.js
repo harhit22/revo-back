@@ -4,6 +4,7 @@ const VideoCourses = require("../models/VideoCoursesSchema").VideoCourses;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Agreegate = require("../models/Aggregations");
+const Transaction = require("../models/TransactionSchema").Transactions;
 
 class VideoCoursesController extends Controller {
   constructor() {
@@ -123,6 +124,36 @@ class VideoCoursesController extends Controller {
         is_from: "API Error",
         api_name: "update video course api",
         function_name: "UpdateVideoCourse()",
+        error_title: " error.name",
+        descriprion: " error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async GetMyCourses() {
+    try {
+      let filter = {
+        user_id: ObjectID(this.req.body.user_id),
+        app_id: ObjectID(this.req.body.app_id),
+        transaction_type: "video",
+      };
+      let gpackage = await new Agreegate(Transaction).getMycourse(filter);
+      console.log(gpackage);
+      if (gpackage != null) {
+        this.res.send({
+          status: 1,
+          message: "course return successfully successfully",
+          data: gpackage,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "get my course api",
+        function_name: "GetMyCourse()",
         error_title: " error.name",
         descriprion: " error.message",
       };

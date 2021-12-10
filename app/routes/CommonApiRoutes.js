@@ -279,6 +279,11 @@ module.exports = (app, express) => {
     return videoObj.UpdateVideoCourse();
   });
 
+  router.post("/get_my_courses", (req, res) => {
+    const videoObj = new VideoCoursesController().boot(req, res);
+    return videoObj.GetMyCourses();
+  });
+
   // recommmedation
 
   router.post("/get_recommededCourses", (req, res) => {

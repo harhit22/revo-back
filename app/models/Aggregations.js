@@ -759,6 +759,55 @@ class Agreegate {
     }
   }
 
+  getMycourse(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "packages",
+                let: { packageId: "$package_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$packageId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "package_name",
+              },
+            },
+            {
+              $unwind: {
+                path: "$package_name",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getLesson() in aggregation!!");
+    }
+  }
+
   getVideoCourses(filter) {
     try {
       return new Promise((resolve, reject) => {
