@@ -784,12 +784,12 @@ class Agreegate {
                     },
                   },
                 ],
-                as: "package_name",
+                as: "package_data",
               },
             },
             {
               $unwind: {
-                path: "$package_name",
+                path: "$package_data",
               },
             },
           ],
