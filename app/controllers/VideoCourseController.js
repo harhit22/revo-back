@@ -145,32 +145,40 @@ class VideoCoursesController extends Controller {
 
       let gpackage = await new Agreegate(Transaction).getMycourse(filter);
       if (gpackage != null) {
-        gpackage.forEach(async (element, index) => {
-          let totalVideos = await VideoCourses.find({
-            package_id: element.package_data._id,
-          }).count();
+        if (gpackage.length != 0) {
+          gpackage.forEach(async (element, index) => {
+            let totalVideos = await VideoCourses.find({
+              package_id: element.package_data._id,
+            }).count();
 
-          let totalProgressVideoCount = await PackageProgress.find({
-            user_id: this.req.body.user_id,
-            app_id: this.req.body.app_id,
-            package_id: element.package_data._id,
-          }).count();
+            let totalProgressVideoCount = await PackageProgress.find({
+              user_id: this.req.body.user_id,
+              app_id: this.req.body.app_id,
+              package_id: element.package_data._id,
+            }).count();
 
-          console.log("total videos ", totalVideos);
-          console.log("total progress videos ", totalProgressVideoCount);
+            console.log("total videos ", totalVideos);
+            console.log("total progress videos ", totalProgressVideoCount);
 
-          let percentage =
-            (parseInt(totalProgressVideoCount) * 100) / totalVideos;
-          element.package_data["progress_percentage"] = percentage;
+            let percentage =
+              (parseInt(totalProgressVideoCount) * 100) / totalVideos;
+            element.package_data["progress_percentage"] = percentage;
 
-          if (index == gpackage.length - 1) {
-            this.res.send({
-              status: 1,
-              message: "course return successfully successfully",
-              data: gpackage,
-            });
-          }
-        });
+            if (index == gpackage.length - 1) {
+              this.res.send({
+                status: 1,
+                message: "course return successfully successfully",
+                data: gpackage,
+              });
+            }
+          });
+        } else {
+          this.res.send({
+            status: 1,
+            message: "no courses found",
+            data: [],
+          });
+        }
       }
     } catch (error) {
       console.log(error);
