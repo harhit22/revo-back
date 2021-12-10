@@ -50,6 +50,7 @@ class ByIdController extends Controller {
     try {
       let filter = {
         subject_id: ObjectID(this.req.body.subject_id),
+        package_id: ObjectID(this.req.body.package_id),
         app_id: ObjectID(this.req.body.app_id),
       };
       let subjectData = await Lesson.find(filter);
@@ -83,6 +84,7 @@ class ByIdController extends Controller {
     try {
       let filter = {
         lesson_id: ObjectID(this.req.body.lesson_id),
+        package_id: ObjectID(this.req.body.package_id),
         app_id: ObjectID(this.req.body.app_id),
       };
       let lessonData = await VideoCourses.find(filter);

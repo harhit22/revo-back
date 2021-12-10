@@ -1189,7 +1189,17 @@ class Agreegate {
                 from: "subjects",
                 let: { subID: "$subject_id" },
                 pipeline: [
-                  { $match: { $expr: { $eq: ["$_id", "$$subID"] } } },
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          { $eq: ["$_id", "$$subID"] },
+                          { $eq: ["$delete_status", false] },
+                        ],
+                      },
+                    },
+                  },
+                  // { $match: { $expr: { $eq: ["$_id", "$$subID"] }, } },
                   {
                     $lookup: {
                       from: "lessons",
@@ -1197,9 +1207,19 @@ class Agreegate {
                       pipeline: [
                         {
                           $match: {
-                            $expr: { $eq: ["$subject_id", "$$subID"] },
+                            $expr: {
+                              $and: [
+                                { $eq: ["$subject_id", "$$subID"] },
+                                { $eq: ["$delete_status", false] },
+                              ],
+                            },
                           },
                         },
+                        // {
+                        //   $match: {
+                        //     $expr: { $eq: ["$subject_id", "$$subID"] },
+                        //   },
+                        // },
                         {
                           $lookup: {
                             from: "videocourses",
@@ -1207,9 +1227,19 @@ class Agreegate {
                             pipeline: [
                               {
                                 $match: {
-                                  $expr: { $eq: ["$lesson_id", "$$lesID"] },
+                                  $expr: {
+                                    $and: [
+                                      { $eq: ["$lesson_id", "$$lesID"] },
+                                      { $eq: ["$delete_status", false] },
+                                    ],
+                                  },
                                 },
                               },
+                              // {
+                              //   $match: {
+                              //     $expr: { $eq: ["$lesson_id", "$$lesID"] },
+                              //   },
+                              // },
                             ],
                             as: "video_data",
                           },
