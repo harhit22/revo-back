@@ -32,7 +32,7 @@ const transaction = new schema(
     wallet_used: { type: Number, default: 0 },
     transaction_type: { type: String, default: "" },
     transaction_mode: { type: String, default: "" },
-    transaction_status: { type: Boolean, default: false },
+    transaction_status: { type: String, default: "" },
     actual_amount: { type: Number, default: 0 },
     discount: { type: Number, default: 0 },
     final_amount: { type: Number, default: 0 },
