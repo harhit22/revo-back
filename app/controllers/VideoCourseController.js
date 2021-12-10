@@ -5,6 +5,7 @@ const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Agreegate = require("../models/Aggregations");
 const Transaction = require("../models/TransactionSchema").Transactions;
+const PackageProgress = require("../models/PackageProgressSchema").Progress;
 
 class VideoCoursesController extends Controller {
   constructor() {
@@ -138,13 +139,37 @@ class VideoCoursesController extends Controller {
         app_id: ObjectID(this.req.body.app_id),
         transaction_type: "video",
       };
+      // let progress = await VideoCourses.find({
+      //   package_id: this.req.body.package_id,
+      // }).count();
+
       let gpackage = await new Agreegate(Transaction).getMycourse(filter);
-      console.log(gpackage);
       if (gpackage != null) {
-        this.res.send({
-          status: 1,
-          message: "course return successfully successfully",
-          data: gpackage,
+        gpackage.forEach(async (element, index) => {
+          let totalVideos = await VideoCourses.find({
+            package_id: element.package_data._id,
+          }).count();
+
+          let totalProgressVideoCount = await PackageProgress.find({
+            user_id: this.req.body.user_id,
+            app_id: this.req.body.app_id,
+            package_id: element.package_data._id,
+          }).count();
+
+          console.log("total videos ", totalVideos);
+          console.log("total progress videos ", totalProgressVideoCount);
+
+          let percentage =
+            (parseInt(totalProgressVideoCount) * 100) / totalVideos;
+          element.package_data["progress_percentage"] = percentage;
+
+          if (index == gpackage.length - 1) {
+            this.res.send({
+              status: 1,
+              message: "course return successfully successfully",
+              data: gpackage,
+            });
+          }
         });
       }
     } catch (error) {

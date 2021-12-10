@@ -6,6 +6,11 @@ const video_course = new schema(
     name: { type: String, default: "" },
     video_url: { type: String, default: "" },
     thumbnail_url: { type: String, default: "" },
+    package_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "package",
+      index: true,
+    },
     subject_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "subject",

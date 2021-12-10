@@ -72,6 +72,11 @@ class TransactionController extends Controller {
       }
     } catch (error) {
       console.log(error);
+      this.res.send({
+        status: 0,
+        message:
+          "Some error occoured on server. Please try again after some time",
+      });
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
