@@ -49,5 +49,39 @@ class TransactionController extends Controller {
       globalObj.addErrorLogInDB(dataErrorObj);
     }
   }
+
+  async PackagePurchageStatus() {
+    try {
+      let bodyData = this.req.body;
+      let filter = {
+        user_id: ObjectID(bodyData.user_id),
+        package_id: ObjectID(bodyData.package_id),
+        app_id: ObjectID(bodyData.app_id),
+      };
+      let status = await Transaction.findOne(filter);
+      if (status != null) {
+        this.res.send({
+          status: 1,
+          message: "courses purchaged",
+        });
+      } else {
+        this.res.send({
+          status: 0,
+          message: "course not purchased",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "trasaction Api",
+        finction_name: "packagepurchasestatus()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
 }
 module.exports = TransactionController;

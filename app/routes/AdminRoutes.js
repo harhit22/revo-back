@@ -113,5 +113,10 @@ module.exports = (app, express) => {
     return transactionObj.MakeTranscation();
   });
 
+  router.post("/get_package_purchase_status", (req, res) => {
+    const transactionObj = new TransactionController().boot(req, res);
+    return transactionObj.PackagePurchageStatus();
+  });
+
   app.use(config.baseApiUrl, router);
 };
