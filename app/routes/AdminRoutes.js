@@ -7,6 +7,7 @@ module.exports = (app, express) => {
   const AppController = require("../controllers/AppController");
   const PackageController = require("../controllers/PackagesController");
   const TransactionController = require("../controllers/TransactionController");
+  const ByIdController = require("../controllers/ByIdController");
 
   //   Admin routes
   router.post("/registerAdmin", (req, res) => {
@@ -116,6 +117,21 @@ module.exports = (app, express) => {
   router.post("/get_package_purchase_status", (req, res) => {
     const transactionObj = new TransactionController().boot(req, res);
     return transactionObj.PackagePurchageStatus();
+  });
+
+  router.post("/get_subjectBy_packageId", (req, res) => {
+    const bIdObj = new ByIdController().boot(req, res);
+    return bIdObj.GetSubjectByPackage();
+  });
+
+  router.post("/get_LessonBy_subjectId", (req, res) => {
+    const bIdObj = new ByIdController().boot(req, res);
+    return bIdObj.GetLessonBySubject();
+  });
+
+  router.post("/get_videoBy_LessonId", (req, res) => {
+    const bIdObj = new ByIdController().boot(req, res);
+    return bIdObj.GetVideoesByLesson();
   });
 
   app.use(config.baseApiUrl, router);

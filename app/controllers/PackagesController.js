@@ -216,7 +216,6 @@ class PackageController extends Controller {
         app_id: ObjectID(this.req.body.app_id),
       };
       let packageData = await new Agreegate(PackSub).getSubjectPackage(filter);
-      // console.log(packageData[0].subject_data[0].lesson_data[0].video_data);
       if (packageData != null) {
         this.res.send({
           status: 1,

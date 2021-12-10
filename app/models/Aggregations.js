@@ -1238,6 +1238,38 @@ class Agreegate {
     }
   }
 
+  getSubjectbyPackage(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "subjects",
+                let: { subID: "$subject_id" },
+                pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$subID"] } } }],
+                as: "subject_data",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getPackSub() in aggregation!!");
+    }
+  }
+
   //   GetQuestionByPaperId(filter) {
   //     return new promise((resolve, reject) => {
   //       this.collection.aggregate([
