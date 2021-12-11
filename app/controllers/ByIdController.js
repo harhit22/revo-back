@@ -54,16 +54,16 @@ class ByIdController extends Controller {
         app_id: ObjectID(this.req.body.app_id),
       };
 
-      let subjectData = await Lesson.find(filter);
+      let subjectData = await Lesson.find(filter).lean();
       if (subjectData != null) {
         if (subjectData.length != 0) {
           subjectData.forEach(async (element, index) => {
             let totalVideos = await VideoCourses.find({
               lesson_id: element._id,
             }).count();
-            console.log("total videoes", totalVideos);
+            console.log("total videos", totalVideos);
 
-            subjectData["total_videoes"] = totalVideos;
+            element["total_videos"] = totalVideos;
             console.log(subjectData);
             if (index == subjectData.length - 1) {
               this.res.send({
