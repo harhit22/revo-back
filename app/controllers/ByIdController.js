@@ -53,13 +53,33 @@ class ByIdController extends Controller {
         package_id: ObjectID(this.req.body.package_id),
         app_id: ObjectID(this.req.body.app_id),
       };
+
       let subjectData = await Lesson.find(filter);
       if (subjectData != null) {
-        this.res.send({
-          status: 1,
-          message: "lesson with subject id returned successfully",
-          data: subjectData,
-        });
+        if (subjectData.length != 0) {
+          subjectData.forEach(async (element, index) => {
+            let totalVideos = await VideoCourses.find({
+              lesson_id: element._id,
+            }).count();
+            console.log("total videoes", totalVideos);
+
+            subjectData["total_videoes"] = totalVideos;
+            console.log(subjectData);
+            if (index == subjectData.length - 1) {
+              this.res.send({
+                status: 1,
+                message: "lesson successfully successfully",
+                data: subjectData,
+              });
+            }
+          });
+        } else {
+          this.res.send({
+            status: 1,
+            message: "no courses found",
+            data: [],
+          });
+        }
       }
     } catch (error) {
       console.log(error);
