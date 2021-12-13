@@ -1300,6 +1300,55 @@ class Agreegate {
     }
   }
 
+  getBookmark(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                from: "videocourses",
+                let: { videoId: "$video_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$_id", "$$videoId"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "video_details",
+              },
+            },
+            {
+              $unwind: {
+                path: "$video_details",
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getBookmark() in aggregation!!");
+    }
+  }
+
   //   GetQuestionByPaperId(filter) {
   //     return new promise((resolve, reject) => {
   //       this.collection.aggregate([
