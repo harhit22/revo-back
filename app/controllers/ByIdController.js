@@ -102,14 +102,15 @@ class ByIdController extends Controller {
 
   async GetVideoesByLesson() {
     try {
+      let user_id = ObjectID(this.req.body.user_id);
       let filter = {
         lesson_id: ObjectID(this.req.body.lesson_id),
         package_id: ObjectID(this.req.body.package_id),
-        user_id: ObjectID(this.req.body.user_id),
         app_id: ObjectID(this.req.body.app_id),
       };
       let lessonData = await new Agreegate(VideoCourses).getVideoWithBookmark(
-        filter
+        filter,
+        user_id
       );
       if (lessonData != null) {
         this.res.send({

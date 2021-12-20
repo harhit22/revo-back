@@ -73,6 +73,7 @@ class VideoCoursesController extends Controller {
         }
       }
     } catch (error) {
+      console.log(error);
       this.res.send({
         status: 0,
         message:

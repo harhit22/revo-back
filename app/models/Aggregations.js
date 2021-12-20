@@ -1348,7 +1348,7 @@ class Agreegate {
       console.log("error is getBookmark() in aggregation!!");
     }
   }
-  getVideoWithBookmark(filter) {
+  getVideoWithBookmark(filter, user_id) {
     try {
       return new Promise((resolve, reject) => {
         this.collection.aggregate(
@@ -1366,17 +1366,11 @@ class Agreegate {
                       $expr: {
                         $and: [
                           {
-                            $eq: [
-                              "$user_id",
-                              ObjectId("61bdc4787e6e8636e40a4197"),
-                            ],
+                            $eq: ["$user_id", user_id],
                           },
                           { $eq: ["$video_id", "$$vidId"] },
                           {
-                            $eq: [
-                              "$app_id",
-                              ObjectId("618e5e2f339a8e2b1055fffb"),
-                            ],
+                            $eq: ["$app_id", filter.app_id],
                           },
                         ],
                       },
