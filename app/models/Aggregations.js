@@ -1348,6 +1348,85 @@ class Agreegate {
       console.log("error is getBookmark() in aggregation!!");
     }
   }
+  getVideoWithBookmark(filter) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.collection.aggregate(
+          [
+            {
+              $match: filter,
+            },
+            {
+              $lookup: {
+                let: { vidId: "$_id" },
+                from: "bookmarks",
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: [
+                              "$user_id",
+                              ObjectId("61bdc4787e6e8636e40a4197"),
+                            ],
+                          },
+                          { $eq: ["$video_id", "$$vidId"] },
+                          {
+                            $eq: [
+                              "$app_id",
+                              ObjectId("618e5e2f339a8e2b1055fffb"),
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+                as: "bookmark_data",
+              },
+            },
+            {
+              $unwind: {
+                path: "$bookmark_data",
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $project: {
+                name: "$name",
+                video_url: "$video_url",
+                thumbnail_url: "$thumbnail_url",
+                delete_status: "$delete_status",
+                subject_id: "$subject_id",
+                lesson_id: "$lesson_id",
+                app_id: "$app_id",
+                createdAt: "$createdAt",
+                updatedAt: "$updatedAt",
+                is_bookmarked: {
+                  $cond: [
+                    { $eq: [{ $type: "$bookmark_data" }, "missing"] },
+                    false,
+                    true,
+                  ],
+                },
+              },
+            },
+          ],
+          (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            if (!err) {
+              resolve(data);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      console.log("error is getBookmark() in aggregation!!");
+    }
+  }
 
   //   GetQuestionByPaperId(filter) {
   //     return new promise((resolve, reject) => {
