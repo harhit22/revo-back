@@ -3,6 +3,7 @@ module.exports = (app, express) => {
   const Globals = require("../../configs/globals");
   const UserController = require("../controllers/UserController");
   const BookmarkController = require("../controllers/BookmarksController");
+  const PackagesController = require("../controllers/PackagesController");
   // const SupportController = require('../controllers/SupportController');
   // const WalletController = require('../controllers/WalletController');
 
@@ -36,6 +37,12 @@ module.exports = (app, express) => {
   router.post("/remove_bookmark", (req, res) => {
     const bookObj = new BookmarkController().boot(req, res);
     return bookObj.RemoveBookmark();
+  });
+
+  //Progress
+  router.post("/add_package_progress", (req, res) => {
+    const packageObj = new PackagesController().boot(req, res);
+    return packageObj.addPackageProgress();
   });
 
   app.use(config.baseApiUrl, router);

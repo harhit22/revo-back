@@ -74,9 +74,12 @@ class BookmarkController extends Controller {
 
   async RemoveBookmark() {
     try {
-      let delBookmark = await Bookmarks.findByIdAndRemove({
-        _id: ObjectID(this.req.body.bookmark_id),
-      });
+      let filter = {
+        app_id: ObjectID(this.req.body.app_id),
+        user_id: ObjectID(this.req.body.user_id),
+        video_id: ObjectID(this.req.body.video_id),
+      };
+      let delBookmark = await Bookmarks.deleteOne(filter);
       if (delBookmark != null) {
         this.res.send({ status: 1, message: "bookmark removed" });
       }

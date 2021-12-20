@@ -7,6 +7,7 @@ const Agreegate = require("../models/Aggregations");
 const Lesson = require("../models/LessonSchema").Lesson;
 const Review = require("../models/ReviewSchema").Review;
 const PackSub = require("../models/PackageSubjectSchema").PackSub;
+const Progress = require("../models/PackageProgressSchema").Progress;
 
 class PackageController extends Controller {
   constructor() {
@@ -230,6 +231,43 @@ class PackageController extends Controller {
         is_from: "API Error",
         api_name: "update package api",
         function_name: "GetPackageStructure()",
+        error_title: " error.name",
+        descriprion: " error.message",
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async addPackageProgress() {
+    try {
+      let packageProgressData = {
+        user_id: ObjectID(this.req.body.user_id),
+        package_id: ObjectID(this.req.body.package_id),
+        app_id: ObjectID(this.req.body.app_id),
+        video_id: ObjectID(this.req.body.video_id),
+      };
+      let existProgress = await Progress.find(packageProgressData);
+      if (existProgress.length == 0) {
+        let progressData = await new Model(Progress).store(packageProgressData);
+        if (progressData != null) {
+          this.res.send({
+            status: 1,
+            message: "package progress added successfully!!",
+          });
+        }
+      } else {
+        this.res.send({
+          status: 1,
+          message: "progress already exist!!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "add package progress api",
+        function_name: "addPackageProgress()",
         error_title: " error.name",
         descriprion: " error.message",
       };
