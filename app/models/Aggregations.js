@@ -1395,6 +1395,7 @@ class Agreegate {
                 subject_id: "$subject_id",
                 lesson_id: "$lesson_id",
                 app_id: "$app_id",
+                package_id: "$package_id",
                 createdAt: "$createdAt",
                 updatedAt: "$updatedAt",
                 is_bookmarked: {
