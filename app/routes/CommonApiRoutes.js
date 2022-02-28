@@ -14,6 +14,7 @@ const HomeBannerController = require("../controllers/HomeBannerController");
 const PackageCategoryController = require("../controllers/PackageCategoryController");
 const VideoCoursesController = require("../controllers/VideoCourseController");
 const CoursesRecommedationController = require("../controllers/CoursesRecommedationController");
+const ExamBannerController = require("../controllers/ExamBannerController");
 
 module.exports = (app, express) => {
   const router = express.Router();
@@ -289,6 +290,23 @@ module.exports = (app, express) => {
   router.post("/get_recommededCourses", (req, res) => {
     const recObj = new CoursesRecommedationController().boot(req, res);
     return recObj.GetCoursesRecommedation();
+  });
+
+  // exam Banner
+
+  router.post("/add_examBanner", (req, res) => {
+    const examBannerObj = new ExamBannerController().boot(req, res);
+    return examBannerObj.AddExamBanner();
+  });
+
+  router.post("/get_examBanner", (req, res) => {
+    const examBannerObj = new ExamBannerController().boot(req, res);
+    return examBannerObj.GetExamBanner();
+  });
+
+  router.post("/update_examBanner", (req, res) => {
+    const examBannerObj = new ExamBannerController().boot(req, res);
+    return examBannerObj.UpdateExamBanner();
   });
 
   app.use(config.baseApiUrl, router);

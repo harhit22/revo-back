@@ -7,6 +7,7 @@ const exam_cat = new schema(
     image: { type: String, default: "" },
     is_delete: { type: Boolean, default: false },
     app_id: { type: mongoose.Schema.Types.ObjectId, ref: "app", index: true },
+    show_on_home: { type: Boolean, default: false },
   },
   {
     timestamps: true,

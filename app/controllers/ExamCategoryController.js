@@ -46,6 +46,7 @@ class ExamCategoryController extends Controller {
         let getCat = await ExamCategory.find({
           is_delete: false,
           app_id: ObjectID(this.req.body.app_id),
+          show_on_home: true,
         });
         this.res.send({
           status: 1,
