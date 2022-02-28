@@ -43,11 +43,14 @@ class ExamCategoryController extends Controller {
   async GetExamCat() {
     try {
       if (!this.req.body.cat_id) {
-        let getCat = await ExamCategory.find({
+        let filter = {
           is_delete: false,
           app_id: ObjectID(this.req.body.app_id),
-          show_on_home: true,
-        });
+        };
+        if (this.req.body.show_on_home) {
+          filter["show_on_home"] = true;
+        }
+        let getCat = await ExamCategory.find(filter);
         this.res.send({
           status: 1,
           message: "all exam categories returned",
