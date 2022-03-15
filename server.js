@@ -24,15 +24,6 @@ app.use("/", exp.static(__dirname + "/"));
 
 var server = http.createServer(app);
 
-var options = {
-  cors: {
-    origin: "http://localhost:4200",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true,
-  },
-};
-
 server.listen(config.serverPort, () =>
   console.log(`API running on localhost:${config.serverPort}`)
 );

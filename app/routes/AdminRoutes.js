@@ -1,13 +1,20 @@
-const PackageCategoryController = require("../controllers/PackageCategoryController");
-
 module.exports = (app, express) => {
   const router = express.Router();
   const AdminController = require("../controllers/AdminController");
-  const SubAdminController = require("../controllers/SubAdminController");
-  const AppController = require("../controllers/AppController");
-  const PackageController = require("../controllers/PackagesController");
-  const TransactionController = require("../controllers/TransactionController");
-  const ByIdController = require("../controllers/ByIdController");
+  const HeroSliderController = require("../controllers/HeroSliderController");
+  const HomeServicesController = require("../controllers/HomeServicesController");
+  const HomeAboutController = require("../controllers/HomeAboutController");
+  const HomeExperienceController = require("../controllers/HomeExperinceController");
+  const HomePortfolioController = require("../controllers/HomePortfolioController");
+  const HomeTustedClient = require("../controllers/HomeTrustedClient");
+  const HomeTeamController = require("../controllers/HomeTeamController");
+  const QuoteController = require("../controllers/QuoteController");
+  const HomeBlogController = require("../controllers/HomeBlogController");
+  const FunfactController = require("../controllers/FunFactController");
+  const HeaderController = require("../controllers/HeaderController");
+  const HomeClientController = require("../controllers/HomeClientController");
+  const FooterController = require("../controllers/FooterController");
+  const TeamListController = require("../controllers/TeamListController");
 
   //   Admin routes
   router.post("/registerAdmin", (req, res) => {
@@ -30,108 +37,276 @@ module.exports = (app, express) => {
     return adminObj.UpdateProfileAdmin();
   });
 
-  // subadmin routes
+  // ------------Header Api--------------------------------
 
-  router.post("/registerSubAdmin", (req, res) => {
-    const subAdminObj = new SubAdminController().boot(req, res);
-    return subAdminObj.RegisterSubAdmin();
+  router.post("/addLogo", (req, res) => {
+    const headerObj = new HeaderController().boot(req, res);
+    return headerObj.AddLogo();
   });
 
-  router.post("/loginSubAdmin", (req, res) => {
-    const subAdminObj = new SubAdminController().boot(req, res);
-    return subAdminObj.LoginSubAdmin();
+  router.post("/getLogo", (req, res) => {
+    const headerObj = new HeaderController().boot(req, res);
+    return headerObj.GetLogo();
   });
 
-  router.post("/changePasswordSubAdmin", (req, res) => {
-    const subAdminObj = new SubAdminController().boot(req, res);
-    return subAdminObj.ChangePasswordSubAdmin();
+  router.post("/updateLogo", (req, res) => {
+    const headerObj = new HeaderController().boot(req, res);
+    return headerObj.UpdateLogo();
   });
 
-  router.post("/updateProfileSubAdmin", (req, res) => {
-    const subAdminObj = new SubAdminController().boot(req, res);
-    return subAdminObj.UpdateProfileSubAdmin();
+  router.post("/addMenu", (req, res) => {
+    const headerObj = new HeaderController().boot(req, res);
+    return headerObj.AddMenu();
   });
 
-  router.post("/getSubAdmin", (req, res) => {
-    const subAdminObj = new SubAdminController().boot(req, res);
-    return subAdminObj.GetSubAdmin();
+  router.post("/getMenu", (req, res) => {
+    const headerObj = new HeaderController().boot(req, res);
+    return headerObj.GetMenu();
   });
 
-  router.post("/deleteSubAdmin", (req, res) => {
-    const subAdminObj = new SubAdminController().boot(req, res);
-    return subAdminObj.DeleteSubAdmin();
+  router.post("/updateMenu", (req, res) => {
+    const headerObj = new HeaderController().boot(req, res);
+    return headerObj.UpdateMenu();
   });
 
-  router.post("/addApp", (req, res) => {
-    const appObj = new AppController().boot(req, res);
-    return appObj.AddApp();
+  // ------------Hero Sliders Api--------------------------------
+
+  router.post("/addHeroSlider", (req, res) => {
+    const sliderObj = new HeroSliderController().boot(req, res);
+    return sliderObj.AddSlider();
   });
 
-  router.post("/getApp", (req, res) => {
-    const appObj = new AppController().boot(req, res);
-    return appObj.GetApp();
+  router.post("/getHeroSlider", (req, res) => {
+    const sliderObj = new HeroSliderController().boot(req, res);
+    return sliderObj.GetSlider();
   });
 
-  router.post("/deleteApp", (req, res) => {
-    const appObj = new AppController().boot(req, res);
-    return appObj.DeleteApp();
+  router.post("/updateHeroSlider", (req, res) => {
+    const sliderObj = new HeroSliderController().boot(req, res);
+    return sliderObj.UpdateSlider();
   });
 
-  router.post("/updateApp", (req, res) => {
-    const appObj = new AppController().boot(req, res);
-    return appObj.UpdateApp();
+  // -----------------------Home Services Api -----------------
+
+  router.post("/addHomeServices", (req, res) => {
+    const HomeServicesObj = new HomeServicesController().boot(req, res);
+    return HomeServicesObj.AddHomeServices();
   });
 
-  router.post("/verifySubDomain", (req, res) => {
-    const appObj = new AppController().boot(req, res);
-    return appObj.VerifySubDomain();
+  router.post("/getHomeServices", (req, res) => {
+    const HomeServicesObj = new HomeServicesController().boot(req, res);
+    return HomeServicesObj.GetHomeServices();
   });
 
-  // package
-
-  router.post("/add_package", (req, res) => {
-    const packageObj = new PackageController().boot(req, res);
-    return packageObj.AddPackage();
+  router.post("/updateHomeServices", (req, res) => {
+    const HomeServicesObj = new HomeServicesController().boot(req, res);
+    return HomeServicesObj.UpdateHomeServices();
   });
 
-  router.post("/get_package", (req, res) => {
-    const packageObj = new PackageController().boot(req, res);
-    return packageObj.GetPackage();
+  // -----------------------Home About Api -----------------
+
+  router.post("/addHomeAbout", (req, res) => {
+    const HomeAboutObj = new HomeAboutController().boot(req, res);
+    return HomeAboutObj.AddHomeAbout();
   });
 
-  router.post("/add_ps", (req, res) => {
-    const packageObj = new PackageController().boot(req, res);
-    return packageObj.AddSubjectPackage();
+  router.post("/getHomeAbout", (req, res) => {
+    const HomeAboutObj = new HomeAboutController().boot(req, res);
+    return HomeAboutObj.GetHomeAbout();
   });
 
-  router.post("/get_package_structure", (req, res) => {
-    const packageObj = new PackageController().boot(req, res);
-    return packageObj.GetPackageStructure();
+  router.post("/updateHomeAbout", (req, res) => {
+    const HomeAboutObj = new HomeAboutController().boot(req, res);
+    return HomeAboutObj.UpdateHomeAbout();
   });
 
-  router.post("/make_transaction", (req, res) => {
-    const transactionObj = new TransactionController().boot(req, res);
-    return transactionObj.MakeTranscation();
+  // -----------------------Home Experience Api -----------------
+
+  router.post("/addHomeExp", (req, res) => {
+    const HomeExpObj = new HomeExperienceController().boot(req, res);
+    return HomeExpObj.AddHomeExperience();
   });
 
-  router.post("/get_package_purchase_status", (req, res) => {
-    const transactionObj = new TransactionController().boot(req, res);
-    return transactionObj.PackagePurchageStatus();
+  router.post("/getHomeExp", (req, res) => {
+    const HomeExpObj = new HomeExperienceController().boot(req, res);
+    return HomeExpObj.GetHomeExperience();
   });
 
-  router.post("/get_subjectBy_packageId", (req, res) => {
-    const bIdObj = new ByIdController().boot(req, res);
-    return bIdObj.GetSubjectByPackage();
+  router.post("/updateHomeExp", (req, res) => {
+    const HomeExpObj = new HomeExperienceController().boot(req, res);
+    return HomeExpObj.UpdateHomeExperience();
   });
 
-  router.post("/get_LessonBy_subjectId", (req, res) => {
-    const bIdObj = new ByIdController().boot(req, res);
-    return bIdObj.GetLessonBySubject();
+  // --------------------------Home portfolio api---------------
+
+  router.post("/addHomePortfolio", (req, res) => {
+    const HomePortObj = new HomePortfolioController().boot(req, res);
+    return HomePortObj.AddHomePortfolio();
   });
 
-  router.post("/get_videoBy_LessonId", (req, res) => {
-    const bIdObj = new ByIdController().boot(req, res);
-    return bIdObj.GetVideoesByLesson();
+  router.post("/getHomePortfolio", (req, res) => {
+    const HomePortObj = new HomePortfolioController().boot(req, res);
+    return HomePortObj.GetHomePortfolio();
+  });
+
+  router.post("/updateHomePortfolio", (req, res) => {
+    const HomePortObj = new HomePortfolioController().boot(req, res);
+    return HomePortObj.UpdateHomePortfolio();
+  });
+
+  // --------------------------Home Funfact  api---------------
+
+  router.post("/addFunfact", (req, res) => {
+    const FunfactObj = new FunfactController().boot(req, res);
+    return FunfactObj.AddFunfact();
+  });
+
+  router.post("/getFunfact", (req, res) => {
+    const FunfactObj = new FunfactController().boot(req, res);
+    return FunfactObj.GetFunfact();
+  });
+
+  router.post("/updateFunfact", (req, res) => {
+    const FunfactObj = new FunfactController().boot(req, res);
+    return FunfactObj.UpdateFunfact();
+  });
+
+  // --------------------------Home Trusted client  api---------------
+
+  router.post("/addHomeTrustedClient", (req, res) => {
+    const HomeTrustedClientObj = new HomeTustedClient().boot(req, res);
+    return HomeTrustedClientObj.AddHomeTrustedClient();
+  });
+
+  router.post("/getHomeTrustedClient", (req, res) => {
+    const HomeTrustedClientObj = new HomeTustedClient().boot(req, res);
+    return HomeTrustedClientObj.GetHomeTrustedClient();
+  });
+
+  router.post("/updateHomeTrustedClient", (req, res) => {
+    const HomeTrustedClientObj = new HomeTustedClient().boot(req, res);
+    return HomeTrustedClientObj.UpdateHomeTrustedClient();
+  });
+
+  // --------------------------Home team  api---------------
+
+  router.post("/addHomeTeam", (req, res) => {
+    const HomeTeamObj = new HomeTeamController().boot(req, res);
+    return HomeTeamObj.AddHomeTeam();
+  });
+
+  router.post("/getHomeTeam", (req, res) => {
+    const HomeTeamObj = new HomeTeamController().boot(req, res);
+    return HomeTeamObj.GetHomeTeam();
+  });
+
+  router.post("/updateHomeTeam", (req, res) => {
+    const HomeTeamObj = new HomeTeamController().boot(req, res);
+    return HomeTeamObj.UpdateHomeTeam();
+  });
+
+  // --------------------------Home quote  api---------------
+
+  router.post("/addQuote", (req, res) => {
+    const QuoteObj = new QuoteController().boot(req, res);
+    return QuoteObj.AddQuote();
+  });
+
+  router.post("/getQuote", (req, res) => {
+    const QuoteObj = new QuoteController().boot(req, res);
+    return QuoteObj.GetQuote();
+  });
+
+  router.post("/updateQuote", (req, res) => {
+    const QuoteObj = new QuoteController().boot(req, res);
+    return QuoteObj.UpdateQuote();
+  });
+
+  // --------------------------Home Blog  api---------------
+
+  router.post("/addHomeBlog", (req, res) => {
+    const HomeBlogObj = new HomeBlogController().boot(req, res);
+    return HomeBlogObj.AddHomeBlog();
+  });
+
+  router.post("/getHomeBlog", (req, res) => {
+    const HomeBlogObj = new HomeBlogController().boot(req, res);
+    return HomeBlogObj.GetHomeBlog();
+  });
+
+  router.post("/updateQuote", (req, res) => {
+    const HomeBlogObj = new HomeBlogController().boot(req, res);
+    return HomeBlogObj.UpdateHomeBlog();
+  });
+
+  // --------------------------Home client  api---------------
+
+  router.post("/addHomeClient", (req, res) => {
+    const HomeClientObj = new HomeClientController().boot(req, res);
+    return HomeClientObj.AddHomeClient();
+  });
+
+  router.post("/getHomeClient", (req, res) => {
+    const HomeClientObj = new HomeClientController().boot(req, res);
+    return HomeClientObj.GetHomeClient();
+  });
+
+  router.post("/updateHomeClient", (req, res) => {
+    const HomeClientObj = new HomeClientController().boot(req, res);
+    return HomeClientObj.UpdateHomeClient();
+  });
+
+  router.post("/addClientCrousal", (req, res) => {
+    const HomeClientObj = new HomeClientController().boot(req, res);
+    return HomeClientObj.AddClientCrousal();
+  });
+
+  router.post("/getClientCrousal", (req, res) => {
+    const HomeClientObj = new HomeClientController().boot(req, res);
+    return HomeClientObj.GetClientCrousal();
+  });
+
+  router.post("/updateClientCrousal", (req, res) => {
+    const HomeClientObj = new HomeClientController().boot(req, res);
+    return HomeClientObj.UpdateClientCrousal();
+  });
+
+  // --------------------------Footer  api---------------
+
+  router.post("/addFooter", (req, res) => {
+    const footerObj = new FooterController().boot(req, res);
+    return footerObj.AddFooter();
+  });
+
+  router.post("/getFooter", (req, res) => {
+    const footerObj = new FooterController().boot(req, res);
+    return footerObj.GetFooter();
+  });
+
+  router.post("/updateFooter", (req, res) => {
+    const footerObj = new FooterController().boot(req, res);
+    return footerObj.UpdateFooter();
+  });
+
+  // --------------------------Team list  api---------------
+
+  router.post("/addTeamList", (req, res) => {
+    const teamListObj = new TeamListController().boot(req, res);
+    return teamListObj.AddTeamList();
+  });
+
+  router.post("/getTeamList", (req, res) => {
+    const teamListObj = new TeamListController().boot(req, res);
+    return teamListObj.GetTeamList();
+  });
+
+  router.post("/updateTeamList", (req, res) => {
+    const teamListObj = new TeamListController().boot(req, res);
+    return teamListObj.UpdateTeamList();
+  });
+
+  router.get("/", (req, res) => {
+    res.send({ status: 1, message: "this is home route!!" });
   });
 
   app.use(config.baseApiUrl, router);

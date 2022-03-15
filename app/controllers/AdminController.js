@@ -16,30 +16,25 @@ class AdminController extends Controller {
       let adminData = this.req.body;
       adminData["password"] = await hashPassword(adminData.password);
 
-      let admininfovalidation = validateAdminInfo(adminData);
-      if (admininfovalidation.is_valid) {
-        let alreadyAdmin = await Admin.find({ email: adminData.email });
-        if (alreadyAdmin.length == 1) {
+      let alreadyAdmin = await Admin.find({ admin_id: adminData.admin_id });
+      if (alreadyAdmin.length == 1) {
+        this.res.send({
+          status: 0,
+          message: "admin already registered....please login",
+        });
+      } else {
+        let regAdmin = await new Model(Admin).store(adminData);
+        if (regAdmin != null) {
           this.res.send({
-            status: 0,
-            message: "admin already registered....please login",
+            status: 1,
+            message: "admin successfully registered",
           });
         } else {
-          let regAdmin = await new Model(Admin).store(adminData);
-          if (regAdmin != null) {
-            this.res.send({
-              status: 1,
-              message: "admin successfully registered",
-            });
-          } else {
-            this.res.send({
-              status: 0,
-              message: "some error occoured...please try after some time",
-            });
-          }
+          this.res.send({
+            status: 0,
+            message: "some error occoured...please try after some time",
+          });
         }
-      } else {
-        this.res.send({ status: 0, message: admininfovalidation.message });
       }
     } catch (error) {
       this.res.send({
@@ -62,23 +57,22 @@ class AdminController extends Controller {
 
   async LoginAdmin() {
     try {
-      let email = this.req.body.email;
+      let adminId = this.req.body.admin_id;
       let password = this.req.body.password;
 
-      let admin = await Admin.find({ email: email });
+      let admin = await Admin.find({ admin_id: adminId });
       if (admin != null && admin.length == 1) {
         if (await bcrypt.compare(password, admin[0].password)) {
           this.res.send({
             status: 1,
             message: "admin logged in successfully",
-            data: admin[0],
           });
         } else {
           this.res.send({ status: 0, message: "incorrect password" });
         }
       } else {
         this.res.send({
-          status: 0,
+          status: 2,
           message: "account not found...please register first",
         });
       }
@@ -104,11 +98,11 @@ class AdminController extends Controller {
   async ChangePasswordAdmin() {
     try {
       let newPassword = this.req.body.newpassword;
-      let admin_id = ObjectID(this.req.body.admin_id);
+      let ad_id = ObjectID(this.req.body.ad_id);
 
       let hashedPassword = await hashPassword(newPassword);
 
-      let passwordChangedAdmin = await Admin.findByIdAndUpdate(admin_id, {
+      let passwordChangedAdmin = await Admin.findByIdAndUpdate(ad_id, {
         password: hashedPassword,
       });
 
@@ -143,9 +137,9 @@ class AdminController extends Controller {
   async UpdateProfileAdmin() {
     try {
       let newData = this.req.body;
-      let admin_id = ObjectID(this.req.body.admin_id);
+      let ad_id = ObjectID(this.req.body.ad_id);
 
-      let updateAdmin = await Admin.findByIdAndUpdate(admin_id, newData);
+      let updateAdmin = await Admin.findByIdAndUpdate(ad_id, newData);
 
       if (updateAdmin != null) {
         this.res.send({ status: 1, message: "profile updated!!" });
@@ -174,27 +168,6 @@ class AdminController extends Controller {
       globalObj.addErrorLogInDB(dataErrorObj);
     }
   }
-}
-
-function validateAdminInfo(data) {
-  let validation = {
-    is_valid: false,
-    message: "",
-  };
-
-  if (data.fname == null) {
-    validation.message = "fname is null";
-  } else if (data.lname == null) {
-    validation.message = "lname is null";
-  } else if (data.email == null) {
-    validation.message = "email is null";
-  } else if (data.password == null) {
-    validation.message = "password  is null";
-  } else {
-    validation.is_valid = true;
-    validation.message = "valid";
-  }
-  return validation;
 }
 
 async function hashPassword(password) {

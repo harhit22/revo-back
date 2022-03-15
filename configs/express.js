@@ -24,9 +24,12 @@ module.exports = function () {
   app.use(cors());
 
   require("../app/routes/CommonApiRoutes")(app, express);
-  require("../app/routes/UserRoutes")(app, express);
-  require("../app/routes/EcommerceApiRoutes")(app, express);
+
   require("../app/routes/AdminRoutes")(app, express);
+  require("../app/routes/AboutPageRoutes")(app, express);
+  require("../app/routes/ContactUsPageRoutes")(app, express);
+  require("../app/routes/BlogPageRoutes")(app, express);
+  require("../app/routes/PortfolioPageRoutes")(app, express);
 
   return app;
 };

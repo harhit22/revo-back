@@ -1,5 +1,5 @@
 let config = require("./configs");
-let Users = require("../app/models/UserSchema").Users;
+
 let Model = require("../app/models/model");
 const Errorlogs = require("../app/models/errorSchema").Errorlogs;
 
