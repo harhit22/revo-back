@@ -1,4 +1,5 @@
 const AboutWhyUs = require("../models/AboutWhyUsSchema").AboutWhyUs;
+const AboutWhyUsTab = require("../models/AboutWhyUsSchema").AboutWhyUsTab;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Controller = require("./Controller");
@@ -104,6 +105,108 @@ class AboutWhyUsController extends Controller {
         is_from: "API Error",
         api_name: "update AboutWhyUs api",
         function_name: "UpdateAboutWhyUs()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async AddAboutWhyUsTab() {
+    try {
+      let bodyData = this.req.body;
+      let addAboutWhyUsTab = new Model(AboutWhyUsTab).store(bodyData);
+      if (addAboutWhyUsTab != null) {
+        this.res.send({
+          status: 1,
+          message: "AboutWhyUsTab data added successfully",
+        });
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message: "some error occoured on server ....please try after some time",
+      });
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "add Add AboutWhyUsTab api",
+        function_name: "AddAboutWhyUsTab()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async GetAboutWhyUsTab() {
+    try {
+      let allAboutWhyUsTab = await AboutWhyUsTab.find({});
+      if (allAboutWhyUsTab != null) {
+        this.res.send({
+          status: 1,
+          message: "all AboutWhyUsTab retuned successfully",
+          data: allAboutWhyUsTab,
+        });
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message: "some error occoured on server ....please try after some time",
+      });
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "get AboutWhyUsTab api",
+        function_name: "GetAboutWhyUsTab()",
+        error_title: error.name,
+        description: error.message,
+      };
+      globalObj.addErrorLogInDB(dataErrorObj);
+    }
+  }
+
+  async UpdateAboutWhyUsTab() {
+    try {
+      if (!this.req.body.delete_status) {
+        let updateData = this.req.body;
+        let update_AboutWhyUsTab = await AboutWhyUsTab.findByIdAndUpdate(
+          ObjectID(this.req.body.aboutwhyustab_id),
+          updateData
+        );
+        if (update_AboutWhyUsTab != null) {
+          this.res.send({
+            status: 1,
+            message: "AboutWhyUsTab updated successfully",
+          });
+        }
+      } else {
+        let dData = this.req.body;
+        let delAboutWhyUsTab = await AboutWhyUsTab.findByIdAndRemove(
+          ObjectID(this.req.body.aboutwhyustab_id),
+          dData
+        );
+        console.log(delAboutWhyUsTab);
+        if (delAboutWhyUsTab != null) {
+          this.res.send({
+            status: 1,
+            message: "AboutWhyUsTab deleted successfully",
+          });
+        }
+      }
+    } catch (error) {
+      this.res.send({
+        status: 0,
+        message: "some error occoured on server ....please try after some time",
+      });
+      console.log(error);
+      let globalObj = new Globals();
+      let dataErrorObj = {
+        is_from: "API Error",
+        api_name: "update AboutWhyUsTab api",
+        function_name: "UpdateAboutWhyUsTab()",
         error_title: error.name,
         description: error.message,
       };

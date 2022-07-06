@@ -9,12 +9,12 @@ module.exports = (app, express) => {
     return servicesObj.AddServices();
   });
 
-  router.post("/getPortfolio", (req, res) => {
+  router.post("/getServices", (req, res) => {
     const servicesObj = new ServicesController().boot(req, res);
     return servicesObj.GetServices();
   });
 
-  router.post("/updatePortfolio", (req, res) => {
+  router.post("/updateServices", (req, res) => {
     const servicesObj = new ServicesController().boot(req, res);
     return servicesObj.UpdateServices();
   });

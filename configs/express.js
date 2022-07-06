@@ -8,7 +8,6 @@ morgan = require("morgan");
 compress = require("compression");
 
 module.exports = function () {
-  console.log("env" + process.env.NODE_ENV);
   var app = express();
   //console.log(__dirname)
   if (process.env.NODE_ENV === "development") {
@@ -30,6 +29,7 @@ module.exports = function () {
   require("../app/routes/ContactUsPageRoutes")(app, express);
   require("../app/routes/BlogPageRoutes")(app, express);
   require("../app/routes/PortfolioPageRoutes")(app, express);
+  require("../app/routes/ServicesPageRoutes")(app, express);
 
   return app;
 };

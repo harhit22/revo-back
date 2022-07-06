@@ -87,5 +87,20 @@ module.exports = (app, express) => {
     return whyUsObj.UpdateAboutWhyUs();
   });
 
+  router.post("/addWhyUsTab", (req, res) => {
+    const whyUsObj = new AboutWhyUsController().boot(req, res);
+    return whyUsObj.AddAboutWhyUsTab();
+  });
+
+  router.post("/getWhyUsTab", (req, res) => {
+    const whyUsObj = new AboutWhyUsController().boot(req, res);
+    return whyUsObj.GetAboutWhyUsTab();
+  });
+
+  router.post("/updateWhyUsTab", (req, res) => {
+    const whyUsObj = new AboutWhyUsController().boot(req, res);
+    return whyUsObj.UpdateAboutWhyUsTab();
+  });
+
   app.use(config.baseApiUrl, router);
 };

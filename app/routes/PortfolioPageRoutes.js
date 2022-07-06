@@ -9,7 +9,7 @@ module.exports = (app, express) => {
     return portObj.AddPortfolio();
   });
 
-  router.get("/getPortfolio", (req, res) => {
+  router.post("/getPortfolio", (req, res) => {
     const portObj = new PortfolioController().boot(req, res);
     return portObj.GetPortfolio();
   });

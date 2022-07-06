@@ -39,7 +39,8 @@ class PortfolioController extends Controller {
 
   async GetPortfolio() {
     try {
-      if (!this.req.body.Portfolio_id) {
+      console.log("hi");
+      if (!this.req.body.portfolio_id) {
         let allPortfolio = await Portfolio.find({});
         if (allPortfolio != null) {
           this.res.send({

@@ -49,6 +49,7 @@ class ServicesController extends Controller {
           });
         }
       } else {
+        console.log("why not here");
         let singleService = await Services.findOne({
           _id: ObjectID(this.req.body.services_id),
         });

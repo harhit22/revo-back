@@ -234,7 +234,7 @@ module.exports = (app, express) => {
     return HomeBlogObj.GetHomeBlog();
   });
 
-  router.post("/updateQuote", (req, res) => {
+  router.post("/updateHomeBlog", (req, res) => {
     const HomeBlogObj = new HomeBlogController().boot(req, res);
     return HomeBlogObj.UpdateHomeBlog();
   });

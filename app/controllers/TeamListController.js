@@ -12,6 +12,7 @@ class TeamListController extends Controller {
   async AddTeamList() {
     try {
       let bodyData = this.req.body;
+      console.log("bodyData", bodyData);
       let addTeamList = new Model(TeamList).store(bodyData);
       if (addTeamList != null) {
         this.res.send({
@@ -68,6 +69,7 @@ class TeamListController extends Controller {
   async UpdateTeamList() {
     try {
       if (!this.req.body.delete_status) {
+        console.log("in update");
         let updateData = this.req.body;
         let update_TeamList = await TeamList.findByIdAndUpdate(
           ObjectID(this.req.body.teamlist_id),

@@ -6,19 +6,9 @@ module.exports = {
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true,
-    //authSource: 'admin',
-    //user: 'indianic',
-    //pass: 'indianic@123'
   },
-  sessionSecret: "indNIC2305",
-  securityToken: "indNIC2305",
+
   baseApiUrl: "/api",
-  normalUrl: "",
+
   serverPort: "7200",
-  tokenExpiry: 864000, //(10 days) //259200 Note: in seconds! (3 day)
-  perPage: 20,
-  adPerPage: 4,
-  newArrivalDays: 2,
-  emailStatus: true,
-  is_live: false,
 };

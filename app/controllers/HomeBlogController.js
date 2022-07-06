@@ -69,10 +69,12 @@ class HomeBlogController extends Controller {
     try {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
+        console.log("cono", updateData);
         let update_HomeBlog = await HomeBlog.findByIdAndUpdate(
           ObjectID(this.req.body.homeblog_id),
           updateData
         );
+        console.log("jjj", update_HomeBlog);
         if (update_HomeBlog != null) {
           this.res.send({
             status: 1,

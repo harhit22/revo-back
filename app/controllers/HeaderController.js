@@ -172,6 +172,8 @@ class HeaderController extends Controller {
     try {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
+        console.log("this is update menu ", updateData);
+
         let update_Menu = await Menu.findByIdAndUpdate(
           ObjectID(this.req.body.menu_id),
           updateData

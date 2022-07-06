@@ -82,6 +82,7 @@ class BlogController extends Controller {
   async UpdateBlog() {
     try {
       if (!this.req.body.delete_status) {
+        console.log("update blog");
         let updateData = this.req.body;
         let update_Blog = await Blog.findByIdAndUpdate(
           ObjectID(this.req.body.blog_id),
