@@ -27,3 +27,5 @@ var server = http.createServer(app);
 server.listen(config.serverPort, () =>
   console.log(`API running on localhost:${config.serverPort}`)
 );
+
+// console.log("sdsd")
