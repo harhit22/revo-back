@@ -305,9 +305,9 @@ module.exports = (app, express) => {
     return teamListObj.UpdateTeamList();
   });
 
-  router.get("/", (req, res) => {
-    res.send({ status: 1, message: "this is home route!!" });
-  });
+  // router.get("/", (req, res) => {
+  //   res.send({ status: 1, message: "this is home route!!" });
+  // });
 
   app.use(config.baseApiUrl, router);
 };
