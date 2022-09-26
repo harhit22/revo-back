@@ -1,4 +1,4 @@
-const Funfact = require("../models/FunfactSchema").Funfact;
+const Funfact = require("../models/FunFactSchema").Funfact;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Controller = require("./Controller");
