@@ -24,7 +24,7 @@ app.use("/", exp.static(__dirname + "/"));
 
 var server = http.createServer(app);
 
-server.listen(config.serverPort, () =>
+server.listen(process.env.PORT || config.serverPort, () =>
   console.log(`API running on localhost:${config.serverPort}`)
 );
 
