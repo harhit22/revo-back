@@ -24,8 +24,8 @@ app.use("/", exp.static(__dirname + "/"));
 
 var server = http.createServer(app);
 
-server.listen(process.env.PORT, () =>
-  console.log(`API running on localhost:${process.env.PORT}`)
+server.listen(process.env.PORT || 4400, () =>
+  console.log(`API running on localhost`)
 );
 
 // console.log("sdsd")
