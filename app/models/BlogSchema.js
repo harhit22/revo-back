@@ -7,6 +7,10 @@ const blog_schema = new schema(
     thumbnail_image: { type: String, default: "" },
     title: { type: String, default: "" },
     content: { type: String, default: "" },
+    
+
+
+
   },
   {
     timestamps: true,

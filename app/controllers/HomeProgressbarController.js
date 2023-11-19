@@ -1,23 +1,22 @@
-const AboutGetToKnow = require("../models/AboutGetToKnowSchema").AboutGetToKnow;
+const HomeProgressbar = require("../models/HomeProgressbarSchema").HomeProgressbar;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Controller = require("./Controller");
 const ObjectID = require("mongodb").ObjectId;
 
-class AboutGetToKnowController extends Controller {
+class HomeProgressbarController extends Controller {
   constructor() {
     super();
   }
 
-  async AddAboutGetToKnow() {
+  async AddHomeProgressBar() {
     try {
       let bodyData = this.req.body;
-      console.log(bodyData)
-      let addAboutGetToKnow = new Model(AboutGetToKnow).store(bodyData);
-      if (addAboutGetToKnow != null) {
+      let addHomeProgressbar = new Model(HomeProgressbar).store(bodyData);
+      if (addHomeProgressbar != null) {
         this.res.send({
           status: 1,
-          message: "AboutGetToKnow data added successfully",
+          message: "HomeProgressbar data added successfully",
         });
       }
     } catch (error) {
@@ -29,8 +28,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "add Add AboutGetToKnow api",
-        function_name: "AddAboutGetToKnow()",
+        api_name: "add HomeProgressbar api",
+        function_name: "HomeProgressbar()",
         error_title: error.name,
         description: error.message,
       };
@@ -38,14 +37,14 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async GetAboutGetToKnow() {
+  async GetHomeProgressbar() {
     try {
-      let allAboutGetToKnow = await AboutGetToKnow.find({});
-      if (allAboutGetToKnow != null) {
+      let allHomeProgressbar = await HomeProgressbar.find({});
+      if (allHomeProgressbar != null) {
         this.res.send({
           status: 1,
-          message: "all AboutGetToKnow retuned successfully",
-          data: allAboutGetToKnow,
+          message: "all HomeProgressbar retuned successfully",
+          data: allHomeProgressbar,
         });
       }
     } catch (error) {
@@ -57,8 +56,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "get AboutGetToKnow api",
-        function_name: "GetAboutGetToKnow()",
+        api_name: "get HomeProgressbar api",
+        function_name: "getHomeProgressbar()",
         error_title: error.name,
         description: error.message,
       };
@@ -66,31 +65,31 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async UpdateAboutGetToKnow() {
+  async UpdateHomeProgressbar() {
     try {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
-        let update_AboutGetToKnow = await AboutGetToKnow.findByIdAndUpdate(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let update_HomeProgressbar = await HomeProgressbar.findByIdAndUpdate(
+          ObjectID(this.req.body.homeprogressbar_id),
           updateData
         );
-        if (update_AboutGetToKnow != null) {
+        if (update_HomeProgressbar != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow updated successfully",
+            message: "HomeProgressbar updated successfully",
           });
         }
       } else {
         let dData = this.req.body;
-        let delAboutGetToKnow = await AboutGetToKnow.findByIdAndRemove(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let delHomeProgressbar = await HomeProgressbar.findByIdAndRemove(
+          ObjectID(this.req.body.homeprogressbar_id),
           dData
         );
-        console.log(delAboutGetToKnow);
-        if (delAboutGetToKnow != null) {
+        console.log(delHomeProgressbar);
+        if (delHomeProgressbar != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow deleted successfully",
+            message: "HomeProgressbar deleted successfully",
           });
         }
       }
@@ -103,8 +102,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "update AboutGetToKnow api",
-        function_name: "UpdateAboutGetToKnow()",
+        api_name: "update HomeProgressbar api",
+        function_name: "UpdateHomeProgressbar()",
         error_title: error.name,
         description: error.message,
       };
@@ -113,4 +112,4 @@ class AboutGetToKnowController extends Controller {
   }
 }
 
-module.exports = AboutGetToKnowController;
+module.exports =HomeProgressbarController;

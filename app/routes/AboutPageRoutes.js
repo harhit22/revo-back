@@ -5,6 +5,10 @@ module.exports = (app, express) => {
   const AboutTestimonialController = require("../controllers/AboutTestimonialController");
   const AboutWhyUsController = require("../controllers/AboutWhyUsController");
 
+  const AboutaboutSectionController = require("../controllers/AboutaboutSectionController")
+
+  const AboutVideo = require("../controllers/AboutVideoController")
+
   //   about head section routes
   router.post("/addPageBanner", (req, res) => {
     const addBannerObj = new PageBanner().boot(req, res);
@@ -101,6 +105,44 @@ module.exports = (app, express) => {
     const whyUsObj = new AboutWhyUsController().boot(req, res);
     return whyUsObj.UpdateAboutWhyUsTab();
   });
+
+//AboutaboutSection
+
+router.post("/aboutaboutus",(req,res)=>{
+  const Aboutabout = new AboutaboutSectionController().boot(req,res);
+  console.log("hello")
+  return Aboutabout.Aboutaboutsections()
+})
+
+
+router.post("/getaboutaboutus",(req,res)=>{
+  const aboutabout = new AboutaboutSectionController().boot(req,res);
+  return aboutabout.GetAboutaboutSection()
+})
+router.post("/updateaboutaboutus",(req,res)=>{
+  const aboutabout = new AboutaboutSectionController().boot(req,res);
+  return aboutabout.UpdateAboutaboutSection()
+})
+
+//about video 
+
+router.post("/addaboutvideo",(req,res)=>{
+  const aboutvideo = new AboutVideo().boot(req,res);
+  return aboutvideo.AddAboutVideo()
+})
+
+router.post("/getaboutvideo",(req,res)=>{
+  const aboutvideo = new AboutVideo().boot(req,res);
+  return aboutvideo.GetAboutVideo()
+})
+router.post("/updateaboutvideo",(req,res)=>{
+  const aboutvideo = new AboutVideo().boot(req,res);
+  return aboutvideo.UpdateAboutVideo()
+})
+
+
+
+
 
   app.use(config.baseApiUrl, router);
 };

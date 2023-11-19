@@ -1,23 +1,22 @@
-const AboutGetToKnow = require("../models/AboutGetToKnowSchema").AboutGetToKnow;
+const FAQ = require("../models/FAQSchema").FAQ;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Controller = require("./Controller");
 const ObjectID = require("mongodb").ObjectId;
 
-class AboutGetToKnowController extends Controller {
+class FAQController extends Controller {
   constructor() {
     super();
   }
 
-  async AddAboutGetToKnow() {
+  async AddFAQ() {
     try {
       let bodyData = this.req.body;
-      console.log(bodyData)
-      let addAboutGetToKnow = new Model(AboutGetToKnow).store(bodyData);
-      if (addAboutGetToKnow != null) {
+      let addFAQ = new Model(FAQ).store(bodyData);
+      if (addFAQ != null) {
         this.res.send({
           status: 1,
-          message: "AboutGetToKnow data added successfully",
+          message: "FAQ data added successfully",
         });
       }
     } catch (error) {
@@ -29,8 +28,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "add Add AboutGetToKnow api",
-        function_name: "AddAboutGetToKnow()",
+        api_name: "add Add FAQ api",
+        function_name: "AddFAQ()",
         error_title: error.name,
         description: error.message,
       };
@@ -38,14 +37,14 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async GetAboutGetToKnow() {
+  async GetFAQ() {
     try {
-      let allAboutGetToKnow = await AboutGetToKnow.find({});
-      if (allAboutGetToKnow != null) {
+      let allFAQ = await FAQ.find({});
+      if (allFAQ != null) {
         this.res.send({
           status: 1,
-          message: "all AboutGetToKnow retuned successfully",
-          data: allAboutGetToKnow,
+          message: "all Funfact retuned successfully",
+          data: allFAQ,
         });
       }
     } catch (error) {
@@ -57,8 +56,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "get AboutGetToKnow api",
-        function_name: "GetAboutGetToKnow()",
+        api_name: "get FAQ api",
+        function_name: "GetFAQ()",
         error_title: error.name,
         description: error.message,
       };
@@ -66,31 +65,31 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async UpdateAboutGetToKnow() {
+  async UpdateFAQ() {
     try {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
-        let update_AboutGetToKnow = await AboutGetToKnow.findByIdAndUpdate(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let update_FAQ = await FAQ.findByIdAndUpdate(
+          ObjectID(this.req.body.funfact_id),
           updateData
         );
-        if (update_AboutGetToKnow != null) {
+        if (update_FAQ != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow updated successfully",
+            message: "FAQ updated successfully",
           });
         }
       } else {
         let dData = this.req.body;
-        let delAboutGetToKnow = await AboutGetToKnow.findByIdAndRemove(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let delFAQ = await FAQ.findByIdAndRemove(
+          ObjectID(this.req.body.FAQ_id),
           dData
         );
-        console.log(delAboutGetToKnow);
-        if (delAboutGetToKnow != null) {
+        console.log(delFAQ);
+        if (delFAQ != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow deleted successfully",
+            message: "FAQ deleted successfully",
           });
         }
       }
@@ -103,8 +102,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "update AboutGetToKnow api",
-        function_name: "UpdateAboutGetToKnow()",
+        api_name: "update FAQ api",
+        function_name: "UpdateFAQ()",
         error_title: error.name,
         description: error.message,
       };
@@ -113,4 +112,4 @@ class AboutGetToKnowController extends Controller {
   }
 }
 
-module.exports = AboutGetToKnowController;
+module.exports = FAQController;

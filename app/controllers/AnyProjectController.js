@@ -1,23 +1,23 @@
-const AboutGetToKnow = require("../models/AboutGetToKnowSchema").AboutGetToKnow;
+const AnyProject = require("../models/AnyProjectSchema").AnyProject;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Controller = require("./Controller");
 const ObjectID = require("mongodb").ObjectId;
 
-class AboutGetToKnowController extends Controller {
+class AnyProjectController extends Controller {
   constructor() {
     super();
   }
 
-  async AddAboutGetToKnow() {
+  async AddAnyProject() {
     try {
       let bodyData = this.req.body;
-      console.log(bodyData)
-      let addAboutGetToKnow = new Model(AboutGetToKnow).store(bodyData);
-      if (addAboutGetToKnow != null) {
+      console.log("bodyData", bodyData);
+      let addAnyProject = new Model(AnyProject).store(bodyData);
+      if (addAnyProject != null) {
         this.res.send({
           status: 1,
-          message: "AboutGetToKnow data added successfully",
+          message: "AnyProject data added successfully",
         });
       }
     } catch (error) {
@@ -29,8 +29,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "add Add AboutGetToKnow api",
-        function_name: "AddAboutGetToKnow()",
+        api_name: "add Add AnyProject api",
+        function_name: "AnyProject()",
         error_title: error.name,
         description: error.message,
       };
@@ -38,14 +38,14 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async GetAboutGetToKnow() {
+  async GetAnyProject() {
     try {
-      let allAboutGetToKnow = await AboutGetToKnow.find({});
-      if (allAboutGetToKnow != null) {
+      let allAnyProject = await AnyProject.find({});
+      if (allAnyProject != null) {
         this.res.send({
           status: 1,
-          message: "all AboutGetToKnow retuned successfully",
-          data: allAboutGetToKnow,
+          message: "all AnyProject retuned successfully",
+          data: allAnyProject,
         });
       }
     } catch (error) {
@@ -57,8 +57,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "get AboutGetToKnow api",
-        function_name: "GetAboutGetToKnow()",
+        api_name: "get AnyProject api",
+        function_name: "GetAnyProject()",
         error_title: error.name,
         description: error.message,
       };
@@ -66,31 +66,32 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async UpdateAboutGetToKnow() {
+  async UpdateAnyProject() {
     try {
       if (!this.req.body.delete_status) {
+        console.log("in update");
         let updateData = this.req.body;
-        let update_AboutGetToKnow = await AboutGetToKnow.findByIdAndUpdate(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let update_AnyProject = await AnyProject.findByIdAndUpdate(
+          ObjectID(this.req.body.testimonial_id),
           updateData
         );
-        if (update_AboutGetToKnow != null) {
+        if (update_AnyProject != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow updated successfully",
+            message: "AnyProject updated successfully",
           });
         }
       } else {
         let dData = this.req.body;
-        let delAboutGetToKnow = await AboutGetToKnow.findByIdAndRemove(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let delAnyProject = await AnyProject.findByIdAndRemove(
+          ObjectID(this.req.body.AnyProject_id),
           dData
         );
-        console.log(delAboutGetToKnow);
-        if (delAboutGetToKnow != null) {
+        console.log(delAnyProject);
+        if (delAnyProject != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow deleted successfully",
+            message: "AnyProject deleted successfully",
           });
         }
       }
@@ -103,8 +104,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "update AboutGetToKnow api",
-        function_name: "UpdateAboutGetToKnow()",
+        api_name: "update AnyProject api",
+        function_name: "UpdateAnyProject()",
         error_title: error.name,
         description: error.message,
       };
@@ -113,4 +114,4 @@ class AboutGetToKnowController extends Controller {
   }
 }
 
-module.exports = AboutGetToKnowController;
+module.exports = AnyProjectController;

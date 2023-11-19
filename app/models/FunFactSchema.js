@@ -5,6 +5,7 @@ const funfact_schema = new schema(
   {
     number: { type: String, default: "" },
     title: { type: String, default: "" },
+    icons: { type: String, default: "" },
   },
   {
     timestamps: true,

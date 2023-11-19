@@ -1,3 +1,5 @@
+
+
 module.exports = (app, express) => {
   const router = express.Router();
   const AdminController = require("../controllers/AdminController");
@@ -15,7 +17,12 @@ module.exports = (app, express) => {
   const HomeClientController = require("../controllers/HomeClientController");
   const FooterController = require("../controllers/FooterController");
   const TeamListController = require("../controllers/TeamListController");
+  const HomeRecommend = require("../controllers/HomeRecomendController")
+  const HomeProgressbar=require("../controllers/HomeProgressbarController")
 
+  const FunfactTextController = require("../controllers/FunfactTextController");
+  const TestimonalController = require("../controllers/TestimonalController")
+  const AnyProjectController=require('../controllers/AnyProjectController')
   //   Admin routes
   router.post("/registerAdmin", (req, res) => {
     const adminObj = new AdminController().boot(req, res);
@@ -304,6 +311,102 @@ module.exports = (app, express) => {
     const teamListObj = new TeamListController().boot(req, res);
     return teamListObj.UpdateTeamList();
   });
+
+//about homerecommend
+
+ router.post("/addhomerecommend", (req, res) => {
+    const homeRecommend = new HomeRecommend().boot(req, res);
+    return homeRecommend.AddHomeRecommend();
+  });
+
+  router.post("/getHomeRecommend", (req, res) => {
+    const homeRecommend = new HomeRecommend().boot(req, res);
+    return homeRecommend.GetHomeRecommend();
+  });
+
+  router.post("/updatehomerecommend", (req, res) => {
+    const homeRecommend = new HomeRecommend().boot(req, res);
+    return homeRecommend.UpdateHomeRecommend();
+  });
+
+
+  //home page Progressbar
+
+ router.post("/addprogressbar", (req, res) => {
+    const homeprogress = new HomeProgressbar().boot(req, res);
+    return homeprogress.AddHomeProgressBar();
+  });
+
+  router.post("/getprogressbar", (req, res) => {
+    const homeprogress = new HomeProgressbar().boot(req, res);
+    return homeprogress.GetHomeProgressbar();
+  });
+  router.post("/updateprogressbar", (req, res) => {
+    const homeprogress = new HomeProgressbar().boot(req, res);
+    return homeprogress.UpdateHomeProgressbar();
+  });
+
+
+
+//home FanfactText
+
+router.post("/addfunfacttext", (req, res) => {
+  const homeFunfactText = new FunfactTextController().boot(req, res);
+  return homeFunfactText.AddFunfactText();
+});
+
+
+
+router.post("/getfunfacttext", (req, res) => {
+  const homeFunfactText = new FunfactTextController().boot(req, res);
+  return homeFunfactText.GetFunfactText();
+});
+
+
+router.post("/updatefunfacttext", (req, res) => {
+  const homeFunfactText = new FunfactTextController().boot(req, res);
+  return homeFunfactText.UpdateFunfactText();
+});
+
+
+//Testimonals
+
+
+router.post("/addtestimonial", (req, res) => {
+  const hometestimonal = new TestimonalController().boot(req, res);
+  return hometestimonal.AddTestimonial();
+});
+
+router.post("/gettestimonial", (req, res) => {
+  const hometestimonal = new TestimonalController().boot(req, res);
+  return hometestimonal.GetTestimonial();
+});
+router.post("/updatetestimonial", (req, res) => {
+  const hometestimonal = new TestimonalController().boot(req, res);
+  return hometestimonal.UpdateTestimoniall();
+});
+
+
+// AnyProject 
+router.post("/addanyproject", (req, res) => {
+  const homeanyproject = new AnyProjectController().boot(req, res);
+  return homeanyproject.AddAnyProject();
+});
+
+router.post("/getanyproject", (req, res) => {
+  const homeanyproject = new AnyProjectController().boot(req, res);
+  return homeanyproject.GetAnyProject();
+});
+
+
+router.post("/updateanyproject", (req, res) => {
+  const homeanyproject = new AnyProjectController().boot(req, res);
+  return homeanyproject.UpdateAnyProject();
+});
+
+
+
+
 
   // router.get("/", (req, res) => {
   //   res.send({ status: 1, message: "this is home route!!" });

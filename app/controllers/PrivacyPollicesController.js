@@ -1,23 +1,22 @@
-const AboutGetToKnow = require("../models/AboutGetToKnowSchema").AboutGetToKnow;
+const PrivacyPollices = require("../models/PrivacyPollicesScherma").PrivacyPollice;
 const Globals = require("../../configs/globals");
 const Model = require("../models/model");
 const Controller = require("./Controller");
 const ObjectID = require("mongodb").ObjectId;
 
-class AboutGetToKnowController extends Controller {
+class PrivacyPolliceController extends Controller {
   constructor() {
     super();
   }
 
-  async AddAboutGetToKnow() {
+  async AddPrivacyPollice() {
     try {
       let bodyData = this.req.body;
-      console.log(bodyData)
-      let addAboutGetToKnow = new Model(AboutGetToKnow).store(bodyData);
-      if (addAboutGetToKnow != null) {
+      let addprivacy = new Model(PrivacyPollices).store(bodyData);
+      if (addprivacy != null) {
         this.res.send({
           status: 1,
-          message: "AboutGetToKnow data added successfully",
+          message: "Privacy data added successfully",
         });
       }
     } catch (error) {
@@ -29,8 +28,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "add Add AboutGetToKnow api",
-        function_name: "AddAboutGetToKnow()",
+        api_name: "add Add Privacy api",
+        function_name: "AddPrivacyPollice()",
         error_title: error.name,
         description: error.message,
       };
@@ -38,14 +37,14 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async GetAboutGetToKnow() {
+  async GetPrivacyPollice() {
     try {
-      let allAboutGetToKnow = await AboutGetToKnow.find({});
-      if (allAboutGetToKnow != null) {
+      let allPrivacy = await PrivacyPollices.find({});
+      if (allPrivacy != null) {
         this.res.send({
           status: 1,
-          message: "all AboutGetToKnow retuned successfully",
-          data: allAboutGetToKnow,
+          message: "all Privacy Pollices retuned successfully",
+          data: allPrivacy,
         });
       }
     } catch (error) {
@@ -57,8 +56,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "get AboutGetToKnow api",
-        function_name: "GetAboutGetToKnow()",
+        api_name: "get PrivacyPollices api",
+        function_name: "GetPrivacyPollice()",
         error_title: error.name,
         description: error.message,
       };
@@ -66,31 +65,31 @@ class AboutGetToKnowController extends Controller {
     }
   }
 
-  async UpdateAboutGetToKnow() {
+  async UpdatePrivatePollice() {
     try {
       if (!this.req.body.delete_status) {
         let updateData = this.req.body;
-        let update_AboutGetToKnow = await AboutGetToKnow.findByIdAndUpdate(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let update_Privacy = await PrivacyPollices.findByIdAndUpdate(
+          ObjectID(this.req.body.privacy_id),
           updateData
         );
-        if (update_AboutGetToKnow != null) {
+        if (update_Privacy != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow updated successfully",
+            message: "Privacy Pollice updated successfully",
           });
         }
       } else {
         let dData = this.req.body;
-        let delAboutGetToKnow = await AboutGetToKnow.findByIdAndRemove(
-          ObjectID(this.req.body.aboutgettoknow_id),
+        let delPrivacy = await PrivacyPollices.findByIdAndRemove(
+          ObjectID(this.req.body.privacy_id),
           dData
         );
-        console.log(delAboutGetToKnow);
-        if (delAboutGetToKnow != null) {
+        console.log(delPrivacy);
+        if (delPrivacy != null) {
           this.res.send({
             status: 1,
-            message: "AboutGetToKnow deleted successfully",
+            message: "Privacy Pollices deleted successfully",
           });
         }
       }
@@ -103,8 +102,8 @@ class AboutGetToKnowController extends Controller {
       let globalObj = new Globals();
       let dataErrorObj = {
         is_from: "API Error",
-        api_name: "update AboutGetToKnow api",
-        function_name: "UpdateAboutGetToKnow()",
+        api_name: "update Privacy api",
+        function_name: "UpdatePrivacyPollice()",
         error_title: error.name,
         description: error.message,
       };
@@ -113,4 +112,4 @@ class AboutGetToKnowController extends Controller {
   }
 }
 
-module.exports = AboutGetToKnowController;
+module.exports = PrivacyPolliceController;

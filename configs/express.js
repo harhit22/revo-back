@@ -29,7 +29,8 @@ module.exports = function () {
   require("../app/routes/ContactUsPageRoutes")(app, express);
   require("../app/routes/BlogPageRoutes")(app, express);
   require("../app/routes/PortfolioPageRoutes")(app, express);
-  require("../app/routes/ServicesPageRoutes")(app, express);
+  require("../app/routes/ServicesPageRoutes")(app, express); 
+  require("../app/routes/FooterOtherRoutes")(app, express); 
 
   return app;
 };
